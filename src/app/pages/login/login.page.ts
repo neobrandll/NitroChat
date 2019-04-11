@@ -16,12 +16,12 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      email: new FormControl(null, {
+      username: new FormControl(null, {
         updateOn: 'change',
-        validators: [Validators.required, Validators.email]
+        validators: [Validators.required]
       }),
-      password: new FormControl(null,{
-        validators: [Validators.required, Validators.minLength(4)]
+      password: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(3)]
       })
     });
   }
@@ -29,13 +29,13 @@ export class LoginPage implements OnInit {
     if (!this.form.valid) {
       return;
     }
-    const email = this.form.value.email;
+    const username = this.form.value.username;
     const password = this.form.value.password;
     this.loadingCtrl
         .create({ keyboardClose: true, message: 'Logging in...' })
         .then(loadingEl => {
           loadingEl.present();
-          this.authService.login(email, password).subscribe(() => {
+          this.authService.login(username, password).subscribe(() => {
             loadingEl.dismiss();
             this.form.reset();
             this.router.navigate(['/home']);
@@ -47,7 +47,7 @@ export class LoginPage implements OnInit {
   }
 
   onSwitchAuthMode() {
-    this.router.navigate(['/', 'register']);
+    this.router.navigate(['register']);
   }
 
 }

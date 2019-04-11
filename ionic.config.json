@@ -1,5 +1,7 @@
 {
   "name": "NitroChat",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

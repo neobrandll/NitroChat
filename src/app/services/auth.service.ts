@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {SimpleAlertService} from './simple-alert.service';
 import {Router} from '@angular/router';
 import {map, tap} from 'rxjs/operators';
@@ -7,6 +7,7 @@ import {map, tap} from 'rxjs/operators';
 import {BehaviorSubject, from} from 'rxjs';
 import { Plugins } from '@capacitor/core';
 import {environment} from '../../environments/environment';
+import {User, UserResponse} from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,27 +51,27 @@ export class AuthService {
   ) {
   }
 
-  login = (email: string, password: string) => {
-    const body = new HttpParams()
-        .set('email', email)
-        .set('password', password);
+  login = (username: string, password: string) => {
+    const body = {
+      username: username,
+      password: password
+    };
     const serverUrl = this.url;
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       })
     };
-    return this.http.post<UserData>(`${serverUrl}/login`, body.toString(), httpOptions).pipe(tap(data => {
-          if (data.user) {
-            const newUser = new User(
-                data.user.token
-                , data.user._id
-                , data.user.email
-                , data.user.name
-                , data.user.username
-                , data.user.followers
-                , data.user.following
-                , data.user.profileImage
+    return this.http.post<UserResponse>(`${serverUrl}/login`, JSON.stringify(body), httpOptions).pipe(tap(data => {
+          if (data.status === 200) {
+            const newUser = new User( data.token,
+                data.user.users_id,
+                data.user.users_email,
+                data.user.users_name,
+                data.user.users_username,
+                data.user.user_picture_url,
+                data.user.users_creation_time,
+                data.user.users_phone
             );
             this._user.next(newUser);
             this.storeUserData(newUser);
@@ -84,10 +85,10 @@ export class AuthService {
                 this.router.navigate(['/auth']);
             }
         };
-        this.alert.showAlert('An error occurred!', `${errorData.error.error}!`, button);
+        this.alert.showAlert('An error occurred!', `verify your data!`, button);
         }
     ));
-  };
+  }
 
   logout() {
     this._user.next(null);
@@ -109,22 +110,22 @@ export class AuthService {
           }
           const parsedData = JSON.parse(storedData.value) as {
             _token: string,
-            id: string,
+            id: number,
             email: string,
             name: string,
             username: string,
-            followers: string[],
-            following: string[],
             profileImage: string,
+            creationTime: string,
+            phone: string
           };
           const user = new User(parsedData._token
               , parsedData.id
               , parsedData.email
               , parsedData.name
               , parsedData.username
-              , parsedData.followers
-              , parsedData.following
               , parsedData.profileImage
+              , parsedData.creationTime
+              , parsedData.phone
           );
           return user;
         }),

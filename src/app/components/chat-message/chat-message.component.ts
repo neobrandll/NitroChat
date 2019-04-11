@@ -7,16 +7,16 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['./chat-message.component.scss'],
 })
 export class ChatMessageComponent implements OnInit {
-  @Input() message: ChatMessage;
-  @Input() mailedUser: UserProfile;
+  // @Input() message: ChatMessage;
+  // @Input() mailedUser: UserProfile;
   serverUrl = environment.url;
   isFromMailedUser: boolean;
   sentAt: Date;
   constructor() { }
 
   ngOnInit() {
-    this.isFromMailedUser = (this.message.sentBy === this.mailedUser.user._id);
-    this.sentAt = new Date(this.message.sentAt);
+    // this.isFromMailedUser = (this.message.sentBy === this.mailedUser.user._id);
+    // this.sentAt = new Date(this.message.sentAt);
   }
 
 }

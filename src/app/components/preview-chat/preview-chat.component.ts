@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ChatMessage, Chats} from '../../models/chat.model';
 import {environment} from '../../../environments/environment';
 
 @Component({
@@ -8,17 +7,17 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['./preview-chat.component.scss'],
 })
 export class PreviewChatComponent implements OnInit {
-@Input() chat: Chats;
-  serverUrl = environment.url;
-  lastMsg: ChatMessage;
-  lastMsgDate: Date;
-  constructor() { }
+// @Input() chat: Chats;
+//   serverUrl = environment.url;
+//   lastMsg: ChatMessage;
+//   lastMsgDate: Date;
+//   constructor() { }
 
   ngOnInit() {
-    if (this.chat) {
-      this.lastMsg = this.chat.messages[this.chat.messages.length - 1];
-      this.lastMsgDate = new Date(this.lastMsg.sentAt);
-    }
+    // if (this.chat) {
+    //   this.lastMsg = this.chat.messages[this.chat.messages.length - 1];
+    //   this.lastMsgDate = new Date(this.lastMsg.sentAt);
+    // }
   }
 
 }
