@@ -65,7 +65,7 @@ export class RegisterPage implements OnInit {
 
 
   onSwitchToLogin() {
-    this.router.navigate(['/', 'auth']);
+    this.router.navigate(['/', 'login']);
   }
 
   // onRegister() {

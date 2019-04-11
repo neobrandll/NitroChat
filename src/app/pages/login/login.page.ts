@@ -35,10 +35,12 @@ export class LoginPage implements OnInit {
         .create({ keyboardClose: true, message: 'Logging in...' })
         .then(loadingEl => {
           loadingEl.present();
-          this.authService.login(username, password).subscribe(() => {
+          this.authService.login(username, password).subscribe(data => {
             loadingEl.dismiss();
             this.form.reset();
-            this.router.navigate(['/home']);
+            if (data.status === 200) {
+                this.router.navigate(['/home']);
+            }
           }, () => {
             loadingEl.dismiss();
           });
