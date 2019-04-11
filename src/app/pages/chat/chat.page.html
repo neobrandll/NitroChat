@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <div *ngIf="chats && chats.length > 0">
+    <app-preview-chat *ngFor="let chat of chats" [chat]="chat" ></app-preview-chat>
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerDirection="forward" [routerLink]= "['/','home','tabs','chat','new-chat']">
+      <ion-icon style="color: #ffffff " name="text"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

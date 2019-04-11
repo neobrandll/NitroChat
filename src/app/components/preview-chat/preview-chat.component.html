@@ -1,0 +1,33 @@
+<ion-item *ngIf="chat">
+  <ion-grid >
+    <ion-row>
+      <ion-col  size="3" >
+        <ion-avatar [routerLink]="['/home/userProfile', chat.user1._id]">
+          <ion-img  [src]=" chat.user1.profileImage !=='' ? serverUrl+ '/' + chat.user1.profileImage : '../../../assets/imgs/nopic.png' "  ></ion-img>
+        </ion-avatar >
+      </ion-col>
+      <ion-col size="9"  [routerLink]="['/home/tabs/chat', chat.user1._id]">
+        <ion-grid>
+          <ion-row >
+            <ion-col size="12" style="padding-right: 5px">
+              <ion-label *ngIf="lastMsgDate">
+                {{chat.user1.name }}   @{{chat.user1.username }}   {{ lastMsgDate | date: 'shortDate'}}
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row >
+            <ion-col size="12" style="padding-right: 5px">
+              <ion-label *ngIf="lastMsg">
+                <ion-item lines="none">
+                  <ion-text>
+                    {{lastMsg.message}}
+                  </ion-text>
+                </ion-item>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>
