@@ -4,8 +4,9 @@ import {SimpleAlertService} from './simple-alert.service';
 import {Router} from '@angular/router';
 import {map, tap} from 'rxjs/operators';
 
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, from} from 'rxjs';
 import { Plugins } from '@capacitor/core';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

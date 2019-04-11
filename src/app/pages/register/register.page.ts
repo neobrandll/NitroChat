@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {LoadingController} from '@ionic/angular';
+import {SimpleAlertService} from '../../services/simple-alert.service';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -6,10 +12,85 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-
-  constructor() { }
+  form: FormGroup;
+  pwdMatch = false;
+  url = environment.url;
+  constructor(
+      private router: Router
+      , private http: HttpClient
+      , private alert: SimpleAlertService,
+      private loadingCtrl: LoadingController
+  ) { }
 
   ngOnInit() {
+    this.form = new FormGroup({
+      number: new FormControl(null, {
+        updateOn: 'change',
+        validators: [Validators.required , Validators.minLength(7), Validators.maxLength(16)]
+      }),
+      username: new FormControl(null, {
+        updateOn: 'change',
+        validators: [Validators.required]
+      }),
+      name: new FormControl(null, {
+        updateOn: 'change',
+        validators: [Validators.required]
+      }),
+      email: new FormControl(null, {
+        updateOn: 'change',
+        validators: [Validators.required, Validators.email]
+      }),
+      password: new FormControl(null, {
+        updateOn: 'change',
+        validators: [Validators.required, Validators.minLength(4)]
+      }),
+      passwordConfirm: new FormControl(null, {
+        updateOn: 'change',
+        validators: [Validators.required, Validators.minLength(4)]
+      })
+    }, this.passwordMatchValidator);
   }
+
+
+
+  passwordMatchValidator = (g: FormGroup) => {
+    if (g.get('password').value === g.get('passwordConfirm').value) {
+      this.pwdMatch = true;
+      return null;
+    } else {
+      this.pwdMatch = false;
+      return {'mismatch': true};
+    }
+  };
+
+
+  onSwitchToLogin() {
+    this.router.navigate(['/', 'auth']);
+  }
+
+  // onRegister() {
+  //   if (!this.form.valid) {
+  //     return;
+  //   }
+  //   const email = this.form.value.email;
+  //   const password = this.form.value.password;
+  //   const username = this.form.value.username;
+  //   const name = this.form.value.name;
+  //
+  //   this.loadingCtrl
+  //       .create({ keyboardClose: true, message: 'Logging in...' })
+  //       .then(loadingEl => {
+  //         loadingEl.present();
+  //
+  //             .subscribe(() => {
+  //               loadingEl.dismiss();
+  //               this.alert.showAlert('Register', `Register complete!`, true );
+  //             }, error => {
+  //               loadingEl.dismiss();
+  //               this.alert.showAlert('Error', error.error.error.errmsg, false );
+  //             });
+  //       });
+  // }
+
 
 }
