@@ -5,6 +5,7 @@ import {SimpleAlertService} from '../../services/simple-alert.service';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
+import {RegisterService} from '../../services/register.service';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +20,8 @@ export class RegisterPage implements OnInit {
       private router: Router
       , private http: HttpClient
       , private alert: SimpleAlertService,
-      private loadingCtrl: LoadingController
+      private loadingCtrl: LoadingController,
+      private registerService: RegisterService
   ) { }
 
   ngOnInit() {
@@ -68,29 +70,30 @@ export class RegisterPage implements OnInit {
     this.router.navigate(['/', 'login']);
   }
 
-  // onRegister() {
-  //   if (!this.form.valid) {
-  //     return;
-  //   }
-  //   const email = this.form.value.email;
-  //   const password = this.form.value.password;
-  //   const username = this.form.value.username;
-  //   const name = this.form.value.name;
-  //
-  //   this.loadingCtrl
-  //       .create({ keyboardClose: true, message: 'Logging in...' })
-  //       .then(loadingEl => {
-  //         loadingEl.present();
-  //
-  //             .subscribe(() => {
-  //               loadingEl.dismiss();
-  //               this.alert.showAlert('Register', `Register complete!`, true );
-  //             }, error => {
-  //               loadingEl.dismiss();
-  //               this.alert.showAlert('Error', error.error.error.errmsg, false );
-  //             });
-  //       });
-  // }
+  onRegister() {
+    if (!this.form.valid) {
+      return;
+    }
+    const phone = this.form.value.number;
+    const email = this.form.value.email;
+    const password = this.form.value.password;
+    const username = this.form.value.username;
+    const name = this.form.value.name;
+
+    this.loadingCtrl
+        .create({ keyboardClose: true, message: 'Logging in...' })
+        .then(loadingEl => {
+          loadingEl.present();
+          this.registerService.onRegister(phone, email, username, password, name)
+              .subscribe(() => {
+                loadingEl.dismiss();
+                this.alert.showAlert('Register', `Register complete!` );
+              }, error => {
+                loadingEl.dismiss();
+                this.alert.showAlert('Error',  'An error has occurred while registering');
+              });
+        });
+  }
 
 
 }
