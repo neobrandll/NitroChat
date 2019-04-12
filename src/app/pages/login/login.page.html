@@ -46,10 +46,10 @@
                   color="primary"
                   (click)="onLogin()"
                   expand="block"
+                  [disabled]="!form.valid"
           >
             Login
           </ion-button>
-
         </ion-col>
       </ion-row>
     </ion-grid>
