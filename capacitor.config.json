@@ -2,5 +2,6 @@
   "appId": "io.ionic.starter",
   "appName": "NitroChat",
   "bundledWebRuntime": false,
-  "webDir": "www"
+  "webDir": "www",
+  "windowsAndroidStudioPath": "D:\\Program Files\\Android\\Android Studio\\bin\\studio64.exe"
 }

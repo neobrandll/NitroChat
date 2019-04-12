@@ -51,7 +51,7 @@ export class EditProfileService {
       };
       const body = new FormData();
       body.append('image', image);
-      return this.http.post<UserResponse>(`${this.serverUrl}/users/photo`, body , httpOptions);
+      return this.http.post<UserResponse>(`${this.serverUrl}/updatePicture`, body , httpOptions);
     }), tap(data => {
       const newUser = new User(
           data.token

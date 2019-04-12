@@ -32,11 +32,11 @@ export class EditProfilePage implements OnInit {
 
 
 
-  ngOnInit(): void{
+  ngOnInit(): void {
       this.serverUrl = environment.url;
     this.isLoading = true;
     this.loadingCtrl
-        .create({ keyboardClose: true, message: 'Logging in...' })
+        .create({ keyboardClose: true, message: 'Loading...' })
         .then(loadingEl => {
           loadingEl.present();
           this.auth.user.pipe(take(1)).subscribe(user => {
@@ -79,7 +79,9 @@ export class EditProfilePage implements OnInit {
          email : this.form.value.email,
          phone : this.form.value.number
         };
-     this.editService.updateProfile(body).subscribe();
+     this.editService.updateProfile(body).subscribe(() => {
+         this.router.navigate(['/home'])
+     });
     }
 
 }

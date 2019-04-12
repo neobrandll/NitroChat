@@ -92,6 +92,7 @@ export class RegisterPage implements OnInit {
               .subscribe(() => {
                 loadingEl.dismiss();
                 this.alert.showAlert('Register', `Register complete!` );
+                this.router.navigate(['/login']);
               }, error => {
                 loadingEl.dismiss();
                 this.alert.showAlert('Error',  'An error has occurred while registering');
