@@ -8,6 +8,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AlertController, LoadingController} from '@ionic/angular';
 import {environment} from '../../../environments/environment';
 import {RegisterResponse} from '../../models/registerResponse.model';
+import {SimpleAlertService} from '../../services/simple-alert.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class EditProfilePage implements OnInit {
               private http: HttpClient,
               private router: Router,
               private loadingCtrl: LoadingController,
-              private alertCtrl: AlertController,
+              private alert: SimpleAlertService
               ) { }
 
 
@@ -63,21 +64,23 @@ export class EditProfilePage implements OnInit {
   }
 
     onSubmit() {
-      const newName = this.form.value.name;
-      const newUsername = this.form.value.username;
-      const newEmail = this.form.value.email;
+        if (!this.form.valid) {
+            return;
+        }
+        const body = {
+         name : this.form.value.name,
+         username : this.form.value.username,
+         email : this.form.value.email,
+         phone : this.form.value.number
+        };
       this.auth.token.pipe(take(1)).subscribe(token => {
           const httpOptions = {
               headers: new HttpHeaders({
-                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'Content-Type': 'application/json',
                   'Authorization': `Bearer ${token}`
               })
           };
-          const body = new HttpParams()
-              .set('name', newName)
-              .set('username', newUsername)
-              .set('email', newEmail);
-          this.http.put<RegisterResponse>(`${this.serverUrl}/updateProfile`, JSON. body, httpOptions)
+          this.http.put<RegisterResponse>(`${this.serverUrl}/updateProfile`, JSON.stringify(body), httpOptions)
               .subscribe(updateResp => {
                   const updatedUser = new User(
                       updateResp.user.token
@@ -89,26 +92,9 @@ export class EditProfilePage implements OnInit {
                       , updateResp.user.following
                       , updateResp.user.profileImage);
                   this.auth.updateUser(updatedUser);
-                  this.postService.fetchPosts().pipe(take(1)).subscribe();
-                  this.showAlert('Success!', 'Update Complete!');
+                  this.alert.showAlert('Success!', 'Update Complete!');
               });
       });
     }
 
-    private showAlert( header: string , message: string) {
-        this.alertCtrl
-            .create({
-                header: header,
-                message: message,
-                buttons: [
-                    {
-                        text: 'Okay',
-                        handler: () => {
-                                this.router.navigate(['/home']);
-                            }
-                        }
-                ]
-            })
-            .then(alertEl => alertEl.present());
-    }
 }
