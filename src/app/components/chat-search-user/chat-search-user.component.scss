@@ -1,0 +1,15 @@
+ion-searchbar{
+  border-radius: 10px;
+  --background : var(--ion-background-color);
+  --color: #ec0662;
+  --placeholder-color: #ec0662;
+  --placeholder-opacity: 1;
+}
+
+#noResults{
+  padding-top: 5%;
+  display: flex;
+  justify-content: center
+}
+
+

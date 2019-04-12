@@ -51,17 +51,18 @@ export class EditProfileService {
       };
       const body = new FormData();
       body.append('image', image);
-      return this.http.post<any>(`${this.serverUrl}/users/photo`, body , httpOptions);
+      return this.http.post<UserResponse>(`${this.serverUrl}/users/photo`, body , httpOptions);
     }), tap(data => {
       const newUser = new User(
-          data.user.token
-          , data.user._id
-          , data.user.email
-          , data.user.name
-          , data.user.username
-          , data.user.followers
-          , data.user.following
-          , data.user.profileImage);
+          data.token
+          , data.user.users_id
+          , data.user.users_email
+          , data.user.users_name
+          , data.user.users_username
+          , data.user.user_picture_url
+          , data.user.users_creation_time
+          , data.user.users_phone
+      );
       this.auth.updateUser(newUser);
     }));
 

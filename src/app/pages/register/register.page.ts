@@ -31,7 +31,8 @@ export class RegisterPage implements OnInit {
         validators: [
           Validators.required
           , Validators.maxLength(16)
-          , Validators.minLength(8)]
+          , Validators.minLength(8)
+          , Validators.pattern(/^[0-9\-\+]{9,15}$/)]
       }),
       username: new FormControl(null, {
         updateOn: 'change',

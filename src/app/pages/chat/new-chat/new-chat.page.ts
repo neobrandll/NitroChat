@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {take} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
+import {User} from '../../../models/user.model';
+import {AuthService} from '../../../services/auth.service';
+import {SearchService} from '../../../services/search.service';
 
 
 @Component({
@@ -10,31 +13,30 @@ import {environment} from '../../../../environments/environment';
   styleUrls: ['./new-chat.page.scss'],
 })
 export class NewChatPage implements OnInit {
-  // inputValue: string;
-  // serverUrl: string;
-  // userArray = [];
-  // alreadySearched = false;
-  // myUser: User;
-  // constructor(private http: HttpClient, private auth: AuthService,
-  //             private discoverService: DiscoverService) { }
-  //
-  //
-  // searchHandler() {
-  //   const searchValue = this.inputValue.trim();
-  //   if (searchValue !== '') {
-  //     this.discoverService.searchUser(searchValue).subscribe( userArr => {
-  //       this.userArray = userArr;
-  //       this.alreadySearched = true;
-  //     });
-  //   } else {
-  //     this.userArray = [];
-  //   }
-  // }
+  serverUrl = environment.url;
+  inputValue: string;
+  userArray = [];
+  alreadySearched = false;
+  myUser: User;
+  constructor(private http: HttpClient, private auth: AuthService,
+              private search: SearchService) { }
+
+
+  searchHandler() {
+    const searchValue = this.inputValue.trim();
+    if (searchValue !== '') {
+      this.search.searchUsers(searchValue).subscribe( searchResponse => {
+        this.userArray = searchResponse.data;
+        this.alreadySearched = true;
+      });
+    } else {
+      this.userArray = [];
+    }
+  }
 
   ngOnInit() {
-    // this.auth.user.pipe(take(1)).subscribe(user => {
-    //   this.myUser = user;
-    // });
-    // this.serverUrl = environment.url;
+    this.auth.user.pipe(take(1)).subscribe(user => {
+      this.myUser = user;
+    });
   }
 }

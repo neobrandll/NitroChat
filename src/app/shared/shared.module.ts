@@ -8,11 +8,18 @@ import {PreviewChatComponent} from '../components/preview-chat/preview-chat.comp
 import {ImagePickerComponent} from '../components/image-picker/image-picker.component';
 import {CustomDatePipe} from '../pipes/custom-date.pipe';
 import {UserMenuInfoComponent} from '../components/user-menu-info/user-menu-info.component';
+import {ChatSearchUserComponent} from '../components/chat-search-user/chat-search-user.component';
 
 @NgModule({
-    declarations: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent, CustomDatePipe, PreviewChatComponent, UserMenuInfoComponent],
+    declarations: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
+        , CustomDatePipe, PreviewChatComponent, UserMenuInfoComponent,
+        ChatSearchUserComponent
+    ],
     imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule],
-    exports: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent, CustomDatePipe, UserMenuInfoComponent, PreviewChatComponent],
+    exports: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
+        , CustomDatePipe, UserMenuInfoComponent, PreviewChatComponent
+        , ChatSearchUserComponent
+    ],
     entryComponents: []
 })
 export class SharedModule {}

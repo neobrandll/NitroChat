@@ -52,7 +52,7 @@ export class EditProfilePage implements OnInit {
                          Validators.required
                         , Validators.maxLength(16)
                         , Validators.minLength(8)
-                        , Validators.pattern(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g)]
+                        , Validators.pattern(/^[0-9\-\+]{9,15}$/)]
                 }),
               name: new FormControl(this.user.name, {
                 updateOn: 'change',
