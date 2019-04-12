@@ -82,7 +82,7 @@ export class AuthService {
         const button = {
             text: 'Okay',
             handler: () => {
-                this.router.navigate(['/auth']);
+                this.router.navigate(['/login']);
             }
         };
         this.alert.showAlert('An error occurred!', `verify your data!`, button);

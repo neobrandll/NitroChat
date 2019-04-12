@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end"  >
+      <ion-button [disabled]="!form.get('image').value" (click)="onSubmit()">
+        <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Update ProfilePic!</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content >
+  <div style="margin-bottom: 20%"></div>
+  <app-image-picker  [showPreview]="form.get('image').value"
+                    (imagePick)="onImagePicked($event)">
+  </app-image-picker>
+</ion-content>

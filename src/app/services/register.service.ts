@@ -4,11 +4,9 @@ import {environment} from '../../environments/environment';
 import {LoadingController} from '@ionic/angular';
 import {SimpleAlertService} from './simple-alert.service';
 import {Observable, Observer} from 'rxjs';
+import {RegisterResponse} from '../models/registerResponse.model';
 
-interface RegisterResponse {
-  message: string;
-  status: number;
-}
+
 
 @Injectable({
   providedIn: 'root'
