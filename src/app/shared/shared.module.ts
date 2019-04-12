@@ -10,9 +10,9 @@ import {CustomDatePipe} from '../pipes/custom-date.pipe';
 import {UserMenuInfoComponent} from '../components/user-menu-info/user-menu-info.component';
 
 @NgModule({
-    declarations: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent, CustomDatePipe, UserMenuInfoComponent],
+    declarations: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent, CustomDatePipe, PreviewChatComponent, UserMenuInfoComponent],
     imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule],
-    exports: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent, CustomDatePipe, UserMenuInfoComponent],
+    exports: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent, CustomDatePipe, UserMenuInfoComponent, PreviewChatComponent],
     entryComponents: []
 })
 export class SharedModule {}

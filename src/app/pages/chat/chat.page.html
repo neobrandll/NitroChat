@@ -8,11 +8,11 @@
 </ion-header>
 
 <ion-content >
-  <div *ngIf="chats && chats.length > 0">
-    <app-preview-chat *ngFor="let chat of chats" [chat]="chat" ></app-preview-chat>
-  </div>
+  <!--<div *ngIf="chats && chats.length > 0">-->
+    <!--<app-preview-chat *ngFor="let chat of chats" [chat]="chat" ></app-preview-chat>-->
+  <!--</div>-->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerDirection="forward" [routerLink]= "['/','home','tabs','chat','new-chat']">
+    <ion-fab-button routerDirection="forward" [routerLink]= "['new-chat']">
       <ion-icon style="color: #ffffff " name="text"></ion-icon>
     </ion-fab-button>
   </ion-fab>

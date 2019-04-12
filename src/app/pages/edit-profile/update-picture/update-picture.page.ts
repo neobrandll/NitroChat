@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {ImageServiceService} from '../../../services/image-service.service';
-import {EditProfileService} from '../../../services/edit-profile.service';
 import {take} from 'rxjs/operators';
-import {PostServiceService} from '../../../services/post-service.service';
 import {Router} from '@angular/router';
+import {ImageService} from '../../../services/image.service';
+import {EditProfileService} from '../../../services/edit-profile.service';
 
 @Component({
   selector: 'app-update-picture',
@@ -13,9 +12,8 @@ import {Router} from '@angular/router';
 })
 export class UpdatePicturePage implements OnInit {
   form: FormGroup;
-  constructor(private imageService: ImageServiceService
+  constructor(private imageService: ImageService
               , private editService: EditProfileService
-              , private postService: PostServiceService
               , private router: Router) { }
 
   ngOnInit() {
@@ -37,7 +35,6 @@ export class UpdatePicturePage implements OnInit {
       return;
     }
     this.editService.updatePicture(this.form.get('image').value).pipe(take(1)).subscribe((data) => {
-      this.postService.fetchPosts().subscribe();
       this.router.navigate(['/home']);
     });
   }

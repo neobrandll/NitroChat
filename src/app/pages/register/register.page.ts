@@ -28,7 +28,10 @@ export class RegisterPage implements OnInit {
     this.form = new FormGroup({
       number: new FormControl(null, {
         updateOn: 'change',
-        validators: [Validators.required , Validators.minLength(7), Validators.maxLength(16)]
+        validators: [
+          Validators.required
+          , Validators.maxLength(16)
+          , Validators.minLength(8)]
       }),
       username: new FormControl(null, {
         updateOn: 'change',
