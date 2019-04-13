@@ -22,4 +22,15 @@ export class SearchService {
       return this.http.get<SearchResponse>(`${this.serverUrl}/search/${inputValue}`, httpOptions);
     }));
   }
+
+  searchAllUsers() {
+    return this.auth.token.pipe(switchMap(token => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        })
+      };
+      return this.http.get<SearchResponse>(`${this.serverUrl}/searchAll`, httpOptions);
+    }));
+  }
 }

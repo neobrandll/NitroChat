@@ -48,11 +48,11 @@ export class RegisterPage implements OnInit {
       }),
       password: new FormControl(null, {
         updateOn: 'change',
-        validators: [Validators.required, Validators.minLength(4)]
+        validators: [Validators.required, Validators.minLength(3)]
       }),
       passwordConfirm: new FormControl(null, {
         updateOn: 'change',
-        validators: [Validators.required, Validators.minLength(4)]
+        validators: [Validators.required, Validators.minLength(3)]
       })
     }, this.passwordMatchValidator);
   }

@@ -25,7 +25,7 @@ export class NewChatPage implements OnInit {
   searchHandler() {
     const searchValue = this.inputValue.trim();
     if (searchValue !== '') {
-      this.search.searchUsers(searchValue).subscribe( searchResponse => {
+      this.search.searchUsers(searchValue.toLocaleLowerCase()).subscribe( searchResponse => {
         this.userArray = searchResponse.data;
         this.alreadySearched = true;
       });
@@ -37,6 +37,10 @@ export class NewChatPage implements OnInit {
   ngOnInit() {
     this.auth.user.pipe(take(1)).subscribe(user => {
       this.myUser = user;
+    });
+    this.search.searchAllUsers().subscribe( searchResponse => {
+      this.userArray = searchResponse.data;
+      this.alreadySearched = true;
     });
   }
 }
