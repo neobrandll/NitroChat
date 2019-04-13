@@ -5,6 +5,7 @@ import {environment} from '../../../../environments/environment';
 import {User} from '../../../models/user.model';
 import {AuthService} from '../../../services/auth.service';
 import {SearchService} from '../../../services/search.service';
+import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts/ngx';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class NewChatPage implements OnInit {
   alreadySearched = false;
   myUser: User;
   constructor(private http: HttpClient, private auth: AuthService,
-              private search: SearchService) { }
+              private search: SearchService,
+              private contacts: Contacts) { }
 
 
   searchHandler() {
@@ -35,6 +37,9 @@ export class NewChatPage implements OnInit {
   }
 
   ngOnInit() {
+    this.contacts.find(['*']).then(res => {
+      console.log(res);
+    });
     this.auth.user.pipe(take(1)).subscribe(user => {
       this.myUser = user;
     });

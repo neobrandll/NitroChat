@@ -9,6 +9,7 @@ import {ImagePickerComponent} from '../components/image-picker/image-picker.comp
 import {CustomDatePipe} from '../pipes/custom-date.pipe';
 import {UserMenuInfoComponent} from '../components/user-menu-info/user-menu-info.component';
 import {ChatSearchUserComponent} from '../components/chat-search-user/chat-search-user.component';
+import { Contacts } from '@ionic-native/contacts/ngx';
 
 @NgModule({
     declarations: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
@@ -20,6 +21,7 @@ import {ChatSearchUserComponent} from '../components/chat-search-user/chat-searc
         , CustomDatePipe, UserMenuInfoComponent, PreviewChatComponent
         , ChatSearchUserComponent
     ],
-    entryComponents: []
+    entryComponents: [],
+    providers: [Contacts]
 })
 export class SharedModule {}
