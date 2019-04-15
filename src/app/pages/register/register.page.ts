@@ -30,9 +30,7 @@ export class RegisterPage implements OnInit {
         updateOn: 'change',
         validators: [
           Validators.required
-          , Validators.maxLength(16)
-          , Validators.minLength(8)
-          , Validators.pattern(/^[0-9\-\+]{9,15}$/)]
+          , Validators.pattern(/^[0-9]{10}$/)]
       }),
       username: new FormControl(null, {
         updateOn: 'change',

@@ -23,14 +23,18 @@ export class SearchService {
     }));
   }
 
-  searchAllUsers() {
+  searchAllUsers(contacts: any) {
+    const body = {
+      data: contacts
+    };
     return this.auth.token.pipe(switchMap(token => {
       const httpOptions = {
         headers: new HttpHeaders({
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type':  'application/json'
         })
       };
-      return this.http.get<SearchResponse>(`${this.serverUrl}/searchAll`, httpOptions);
+      return this.http.post<SearchResponse>(`${this.serverUrl}/searchAll`, JSON.stringify(body), httpOptions);
     }));
   }
 }

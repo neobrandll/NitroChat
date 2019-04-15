@@ -27,11 +27,11 @@
 </ion-header>
 
 <ion-content >
-  <div style="height: 100%; width: 100%" *ngIf="userArray.length>0 && myUser">
-    <div *ngFor="let user of userArray">
+  <div style="height: 100%; width: 100%" *ngIf="userArray?.users?.length>0 && myUser">
+    <div *ngFor="let user of userArray.users">
       <app-chat-search-user *ngIf="user._id !== myUser.id" [user]="user"></app-chat-search-user>
     </div>
   </div>
-  <ion-text *ngIf="userArray.length<=0 && alreadySearched" id="noResults">No match found!</ion-text>
+  <ion-text *ngIf="userArray?.users?.length<=0 && alreadySearched" id="noResults">No match found!</ion-text>
 
 </ion-content>
