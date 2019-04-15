@@ -1,7 +1,8 @@
 {
   "name": "NitroChat",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

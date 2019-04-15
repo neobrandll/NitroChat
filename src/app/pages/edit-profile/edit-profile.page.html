@@ -20,11 +20,11 @@
         <ion-col size-sm="6" offset-sm="3" >
           <ion-item>
             <ion-label position="floating">Phone Number</ion-label>
-            <ion-input formControlName="number"></ion-input>
+            <ion-input type="number" maxLength="10" formControlName="number"></ion-input>
           </ion-item>
           <ion-item *ngIf="!form.get('number').valid && form.get('number').touched" lines="none">
             <ion-label>
-              Please enter a valid Phone number
+              i.e: 4246519716
             </ion-label>
           </ion-item>
         </ion-col>

@@ -19,6 +19,7 @@ export class UserMenuInfoComponent implements OnInit, OnDestroy {
   ngOnInit() {
    this.userSub =  this.authService.user.subscribe(userdata => {
      this.user = userdata;
+     console.log(this.user);
    });
   }
 

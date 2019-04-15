@@ -28,7 +28,9 @@ export class RegisterPage implements OnInit {
     this.form = new FormGroup({
       number: new FormControl(null, {
         updateOn: 'change',
-        validators: [Validators.required , Validators.minLength(7), Validators.maxLength(16)]
+        validators: [
+          Validators.required
+          , Validators.pattern(/^[0-9]{10}$/)]
       }),
       username: new FormControl(null, {
         updateOn: 'change',
@@ -44,11 +46,11 @@ export class RegisterPage implements OnInit {
       }),
       password: new FormControl(null, {
         updateOn: 'change',
-        validators: [Validators.required, Validators.minLength(4)]
+        validators: [Validators.required, Validators.minLength(3)]
       }),
       passwordConfirm: new FormControl(null, {
         updateOn: 'change',
-        validators: [Validators.required, Validators.minLength(4)]
+        validators: [Validators.required, Validators.minLength(3)]
       })
     }, this.passwordMatchValidator);
   }
@@ -88,6 +90,7 @@ export class RegisterPage implements OnInit {
               .subscribe(() => {
                 loadingEl.dismiss();
                 this.alert.showAlert('Register', `Register complete!` );
+                this.router.navigate(['/login']);
               }, error => {
                 loadingEl.dismiss();
                 this.alert.showAlert('Error',  'An error has occurred while registering');
