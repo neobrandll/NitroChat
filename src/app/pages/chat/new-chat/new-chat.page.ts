@@ -9,6 +9,7 @@ import { Contacts, Contact, ContactField, ContactName, ContactFindOptions } from
 import {Subscription} from 'rxjs';
 import {LoadingController} from '@ionic/angular';
 import {SimpleAlertService} from '../../../services/simple-alert.service';
+import {SearchResponse} from '../../../models/searchUser.model';
 
 
 @Component({
@@ -19,10 +20,12 @@ import {SimpleAlertService} from '../../../services/simple-alert.service';
 export class NewChatPage implements OnInit, OnDestroy {
   serverUrl = environment.url;
   inputValue: string;
-  userArray: any;
+  userArray: SearchResponse;
   alreadySearched = false;
   myUser: User;
   userSub: Subscription;
+  showAll = true;
+  filterUsers = { users: [], notUsers: []};
   constructor(private http: HttpClient, private auth: AuthService,
               private search: SearchService,
               private contacts: Contacts,
@@ -33,31 +36,11 @@ export class NewChatPage implements OnInit, OnDestroy {
   searchHandler() {
     const searchValue = this.inputValue.trim();
     if (searchValue !== '') {
-      this.loadingCtrl
-          .create({keyboardClose: false, message: 'Loading contacts...'})
-          .then(loadingEl => {
-            loadingEl.present();
-            const options = new ContactFindOptions();
-            options.multiple = true;
-            options.hasPhoneNumber = true;
-            options.filter = `${searchValue}`;
-            this.contacts.find(['*'], options)
-                .then(res => {
-                  this.search.searchUsers(searchValue.toLocaleLowerCase(), res).subscribe(searchResponse => {
-                    this.userArray = searchResponse;
-                    this.alreadySearched = true;
-                    loadingEl.dismiss();
-                  }, error1 => {
-                    loadingEl.dismiss();
-                    this.alert.showAlert('Error!', error1);
-                  });
-                }).catch(() => {
-              loadingEl.dismiss();
-              this.alert.showAlert('Error!', 'An error has ocurred loading the contacts');
-            });
-          });
+      this.showAll = false;
+       this.filterUsers.users = this.userArray.users.filter(el => el.displayName.toUpperCase().includes(searchValue.toUpperCase()) );
+        this.filterUsers.notUsers = this.userArray.notUsers.filter(el => el.displayName.toUpperCase().includes(searchValue.toUpperCase()));
     } else {
-      this.userArray = {users: [], notUsers: []};
+      this.showAll = true;
     }
   }
 
@@ -73,7 +56,7 @@ export class NewChatPage implements OnInit, OnDestroy {
         .then(res => {
           this.search.searchAllUsers(res).subscribe( searchResponse => {
             this.userArray = searchResponse;
-            console.log(this.userArray);
+            this.showAll = true;
             this.alreadySearched = true;
             loadingEl.dismiss();
           }, error1 => {
