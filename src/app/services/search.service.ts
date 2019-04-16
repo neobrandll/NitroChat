@@ -11,15 +11,19 @@ import {environment} from '../../environments/environment';
 export class SearchService {
   serverUrl = environment.url;
   constructor(private http: HttpClient, private auth: AuthService) { }
-
-  searchUsers(inputValue: string) {
+  searchUsers(inputValue: string, contacts: any) {
+    const body = {
+      data: contacts,
+      name: inputValue
+    };
     return this.auth.token.pipe(switchMap(token => {
       const httpOptions = {
         headers: new HttpHeaders({
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type':  'application/json'
         })
       };
-      return this.http.get<SearchResponse>(`${this.serverUrl}/search/${inputValue}`, httpOptions);
+      return this.http.post<SearchResponse>(`${this.serverUrl}/search`, JSON.stringify(body) , httpOptions);
     }));
   }
 
