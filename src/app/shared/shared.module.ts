@@ -10,18 +10,21 @@ import {CustomDatePipe} from '../pipes/custom-date.pipe';
 import {UserMenuInfoComponent} from '../components/user-menu-info/user-menu-info.component';
 import {ChatSearchUserComponent} from '../components/chat-search-user/chat-search-user.component';
 import { Contacts } from '@ionic-native/contacts/ngx';
+import { Sim } from '@ionic-native/sim/ngx';
+import {NoUserComponent} from '../components/no-user/no-user.component';
+import { SMS } from '@ionic-native/sms/ngx';
 
 @NgModule({
     declarations: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
         , CustomDatePipe, PreviewChatComponent, UserMenuInfoComponent,
-        ChatSearchUserComponent
+        ChatSearchUserComponent, NoUserComponent
     ],
     imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule],
     exports: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
         , CustomDatePipe, UserMenuInfoComponent, PreviewChatComponent
-        , ChatSearchUserComponent
+        , ChatSearchUserComponent, NoUserComponent
     ],
     entryComponents: [],
-    providers: [Contacts]
+    providers: [Contacts, Sim, SMS]
 })
 export class SharedModule {}

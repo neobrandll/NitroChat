@@ -16,22 +16,42 @@
         </ion-row>
       </ion-grid>
     </ion-title>
-    <ion-text >
-
-    </ion-text>
-
-
-
-
   </ion-toolbar>
 </ion-header>
 
 <ion-content >
-  <div style="height: 100%; width: 100%" *ngIf="userArray?.users?.length>0 && myUser">
-    <div *ngFor="let user of userArray.users">
-      <app-chat-search-user *ngIf="user._id !== myUser.id" [user]="user"></app-chat-search-user>
+  <div style="height: 100%; width: 100%" *ngIf="myUser && (userArray?.notUsers?.length>0 || userArray?.users?.length>0)">
+    <div *ngIf="showAll">
+
+    <div *ngIf="userArray?.users?.length>0">
+      <div *ngFor="let user of userArray.users">
+        <app-chat-search-user *ngIf="user.id !== myUser.id" [user]="user"></app-chat-search-user>
+      </div>
+    </div>
+
+    <div *ngIf="userArray?.notUsers?.length>0">
+      <div *ngFor="let notUser of userArray.notUsers">
+        <app-no-user  [user]="notUser"></app-no-user>
+      </div>
+    </div>
+    </div>
+
+    <div *ngIf="!showAll">
+      <div *ngIf="filterUsers?.users?.length>0">
+        <div *ngFor="let user of filterUsers.users">
+          <app-chat-search-user *ngIf="user.id !== myUser.id" [user]="user"></app-chat-search-user>
+        </div>
+      </div>
+      <div *ngIf="filterUsers?.notUsers?.length>0">
+        <div *ngFor="let notUser of filterUsers.notUsers">
+          <app-no-user  [user]="notUser"></app-no-user>
+        </div>
+      </div>
     </div>
   </div>
-  <ion-text *ngIf="userArray?.users?.length<=0 && alreadySearched" id="noResults">No match found!</ion-text>
+
+
+
+  <ion-text *ngIf="userArray?.users?.length<=0 && alreadySearched && userArray?.notUsers?.length<=0 && filterUsers?.users?.length<=0 && userArray?.notUsers?.length<=0" id="noResults">No match found!</ion-text>
 
 </ion-content>

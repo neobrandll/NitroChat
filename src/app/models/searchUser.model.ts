@@ -12,6 +12,6 @@ export interface NotUser {
 
 
 export interface SearchResponse {
-    status: 200;
-    data: SearchedUser[];
+ users: SearchedUser[];
+ notUsers: NotUser[ ];
 }
