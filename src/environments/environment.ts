@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'http://tutatu.ddns.net:3001'
+  url: 'http://localhost:3001'
 };
 
 /*
