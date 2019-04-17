@@ -1,16 +1,27 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title *ngIf="mailedUser">@{{mailedUser.user.username}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="['/home/tabs/chat']"></ion-back-button>
+      <ion-back-button [defaultHref]="['/home']"></ion-back-button>
     </ion-buttons>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <ion-img [src]=" chat.chat.conversation_picture_url ? serverUrl+ '/' + chat.chat.conversation_picture_url : '../../../assets/imgs/nopic.png' " ></ion-img>
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="9">
+          <ion-title *ngIf="chat.chat.conversation_name">{{chat.chat.conversation_name}}</ion-title>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-list *ngIf="chat && mailedUser">
-    <app-chat-message *ngFor="let item of messagesArr"  [message]="item" [mailedUser]="mailedUser" ></app-chat-message>
+  <ion-list *ngIf="chat">
+    <app-chat-message *ngFor="let item of chat.messages"  [message]="item"  ></app-chat-message>
   </ion-list>
 
 

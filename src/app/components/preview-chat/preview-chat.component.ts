@@ -1,4 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ChatPreview} from '../../models/chatPreview.model';
+import {User} from '../../models/user.model';
+import {AuthService} from '../../services/auth.service';
+import {Subscription} from 'rxjs';
 import {environment} from '../../../environments/environment';
 
 @Component({
@@ -7,17 +11,26 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['./preview-chat.component.scss'],
 })
 export class PreviewChatComponent implements OnInit {
-// @Input() chat: Chats;
-//   serverUrl = environment.url;
-//   lastMsg: ChatMessage;
-//   lastMsgDate: Date;
-//   constructor() { }
+@Input() chat: ChatPreview;
+  lastMsgDate: Date;
+  myUser: User;
+  userSub: Subscription;
+  serverUrl = environment.url;
+
+
+ constructor(private auth: AuthService) { }
 
   ngOnInit() {
-    // if (this.chat) {
-    //   this.lastMsg = this.chat.messages[this.chat.messages.length - 1];
-    //   this.lastMsgDate = new Date(this.lastMsg.sentAt);
-    // }
+   this.userSub = this.auth.user.subscribe(user => {
+     this.myUser = user;
+       this.lastMsgDate = new Date(this.chat.created_at);
+       if (!this.chat.conversation_name) {
+          this.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
+       }
+       if (!this.chat.conversation_picture_url) {
+         this.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
+       }
+   });
   }
 
 }

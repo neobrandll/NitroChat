@@ -1,14 +1,16 @@
 <ion-grid>
   <ion-row>
-    <ion-col size="3" *ngIf="isFromMailedUser">
-      <ion-avatar [routerLink]="['/home', 'userProfile', mailedUser.user._id]">
-        <ion-img  [src]=" mailedUser.user.profileImage !=='' ? serverUrl+ '/' + mailedUser.user.profileImage : '../../../assets/imgs/nopic.png' "  ></ion-img>
-      </ion-avatar>
+    <ion-col>
+      <ion-text [color]="color">
+        {{message.users_name}}
+      </ion-text>
     </ion-col>
+  </ion-row>
+  <ion-row>
     <ion-col size="9">
-      <div [className]="isFromMailedUser ? 'medium' : 'primary'" >
+      <div [className]="message.isMine ?  'primary' : 'medium' " >
         <ion-text>
-          {{message.message}}
+          {{message.message_body}}
         </ion-text>
       </div>
     </ion-col>
@@ -16,7 +18,7 @@
   <ion-row no-padding>
     <ion-col offset="6" no-padding>
       <ion-text color="medium" style="font-size: small">
-        {{sentAt | customDate}}
+        {{createdDate | customDate}}
       </ion-text>
     </ion-col>
   </ion-row>

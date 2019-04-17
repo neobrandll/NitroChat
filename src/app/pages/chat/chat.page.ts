@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {take} from 'rxjs/operators';
+import {ChatPreview} from '../../models/chatPreview.model';
 
 @Component({
   selector: 'app-chat',
@@ -7,7 +8,7 @@ import {take} from 'rxjs/operators';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
-// chats: Chats[];
+chats: ChatPreview[];
 //   constructor(private chatService: ChatService) { }
 //
 //   ionViewWillEnter() {
