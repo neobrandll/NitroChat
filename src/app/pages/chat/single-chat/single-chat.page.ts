@@ -1,52 +1,54 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TimeInterval} from 'rxjs';
+import {Subscription, TimeInterval} from 'rxjs';
 
 import {switchMap, take} from 'rxjs/operators';
+import {AuthService} from '../../../services/auth.service';
+import {User} from '../../../models/user.model';
+import {Conversation} from '../../../models/Conversation.model';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-single-chat',
   templateUrl: './single-chat.page.html',
   styleUrls: ['./single-chat.page.scss'],
 })
-export class SingleChatPage implements OnInit {
+export class SingleChatPage implements OnInit, OnDestroy {
 
-//   constructor(private route: ActivatedRoute,
-//               private chatService: ChatService,
-//               private auth: AuthService,
-//               private router: Router) { }
-// mailedUserId: string;
-// mailedUser: UserProfile;
-// messageValue: string;
-// myUser: User;
-// interval;
-// chat: ChatPostResponse;
-// messagesArr: ChatMessage[];
-//
+  constructor(private route: ActivatedRoute,
+              private auth: AuthService,
+              private router: Router) { }
+   messageValue: string;
+   myUser: User;
+   userSub: Subscription;
+   chat: Conversation;
+  serverUrl = environment.url;
 
 
   ngOnInit() {
+    this.userSub = this.auth.user.subscribe(user => {
+      this.myUser = user;
+      if (!this.chat.chat.conversation_name) {
+        this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
+      }
+      if (!this.chat.chat.conversation_picture_url) {
+        this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
+      }
+    });
   }
-  //
-  // ionViewWillEnter() {
-  //   this.auth.user.pipe(take(1), switchMap(user =>{
-  //     this.myUser = user;
-  //     return this.route.paramMap;
-  //   }))
-  //   .subscribe(paramMap => {
-  //     this.mailedUserId = paramMap.get('mailedUser');
-  //     if (this.mailedUserId === this.myUser.id) {
-  //       this.router.navigate(['/home/tabs/chat']);
-  //     }
-  //     this.chatService.mailedUser(this.mailedUserId).subscribe(user => {
-  //       this.mailedUser = user;
-  //     });
-  //     this.loadMsgs();
-  //     this.interval = setInterval(() => {
-  //       this.loadMsgs();
-  //     }, 2000);
-  //   });
-  // }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
+  }
+
+  ionViewWillEnter() {
+    this.auth.user.pipe(take(1), switchMap(user => {
+      this.myUser = user;
+      return this.route.paramMap;
+    }))
+        .subscribe(paramMap => {
+        });
+  }
   //
   // ionViewWillLeave() {
   //   clearInterval(this.interval);

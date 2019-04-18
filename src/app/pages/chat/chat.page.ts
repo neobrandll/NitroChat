@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {take} from 'rxjs/operators';
-/*import {HeadersService} from '../.././services/headers.service';
-import {ChatService} from '../.././services/chat.service';
-*/
+import {ChatPreview} from '../../models/chatPreview.model';
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
-// chats: Chats[];
-
-	//constructor(private chatService: ChatService, private headers: HeadersService) { }
-
+chats: ChatPreview[];
+//   constructor(private chatService: ChatService) { }
 //
 //   ionViewWillEnter() {
 //     this.chatService.loadChatsArray() .subscribe( chatsResponse => {

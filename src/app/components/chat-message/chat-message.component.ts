@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {environment} from '../../../environments/environment';
+import {ChatMessage} from '../../models/chatMessage.model';
 
 @Component({
   selector: 'app-chat-message',
@@ -7,16 +8,15 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['./chat-message.component.scss'],
 })
 export class ChatMessageComponent implements OnInit {
-  // @Input() message: ChatMessage;
-  // @Input() mailedUser: UserProfile;
-  serverUrl = environment.url;
-  isFromMailedUser: boolean;
-  sentAt: Date;
+  @Input() message: ChatMessage;
+  createdDate: Date;
+  color: string;
+  colorArr: ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
   constructor() { }
 
   ngOnInit() {
-    // this.isFromMailedUser = (this.message.sentBy === this.mailedUser.user._id);
-    // this.sentAt = new Date(this.message.sentAt);
+    this.color = this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
+    this.createdDate = new Date(this.message.created_at);
   }
 
 }
