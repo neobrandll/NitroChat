@@ -14,6 +14,7 @@ export class HeadersService {
 
  getHeaders(){
 	this.auth.token.pipe(take(1)).subscribe(results => this.user = results);
+	
     return this.headers = new HttpHeaders({
       'Authorization': `Bearer ${this.user}`,
     });
