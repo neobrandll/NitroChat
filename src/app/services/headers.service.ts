@@ -10,11 +10,11 @@ export class HeadersService {
 	headers:any;
 	user: any;
 
-  constructor(private http: HttpHeaders, private auth: AuthService) { }
+  constructor(private auth: AuthService) { }
 
  getHeaders(){
 	this.auth.token.pipe(take(1)).subscribe(results => this.user = results);
-	
+
     return this.headers = new HttpHeaders({
       'Authorization': `Bearer ${this.user}`,
     });

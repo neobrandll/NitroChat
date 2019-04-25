@@ -11,7 +11,7 @@ export class ChatMessageComponent implements OnInit {
   @Input() message: ChatMessage;
   createdDate: Date;
   color: string;
-  colorArr: ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
+  colorArr= ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
   constructor() { }
 
   ngOnInit() {

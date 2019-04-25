@@ -13,4 +13,8 @@ export class ChatService {
     getPreviewChats(headers): Observable<any> {
     return this.http.get<any>(`${ENV.url}/chats`, {headers, observe: 'response'});
   }
+
+  getChatData(id, headers): Observable<any> {
+      return this.http.get<any>(`${ENV.url}/chats/${id}/messages`, {headers, observe: 'response'});
+  }
 }

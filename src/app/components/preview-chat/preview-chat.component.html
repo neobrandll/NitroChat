@@ -1,4 +1,4 @@
-<ion-item *ngIf="chat">
+  <ion-item *ngIf="chat">
   <ion-grid >
     <ion-row>
       <ion-col  size="3" >
@@ -20,7 +20,7 @@
               <ion-label *ngIf="chat.last_message">
                 <ion-item lines="none">
                   <ion-text>
-                    {{chat.last_message}}
+                    {{chat.last_message?.message_body}}
                   </ion-text>
                 </ion-item>
               </ion-label>

@@ -24,10 +24,10 @@ export class PreviewChatComponent implements OnInit {
    this.userSub = this.auth.user.subscribe(user => {
      this.myUser = user;
        this.lastMsgDate = new Date(this.chat.created_at);
-       if (!this.chat.conversation_name) {
+       if (this.chat.conversation_name===null) {
           this.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
        }
-       if (!this.chat.conversation_picture_url) {
+       if (this.chat.conversation_picture_url===null) {
          this.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
        }
    });

@@ -7,6 +7,8 @@ import {AuthService} from '../../../services/auth.service';
 import {User} from '../../../models/user.model';
 import {Conversation} from '../../../models/Conversation.model';
 import {environment} from '../../../../environments/environment';
+import {HeadersService} from './../../../services/headers.service';
+import {ChatService} from './../../../services/chat.service';
 
 @Component({
   selector: 'app-single-chat',
@@ -17,24 +19,36 @@ export class SingleChatPage implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private auth: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private headers: HeadersService,
+              private http: ChatService) { }
    messageValue: string;
    myUser: User;
    userSub: Subscription;
+   targetUser: number;
+   messages = [];
    chat: Conversation;
   serverUrl = environment.url;
 
 
   ngOnInit() {
     this.userSub = this.auth.user.subscribe(user => {
-      this.myUser = user;
-      if (!this.chat.chat.conversation_name) {
+      this.myUser = user;    
+    });
+    this.route.params.subscribe(params => {
+      this.targetUser = params.id;
+      });
+      this.http.getChatData(this.targetUser, this.headers.getHeaders()).subscribe(r => {
+        console.log(r);
+        this.chat = r.body;
+        this.messages = r.body.messages;
+      if (this.chat.chat.conversation_name===null) {
         this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
       }
-      if (!this.chat.chat.conversation_picture_url) {
+      if (this.chat.chat.conversation_picture_url === null) {
         this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
       }
-    });
+      });
   }
 
   ngOnDestroy(): void {
