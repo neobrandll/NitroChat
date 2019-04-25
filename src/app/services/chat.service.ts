@@ -11,10 +11,10 @@ export class ChatService {
   constructor(private http: HttpClient) { }
 
     getPreviewChats(headers): Observable<any> {
-    return this.http.get<any>(`${ENV.url}/chats`, {headers, observe: 'response'});
-  }
+    	return this.http.get<any>(`${ENV.url}/chats`, {headers, observe: 'response'});
+  	}
 
-  getChatData(id, headers): Observable<any> {
+  	getChatData(id, headers): Observable<any> {
       return this.http.get<any>(`${ENV.url}/chats/${id}/messages`, {headers, observe: 'response'});
-  }
+  	}
 }

@@ -9,6 +9,8 @@ import {Conversation} from '../../../models/Conversation.model';
 import {environment} from '../../../../environments/environment';
 import {HeadersService} from './../../../services/headers.service';
 import {ChatService} from './../../../services/chat.service';
+import { Socket } from "ngx-socket-io";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-single-chat',
@@ -17,19 +19,28 @@ import {ChatService} from './../../../services/chat.service';
 })
 export class SingleChatPage implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute,
-              private auth: AuthService,
-              private router: Router,
-              private headers: HeadersService,
-              private http: ChatService) { }
    messageValue: string;
    myUser: User;
    userSub: Subscription;
    targetUser: number;
    messages = [];
    chat: Conversation;
-  serverUrl = environment.url;
+    serverUrl = environment.url;
+    chatRoom = "user ";
+    target: number;
+    msgConn;
 
+
+  constructor(private route: ActivatedRoute,
+              private auth: AuthService,
+              private router: Router,
+              private headers: HeadersService,
+              private http: ChatService,
+              private socket: Socket) {
+    this.msgConn = this.getMessages().subscribe(r=>{
+      console.log(r);
+    })
+               }
 
   ngOnInit() {
     this.userSub = this.auth.user.subscribe(user => {
@@ -43,6 +54,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
         this.chat = r.body;
         this.messages = r.body.messages;
       if (this.chat.chat.conversation_name===null) {
+        this.target = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_id;
         this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
       }
       if (this.chat.chat.conversation_picture_url === null) {
@@ -62,6 +74,30 @@ export class SingleChatPage implements OnInit, OnDestroy {
     }))
         .subscribe(paramMap => {
         });
+  }
+
+    ionViewDidEnter() {
+    // this.socket.connect();
+    this.socket.emit("open-chat", {
+      room: `${this.chatRoom}${this.myUser.id}`
+    });
+  }
+
+
+  sendMsg(){
+    this.socket.emit('send-msg', {
+      room: `${this.chatRoom}${this.target}`,
+      message: this.messageValue
+    })
+  }
+
+    getMessages() {
+    let observable = new Observable(observer => {
+      this.socket.on("get-msg", data => {
+        observer.next(data);
+      });
+    });
+    return observable;
   }
   //
   // ionViewWillLeave() {
