@@ -1,11 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {ChatPreview} from '../../models/chatPreview.model';
 import {User} from '../../models/user.model';
 import {AuthService} from '../../services/auth.service';
 import {Subscription} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {ChatService} from '../../services/chat.service';
+import {HeadersService} from '../../services/headers.service';
 import {PopoverComponent} from '../popover/popover.component';
 import {PopoverController} from '@ionic/angular';
+
 
 @Component({
   selector: 'app-preview-chat',
@@ -14,6 +17,7 @@ import {PopoverController} from '@ionic/angular';
 })
 export class PreviewChatComponent implements OnInit {
 @Input() chat: ChatPreview;
+@Output() out = new EventEmitter<any>();
   lastMsgDate: Date;
   myUser: User;
   userSub: Subscription;
@@ -22,6 +26,7 @@ export class PreviewChatComponent implements OnInit {
 
 
  constructor(private auth: AuthService, private popoverController: PopoverController) { }
+ constructor(private auth: AuthService, private http: ChatService, private headers: HeadersService) { }
 
   ngOnInit() {
    this.userSub = this.auth.user.subscribe(user => {
@@ -34,6 +39,13 @@ export class PreviewChatComponent implements OnInit {
          this.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
        }
    });
+  }
+
+  deleteChat(userId, chatId){
+    this.http.deleteChat(chatId, userId, this.headers.getHeaders()).subscribe(r=>{
+      console.log(r);
+        this.out.emit(r.body);
+    });
   }
 
  

@@ -9,7 +9,7 @@
 
 <ion-content>
   <div *ngIf="chats?.length >0">
-    <app-preview-chat *ngFor="let chat of chats" [chat]="chat" ></app-preview-chat>
+    <app-preview-chat *ngFor="let chat of chats" [chat]="chat" (out)="deleteChat($event)"></app-preview-chat>
   </div>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerDirection="forward" [routerLink]= "['/new-chat']" >

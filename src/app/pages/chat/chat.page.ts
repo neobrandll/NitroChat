@@ -68,9 +68,12 @@ export class ChatPage implements OnInit {
     return observable;
   }
 
-  fuck(){
-  console.log('mardita sea el diablo');
-  console.log('que verga es');
+  deleteChat(data){
+    console.log(data);
+    for (let i = 0; i < this.chats.length; i++){
+      if (this.chats[i].conversations_id === data.chatId){
+        this.chats.splice(i,1);
+      }
+    }
   }
-
 }
