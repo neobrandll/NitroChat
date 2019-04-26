@@ -40,6 +40,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
    otherColor: string;
    colorArr = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
     updating = false;
+    msgUpd;
 
   constructor(private route: ActivatedRoute,
               private auth: AuthService,
@@ -62,6 +63,13 @@ export class SingleChatPage implements OnInit, OnDestroy {
         }
       }
     });
+    this.msgUpd = this.updateMessage().subscribe(results => {
+        for (let a of this.messages){
+          if (a.message_id === results.message.message_id){
+            a.message_body = results.message.message_body;
+          }
+        }
+    })
                }
 
   ngOnInit() {
@@ -95,6 +103,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
     this.msgDel.unsubscribe();
+    this.msgUpd.unsubscribe();
   }
 
   ionViewWillEnter() {
@@ -138,6 +147,15 @@ export class SingleChatPage implements OnInit, OnDestroy {
               observer.next(data);
           });
       });
+  }
+
+  updateMessage(){
+    const observable = Observable.create((observer: Observer<any>) => {
+      this.socket.on('receive-update', data => {
+        observer.next(data);
+      });
+    });
+    return observable;
   }
 
   //     deleteMessage() {
@@ -213,7 +231,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
     }
 
     updateMsg() {
-        this.socket.emit('send-msg', {
+        this.socket.emit('update-msg', {
             room: `${this.chatRoom}${this.chatId}`,
             message: this.messageValue,
             user: `user ${this.target}`,
@@ -223,5 +241,6 @@ export class SingleChatPage implements OnInit, OnDestroy {
         this.attachment = null;
         this.messageValue = '';
         this.updateMsgId = null;
+        this.updating = false;
     }
 }
