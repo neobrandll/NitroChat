@@ -28,11 +28,14 @@ export class SingleChatPage implements OnInit, OnDestroy {
    chatId: number;
    messages = [];
    chat: Conversation;
-    serverUrl = environment.url;
-    chatRoom = "chat ";
-    target: number;
-    msgConn;
-    msgDel;
+   serverUrl = environment.url;
+   chatRoom = "chat ";
+   target: number;
+   msgConn;
+   msgDel;
+   color: string;
+   otherColor: string;
+   colorArr = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
 
   constructor(private route: ActivatedRoute,
               private auth: AuthService,
@@ -56,6 +59,10 @@ export class SingleChatPage implements OnInit, OnDestroy {
                }
 
   ngOnInit() {
+  const index = Math.floor(Math.random() * this.colorArr.length) - 1;
+   this.color = this.colorArr[index];
+   this.colorArr.splice(index,1);
+   this.otherColor =  this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
     this.userSub = this.auth.user.subscribe(user => {
       this.myUser = user;
     });

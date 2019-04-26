@@ -1,7 +1,7 @@
 <ion-grid (click)="deleteMessage(message?.conversations_id,message?.message_id)">
   <ion-row>
     <ion-col>
-      <ion-text [color]="color">
+      <ion-text [color]="message?.isMine ? color : secondColor">
         {{message?.users_name}}
       </ion-text>
     </ion-col>

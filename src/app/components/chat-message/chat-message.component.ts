@@ -11,12 +11,11 @@ import {Socket} from 'ngx-socket-io';
 export class ChatMessageComponent implements OnInit {
   @Input() message: ChatMessage;
   createdDate: Date;
-  color: string;
-  colorArr = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
+  @Input() color: string;
+  @Input() secondColor: string;
   constructor(private socket: Socket) { }
 
   ngOnInit() {
-    this.color = this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
     console.log(this.message.created_at);
     this.createdDate = new Date(this.message.created_at);
   }

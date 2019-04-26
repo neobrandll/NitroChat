@@ -43,7 +43,7 @@ export class ChatPage implements OnInit {
     });
   	this.chatService.getPreviewChats(this.headers.getHeaders()).subscribe(r => {
   		console.log(r.body.chats);
-  		this.chats = r.body.chats;
+  		this.chats = r.body.chats.filter(r => r !== null);
   	})
   }
 
@@ -61,6 +61,11 @@ export class ChatPage implements OnInit {
       });
     });
     return observable;
+  }
+
+  fuck(){
+  console.log('mardita sea el diablo');
+  console.log('que verga es');
   }
 
 }
