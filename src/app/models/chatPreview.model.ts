@@ -5,7 +5,7 @@ export interface ChatPreview {
     conversation_name: string;
     created_at: string;
     participants: Participant[];
-    last_message: LastMessage[];
+    last_message: LastMessage;
     conversation_picture_url: string;
 }
 

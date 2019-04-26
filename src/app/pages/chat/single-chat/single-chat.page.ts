@@ -11,7 +11,7 @@ import {HeadersService} from './../../../services/headers.service';
 import {ChatService} from './../../../services/chat.service';
 import { Socket } from 'ngx-socket-io';
 import { Observable, Observer } from 'rxjs';
-import {ModalController} from '@ionic/angular';
+import {ModalController, IonContent} from '@ionic/angular';
 import {UpdatePicturePage} from '../../edit-profile/update-picture/update-picture.page';
 import {UpPicturePage} from '../../up-picture/up-picture.page';
 
@@ -22,6 +22,7 @@ import {UpPicturePage} from '../../up-picture/up-picture.page';
 })
 export class SingleChatPage implements OnInit, OnDestroy {
 
+  @ViewChild(IonContent) content: IonContent;
    messageValue: string;
    myUser: User;
    userSub: Subscription;
@@ -48,8 +49,10 @@ export class SingleChatPage implements OnInit, OnDestroy {
               private socket: Socket,
               private modalController: ModalController) {
     this.msgConn = this.getMessages().subscribe(r => {
-      console.log(r);
+    r.isMine = ((r.users_id===this.myUser.id) ? true : false);
+    console.log(r);
       this.messages.push(r);
+      this.scrollDown();
     });
     this.msgDel = this.deleteMessage().subscribe(r => {
       console.log(r);
@@ -84,6 +87,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
         this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
       }
       });
+      setTimeout(this.scrollDown(),1000);
   }
 
   ngOnDestroy(): void {
@@ -102,6 +106,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
 
     ionViewDidEnter() {
     // this.socket.connect();
+    this.scrollDown();
     this.socket.emit('open-chat', {
       room: `${this.chatRoom}${this.chatId}`
     });
@@ -190,6 +195,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
       this.sendMsg();
     }
   }
+
+  scrollDown(){
+  this.content.scrollToBottom();
+  }
+
 
   startUpdate(message: {body: string, id: number}) {
       this.messageValue = message.body;

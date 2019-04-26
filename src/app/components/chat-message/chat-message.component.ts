@@ -20,15 +20,17 @@ export class ChatMessageComponent implements OnInit {
   @Output() updateEmitter = new EventEmitter<{body: string, id: number}>();
   constructor(private socket: Socket, private modalCtrl: ModalController,
               private popoverController: PopoverController) { }
+  @Output() value = new EventEmitter<any>();
   serverUrl = environment.url;
 
   ngOnInit() {
     this.createdDate = new Date(this.message.created_at);
+    this.value.emit(true);
   }
 
   deleteMessage (chat, id) {
     this.socket.emit('delete-msg', {room: `chat ${chat}`, chatId: chat, messageId: id});
-  }
+}
 
   async previewImg() {
   const modal = await this.modalCtrl.create({
