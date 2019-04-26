@@ -3,8 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import '@ionic/pwa-elements';
-import "hammerjs"; // HAMMER TIME
+import 'hammerjs'; // HAMMER TIME
 
 if (environment.production) {
   enableProdMode();

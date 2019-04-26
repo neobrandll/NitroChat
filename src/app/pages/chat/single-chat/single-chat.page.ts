@@ -35,9 +35,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
     attachment: string = null;
     msgConn;
     msgDel;
+    updateMsgId = null;
    color: string;
    otherColor: string;
    colorArr = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
+    updating = false;
 
   constructor(private route: ActivatedRoute,
               private auth: AuthService,
@@ -47,7 +49,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
               private socket: Socket,
               private modalController: ModalController) {
     this.msgConn = this.getMessages().subscribe(r => {
-    r.isMine = ((r.users_id===this.myUser.id) ? true : false);
+    r.isMine = ((r.users_id === this.myUser.id) ? true : false);
     console.log(r);
       this.messages.push(r);
       this.scrollDown();
@@ -65,7 +67,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
   ngOnInit() {
   const index = Math.floor(Math.random() * this.colorArr.length) - 1;
    this.color = this.colorArr[index];
-   this.colorArr.splice(index,1);
+   this.colorArr.splice(index, 1);
    this.otherColor =  this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
     this.userSub = this.auth.user.subscribe(user => {
       this.myUser = user;
@@ -85,7 +87,9 @@ export class SingleChatPage implements OnInit, OnDestroy {
         this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
       }
       });
-      setTimeout(this.scrollDown(),1000);
+      setTimeout(() => {
+          this.scrollDown();
+      }, 1000);
   }
 
   ngOnDestroy(): void {
@@ -194,8 +198,32 @@ export class SingleChatPage implements OnInit, OnDestroy {
     }
   }
 
-  scrollDown(){
+  scrollDown() {
   this.content.scrollToBottom();
   }
 
+
+  startUpdate(message: {body: string, id: number}) {
+      this.messageValue = message.body;
+      this.updating = true;
+      this.updateMsgId = message.id;
+  }
+
+    cancelUpdate() {
+      this.messageValue = '';
+      this.updating = false;
+    }
+
+    updateMsg() {
+        this.socket.emit('send-msg', {
+            room: `${this.chatRoom}${this.chatId}`,
+            message: this.messageValue,
+            user: `user ${this.target}`,
+            id: `${this.myUser.id}`,
+            messageId: this.updateMsgId
+        });
+        this.attachment = null;
+        this.messageValue = '';
+        this.updateMsgId = null;
+    }
 }

@@ -21,7 +21,7 @@
 <ion-content>
 
   <ion-list *ngIf="messages?.length>0">
-    <app-chat-message *ngFor="let item of messages"  (value)="scrollDown()" [message]="item"  [color]="color" [secondColor]='otherColor'></app-chat-message>
+    <app-chat-message *ngFor="let item of messages" (value)="scrollDown()" (updateEmitter)="startUpdate($event)" [message]="item"  [color]="color" [secondColor]='otherColor'></app-chat-message>
   </ion-list>
 
 
@@ -40,13 +40,23 @@
         <ion-col offset="1" size="7" no-padding>
           <ion-input [(ngModel)]="messageValue" placeholder="Start a message" (ionFocus)="scrollDown()"></ion-input>
         </ion-col>
-        <ion-col size="2" no-padding>
+        <ion-col size="2" no-padding *ngIf="!updating">
           <ion-button (click)="addPicture()"  class="Btn" >
             <ion-icon name="image" slot="icon-only"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="2" no-padding>
+        <ion-col size="2" no-padding *ngIf="updating">
+          <ion-button (click)="cancelUpdate()"  class="Btn" >
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="2" no-padding *ngIf="!updating">
           <ion-button (click)="sendMsg()"  class="Btn" [disabled]="messageValue?.trim() === '' || !messageValue">
+            <ion-icon name="send" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="2" no-padding *ngIf="updating">
+          <ion-button (click)="updateMsg()"  class="Btn" [disabled]="messageValue?.trim() === '' || !messageValue">
             <ion-icon name="send" slot="icon-only"></ion-icon>
           </ion-button>
         </ion-col>
