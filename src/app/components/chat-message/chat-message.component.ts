@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, EventEmitter, Output} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {ChatMessage} from '../../models/chatMessage.model';
 import {Socket} from 'ngx-socket-io';
@@ -15,17 +15,19 @@ export class ChatMessageComponent implements OnInit {
   createdDate: Date;
   @Input() secondColor: string;
   @Input() color: string;
+  @Output() value = new EventEmitter<any>();
   constructor(private socket: Socket, private modalCtrl: ModalController) { }
   serverUrl = environment.url;
 
   ngOnInit() {
     console.log(this.message.created_at);
     this.createdDate = new Date(this.message.created_at);
+    this.value.emit(true);
   }
 
   deleteMessage (chat, id) {
     this.socket.emit('delete-msg', {room: `chat ${chat}`, chatId: chat, messageId: id});
-  }
+}
 
   async previewImg() {
   const modal = await this.modalCtrl.create({

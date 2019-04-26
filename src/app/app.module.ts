@@ -14,7 +14,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import {IonicGestureConfig} from './gestures/ionicgesture';
 
-const config: SocketIoConfig = { url: 'localhost:8984', options: {} };
+const config: SocketIoConfig = { url: 'http://192.168.43.37:8984', options: {} };
 
 
 @NgModule({
