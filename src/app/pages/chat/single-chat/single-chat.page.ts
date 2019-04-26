@@ -9,6 +9,9 @@ import {Conversation} from '../../../models/Conversation.model';
 import {environment} from '../../../../environments/environment';
 import {HeadersService} from './../../../services/headers.service';
 import {ChatService} from './../../../services/chat.service';
+import {ModalController} from '@ionic/angular';
+import {UpdatePicturePage} from '../../edit-profile/update-picture/update-picture.page';
+import {UpPicturePage} from '../../up-picture/up-picture.page';
 
 @Component({
   selector: 'app-single-chat',
@@ -21,7 +24,8 @@ export class SingleChatPage implements OnInit, OnDestroy {
               private auth: AuthService,
               private router: Router,
               private headers: HeadersService,
-              private http: ChatService) { }
+              private http: ChatService,
+              private modalController: ModalController) { }
    messageValue: string;
    myUser: User;
    userSub: Subscription;
@@ -33,7 +37,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userSub = this.auth.user.subscribe(user => {
-      this.myUser = user;    
+      this.myUser = user;
     });
     this.route.params.subscribe(params => {
       this.targetUser = params.id;
@@ -42,7 +46,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
         console.log(r);
         this.chat = r.body;
         this.messages = r.body.messages;
-      if (this.chat.chat.conversation_name===null) {
+      if (this.chat.chat.conversation_name === null) {
         this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
       }
       if (this.chat.chat.conversation_picture_url === null) {
@@ -88,4 +92,15 @@ export class SingleChatPage implements OnInit, OnDestroy {
   //   });
   //   }
 
+  async addPicture() {
+    const modal = await this.modalController.create({
+      component: UpPicturePage,
+      componentProps: {
+        'messageValue': this.messageValue,
+      }
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    console.log(data);
+  }
 }

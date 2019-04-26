@@ -1,0 +1,28 @@
+ion-content{
+
+  --ion-background-color: rgba(44, 39, 45, 0.84);
+}
+
+ion-toolbar {
+  --background: rgba(0, 0, 0, 1);
+  --border-color:  rgba(0, 0, 0, 1);
+
+}
+
+ion-input{
+  --color: #ffffff;
+  --placeholder-color: #f6f5f4;
+  border-radius: 10px;
+}
+
+.close-fake {
+  --background: transparent;
+  ion-icon{
+    font-size: 2rem;
+  }
+  margin-top: 40px;
+}
+
+ion-slides{
+  height: 70%;
+}
