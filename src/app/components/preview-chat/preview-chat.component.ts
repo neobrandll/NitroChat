@@ -25,8 +25,9 @@ export class PreviewChatComponent implements OnInit {
   selected = false;
 
 
- constructor(private auth: AuthService, private popoverController: PopoverController) { }
- constructor(private auth: AuthService, private http: ChatService, private headers: HeadersService) { }
+ constructor(private auth: AuthService, private popoverController: PopoverController, private headers: HeadersService,
+             private http: ChatService) { }
+
 
   ngOnInit() {
    this.userSub = this.auth.user.subscribe(user => {
@@ -41,14 +42,14 @@ export class PreviewChatComponent implements OnInit {
    });
   }
 
-  deleteChat(userId, chatId){
-    this.http.deleteChat(chatId, userId, this.headers.getHeaders()).subscribe(r=>{
+  deletePreview(userId, chatId) {
+    this.http.deleteChat(chatId, userId, this.headers.getHeaders()).subscribe(r => {
       console.log(r);
         this.out.emit(r.body);
     });
   }
 
- 
+
 
 
         async onPressed() {
@@ -60,7 +61,7 @@ export class PreviewChatComponent implements OnInit {
             const { data } = await popover.onDidDismiss();
             if (data) {
                 if (data.result === 'delete') {
-                     
+                this.deletePreview(this.myUser.id, this.chat.conversations_id);
                 }
             }
             this.selected = false;

@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {take} from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
 import {ChatPreview} from '../../models/chatPreview.model';
 import {HeadersService} from './../../services/headers.service';
 import {ChatService} from './../../services/chat.service';
 import {AuthService} from './../../services/auth.service';
 import {User} from './../../models/user.model';
-import { Socket } from 'ngx-socket-io';
-import { Observable } from 'rxjs';
+import {Socket} from 'ngx-socket-io';
+import {Observable, Observer} from 'rxjs';
 
 
 @Component({
@@ -30,7 +29,7 @@ export class ChatPage implements OnInit {
             this.chats[i].last_message = r;
           }
       }
-    })
+    });
 		 }
 //
 //   ionViewWillEnter() {
@@ -48,24 +47,23 @@ export class ChatPage implements OnInit {
     });
   	this.chatService.getPreviewChats(this.headers.getHeaders()).subscribe(r => {
   		console.log(r.body.chats);
-  		this.chats = r.body.chats.filter(r => r !== null);
-  	})
+  		this.chats = r.body.chats.filter(result => result !== null);
+  	});
   }
 
     ionViewDidEnter() {
     this.socket.connect();
-    this.socket.emit("open-app", {
+    this.socket.emit('open-app', {
       room: `${this.chatRoom}${this.myUser.id}`
     });
   }
 
   getMessages() {
-    const observable = new Observable(observer => {
-      this.socket.on('dash-msg', data => {
-        observer.next(data);
-      });
-    });
-    return observable;
+	    return Observable.create((observer: Observer<any>) => {
+            this.socket.on('dash-msg', data => {
+                        observer.next(data);
+                    });
+        });
   }
 
   deleteChat(data){

@@ -133,12 +133,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
   }
 
     getMessages() {
-    const observable = new Observable(observer => {
-      this.socket.on('get-msg', data => {
-        observer.next(data);
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('get-msg', data => {
+              observer.next(data);
+          });
       });
-    });
-    return observable;
   }
 
   //     deleteMessage() {
@@ -150,12 +149,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
   //   return observable;
   // }
   deleteMessage() {
-  	const observable = Observable.create((observer: Observer<any>) =>{
+  	return Observable.create((observer: Observer<any>) => {
   		this.socket.on('message-was-deleted', data => {
         observer.next(data);
       });
-  	})
-  	return observable;
+  	});
   }
   //
   // ionViewWillLeave() {
