@@ -21,4 +21,9 @@ export class ChatService {
   	  getChatId(id, headers): Observable<any> {
       return this.http.get<any>(`${ENV.url}/chats/${id}`, {headers, observe: 'response'});
   	}
+
+      deleteChat(chatId, userId, headers): Observable<any> {
+      return this.http.delete<any>(`${ENV.url}/chats/${chatId}/${userId}`, {headers, observe: 'response'});
+    }
+
 }
