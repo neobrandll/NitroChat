@@ -49,7 +49,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
               private socket: Socket,
               private modalController: ModalController) {
     this.msgConn = this.getMessages().subscribe(r => {
-    r.isMine = ((r.users_id===this.myUser.id) ? true : false);
+    r.isMine = ((r.users_id === this.myUser.id) ? true : false);
     console.log(r);
       this.messages.push(r);
       this.scrollDown();
@@ -87,7 +87,9 @@ export class SingleChatPage implements OnInit, OnDestroy {
         this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
       }
       });
-      setTimeout(this.scrollDown(),1000);
+      setTimeout(() => {
+          this.scrollDown();
+      }, 1000);
   }
 
   ngOnDestroy(): void {
@@ -196,7 +198,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
     }
   }
 
-  scrollDown(){
+  scrollDown() {
   this.content.scrollToBottom();
   }
 
