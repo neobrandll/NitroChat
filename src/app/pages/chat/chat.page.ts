@@ -25,6 +25,11 @@ export class ChatPage implements OnInit {
 		private auth: AuthService) {
     this.msgConn = this.getMessages().subscribe(r=>{
       console.log(r);
+      for (let i = 0; i < this.chats.length; i++){
+          if (r.conversations_id === this.chats[i].conversations_id) {
+            this.chats[i].last_message = r;
+          }
+      }
     })
 		 }
 //

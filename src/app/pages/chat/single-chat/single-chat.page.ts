@@ -46,7 +46,8 @@ export class SingleChatPage implements OnInit, OnDestroy {
               private socket: Socket,
               private modalController: ModalController) {
     this.msgConn = this.getMessages().subscribe(r => {
-      console.log(r);
+    r.isMine = ((r.users_id===this.myUser.id) ? true : false);
+    console.log(r);
       this.messages.push(r);
     });
     this.msgDel = this.deleteMessage().subscribe(r => {

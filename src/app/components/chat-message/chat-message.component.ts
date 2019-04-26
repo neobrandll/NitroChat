@@ -19,7 +19,6 @@ export class ChatMessageComponent implements OnInit {
   serverUrl = environment.url;
 
   ngOnInit() {
-    this.color = this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
     console.log(this.message.created_at);
     this.createdDate = new Date(this.message.created_at);
   }
