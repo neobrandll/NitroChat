@@ -21,7 +21,7 @@
 <ion-content>
 
   <ion-list *ngIf="messages?.length>0">
-    <app-chat-message *ngFor="let item of messages"  [message]="item"  ></app-chat-message>
+    <app-chat-message *ngFor="let item of messages"  [message]="item"  [color]="color" [secondColor]='otherColor'></app-chat-message>
   </ion-list>
 
 

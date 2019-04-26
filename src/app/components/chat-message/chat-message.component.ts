@@ -13,13 +13,14 @@ import {PreviewImagePage} from '../../pages/preview-image/preview-image.page';
 export class ChatMessageComponent implements OnInit {
   @Input() message: ChatMessage;
   createdDate: Date;
-  color: string;
-  serverUrl = environment.url;
-  colorArr = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
+  @Input() secondColor: string;
+  @Input() color: string;
   constructor(private socket: Socket, private modalCtrl: ModalController) { }
+  serverUrl = environment.url;
 
   ngOnInit() {
     this.color = this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
+    console.log(this.message.created_at);
     this.createdDate = new Date(this.message.created_at);
   }
 

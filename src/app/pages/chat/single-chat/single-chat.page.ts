@@ -34,6 +34,9 @@ export class SingleChatPage implements OnInit, OnDestroy {
     attachment: string = null;
     msgConn;
     msgDel;
+   color: string;
+   otherColor: string;
+   colorArr = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
 
   constructor(private route: ActivatedRoute,
               private auth: AuthService,
@@ -57,6 +60,10 @@ export class SingleChatPage implements OnInit, OnDestroy {
                }
 
   ngOnInit() {
+  const index = Math.floor(Math.random() * this.colorArr.length) - 1;
+   this.color = this.colorArr[index];
+   this.colorArr.splice(index,1);
+   this.otherColor =  this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
     this.userSub = this.auth.user.subscribe(user => {
       this.myUser = user;
     });
