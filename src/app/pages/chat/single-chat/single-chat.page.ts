@@ -65,7 +65,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
     });
     this.msgUpd = this.updateMessage().subscribe(results => {
         for (let a of this.messages) {
-          if (a.message_id === +results.message.message_id){
+          if (a.message_id === results.message.message_id){
             a.message_body = results.message.message_body;
           }
         }
