@@ -4,6 +4,8 @@ import {User} from '../../models/user.model';
 import {AuthService} from '../../services/auth.service';
 import {Subscription} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {PopoverComponent} from '../popover/popover.component';
+import {PopoverController} from '@ionic/angular';
 
 @Component({
   selector: 'app-preview-chat',
@@ -16,9 +18,10 @@ export class PreviewChatComponent implements OnInit {
   myUser: User;
   userSub: Subscription;
   serverUrl = environment.url;
+  selected = false;
 
 
- constructor(private auth: AuthService) { }
+ constructor(private auth: AuthService, private popoverController: PopoverController) { }
 
   ngOnInit() {
    this.userSub = this.auth.user.subscribe(user => {
@@ -32,5 +35,23 @@ export class PreviewChatComponent implements OnInit {
        }
    });
   }
+
+ 
+
+
+        async onPressed() {
+            this.selected = true;
+            const popover = await this.popoverController.create({
+                component: PopoverComponent, componentProps: {isMine: true, isPreview: true}
+            });
+            await popover.present();
+            const { data } = await popover.onDidDismiss();
+            if (data) {
+                if (data.result === 'delete') {
+                     
+                }
+            }
+            this.selected = false;
+        }
 
 }

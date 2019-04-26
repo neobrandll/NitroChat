@@ -8,10 +8,12 @@ import {NavParams, PopoverController} from '@ionic/angular';
 })
 export class PopoverComponent implements OnInit {
   isMine: boolean;
+  isPreview: boolean;
   constructor(private popOver: PopoverController, private navParams: NavParams) { }
 
   ngOnInit() {
     this.isMine = this.navParams.get('isMine');
+    this.isPreview = this.navParams.get('isPreview');
   }
   onUpdate() {
     this.popOver.dismiss({result: 'update'});

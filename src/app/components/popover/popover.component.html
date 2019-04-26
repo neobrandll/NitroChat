@@ -1,9 +1,9 @@
 <ion-list>
   <ion-list-header>Nitro</ion-list-header>
-  <ion-item button detail="true">
+  <ion-item button detail="true" *ngIf="!isPreview">
     Forward
   </ion-item>
-  <ion-item  *ngIf="isMine" button detail="true" (click)="onUpdate()">
+  <ion-item  *ngIf="isMine && !isPreview" button detail="true" (click)="onUpdate()">
     Update
   </ion-item>
   <ion-item *ngIf="isMine" button detail="true" (click)="onDelete()">
