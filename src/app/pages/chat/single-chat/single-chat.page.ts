@@ -9,8 +9,8 @@ import {Conversation} from '../../../models/Conversation.model';
 import {environment} from '../../../../environments/environment';
 import {HeadersService} from './../../../services/headers.service';
 import {ChatService} from './../../../services/chat.service';
-import { Socket } from "ngx-socket-io";
-import { Observable, Observer } from "rxjs";
+import { Socket } from 'ngx-socket-io';
+import { Observable, Observer } from 'rxjs';
 import {ModalController} from '@ionic/angular';
 import {UpdatePicturePage} from '../../edit-profile/update-picture/update-picture.page';
 import {UpPicturePage} from '../../up-picture/up-picture.page';
@@ -29,8 +29,9 @@ export class SingleChatPage implements OnInit, OnDestroy {
    messages = [];
    chat: Conversation;
     serverUrl = environment.url;
-    chatRoom = "chat ";
+    chatRoom = 'chat ';
     target: number;
+    attachment: string = null;
     msgConn;
     msgDel;
 
@@ -41,18 +42,18 @@ export class SingleChatPage implements OnInit, OnDestroy {
               private http: ChatService,
               private socket: Socket,
               private modalController: ModalController) {
-    this.msgConn = this.getMessages().subscribe(r=>{
+    this.msgConn = this.getMessages().subscribe(r => {
       console.log(r);
       this.messages.push(r);
-    })
-    this.msgDel = this.deleteMessage().subscribe(r=>{
+    });
+    this.msgDel = this.deleteMessage().subscribe(r => {
       console.log(r);
       for (let i = 0; i < this.messages.length; i++ ) {
         if (this.messages[i].message_id === r.messageId){
-          this.messages.splice(i,1);
+          this.messages.splice(i, 1);
         }
       }
-    })
+    });
                }
 
   ngOnInit() {
@@ -97,26 +98,27 @@ export class SingleChatPage implements OnInit, OnDestroy {
     });
   }
 
-    ionViewWillLeave(){
+    ionViewWillLeave() {
       this.msgConn.unsubscribe();
     }
 
 
-  sendMsg(){
+  sendMsg()  {
     this.socket.emit('send-msg', {
       room: `${this.chatRoom}${this.chatId}`,
       message: this.messageValue,
       user: `user ${this.target}`,
       id: `${this.myUser.id}`,
       chatId: `${this.chatId}`,
-      attachment: null
+      attachment: this.attachment,
     });
+    this.attachment = null;
     this.messageValue = '';
   }
 
     getMessages() {
-    let observable = new Observable(observer => {
-      this.socket.on("get-msg", data => {
+    const observable = new Observable(observer => {
+      this.socket.on('get-msg', data => {
         observer.next(data);
       });
     });
@@ -131,9 +133,9 @@ export class SingleChatPage implements OnInit, OnDestroy {
   //   });
   //   return observable;
   // }
-  deleteMessage(){
+  deleteMessage() {
   	const observable = Observable.create((observer: Observer<any>) =>{
-  		this.socket.on("message-was-deleted", data => {
+  		this.socket.on('message-was-deleted', data => {
         observer.next(data);
       });
   	})
@@ -173,6 +175,10 @@ export class SingleChatPage implements OnInit, OnDestroy {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    console.log(data);
+    if (data.result === 'ok') {
+      this.attachment = data.image;
+      this.messageValue = data.message;
+      this.sendMsg();
+    }
   }
 }

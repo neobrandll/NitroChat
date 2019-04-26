@@ -82,7 +82,8 @@ export class UpPicturePage implements OnInit {
     }
     this.modalController.dismiss({
       'result': 'ok',
-      'image': this.form.get('image').value
+      'image': this.form.get('image').value,
+      'message': this.messageValue
     });
   }
 

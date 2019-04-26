@@ -13,7 +13,8 @@ const routes: Routes = [
   {path: 'edit', loadChildren: './pages/edit-profile/edit-profile.module#EditProfilePageModule', canLoad: [AuthGuard]},
   {path: 'new-chat', loadChildren: './pages/chat/new-chat/new-chat.module#NewChatPageModule', canLoad: [AuthGuard]},
   {path: 'chat/:id', loadChildren: './pages/chat/single-chat/single-chat.module#SingleChatPageModule', canLoad: [AuthGuard]},
-  { path: 'up-picture', loadChildren: './pages/up-picture/up-picture.module#UpPicturePageModule' }
+  { path: 'up-picture', loadChildren: './pages/up-picture/up-picture.module#UpPicturePageModule' },
+  { path: 'preview-image', loadChildren: './pages/preview-image/preview-image.module#PreviewImagePageModule' }
 ];
 
 @NgModule({

@@ -15,19 +15,20 @@ import {NoUserComponent} from '../components/no-user/no-user.component';
 import { SMS } from '@ionic-native/sms/ngx';
 
 import {UpPicturePage} from '../pages/up-picture/up-picture.page';
+import {PreviewImagePage} from '../pages/preview-image/preview-image.page';
 
 
 @NgModule({
     declarations: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
         , CustomDatePipe, PreviewChatComponent, UserMenuInfoComponent,
-        ChatSearchUserComponent, NoUserComponent, UpPicturePage,
+        ChatSearchUserComponent, NoUserComponent, UpPicturePage, PreviewImagePage
     ],
     imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule, FormsModule],
     exports: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
         , CustomDatePipe, UserMenuInfoComponent, PreviewChatComponent
         , ChatSearchUserComponent, NoUserComponent,
     ],
-    entryComponents: [UpPicturePage],
+    entryComponents: [UpPicturePage, PreviewImagePage],
     providers: [Contacts, Sim, SMS]
 })
 export class SharedModule {}

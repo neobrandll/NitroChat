@@ -1,4 +1,4 @@
-<ion-grid (click)="deleteMessage(message?.conversations_id,message?.message_id)">
+<ion-grid *ngIf="message">
   <ion-row>
     <ion-col>
       <ion-text [color]="color">
@@ -8,7 +8,7 @@
   </ion-row>
   <ion-row *ngIf="message?.message_attachment">
     <ion-col size="12">
-      <ion-img [src]="message.message_attachment">
+      <ion-img [src]="serverUrl + '/' + message.message_attachment" tappable (click)="previewImg()">
       </ion-img>
     </ion-col>
   </ion-row>
