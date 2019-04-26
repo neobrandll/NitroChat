@@ -6,6 +6,12 @@
       </ion-text>
     </ion-col>
   </ion-row>
+  <ion-row *ngIf="message?.message_attachment">
+    <ion-col size="12">
+      <ion-img [src]="message.message_attachment">
+      </ion-img>
+    </ion-col>
+  </ion-row>
   <ion-row>
     <ion-col size="9">
       <div [className]="message?.isMine ?  'primary' : 'medium' " >

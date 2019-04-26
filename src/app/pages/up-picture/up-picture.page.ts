@@ -73,17 +73,17 @@ export class UpPicturePage implements OnInit {
   }
 
   onImagePicked(imageData: string) {
-    this.imageService.handleImage(imageData).pipe(take(1)).subscribe(imageFile => {
-      if (imageFile) {
-        this.form.patchValue({ image: imageFile });
-      }
-    });
+        this.form.patchValue({ image: imageData });
   }
 
   onSubmit() {
     if (!this.form.get('image').value) {
       return;
     }
+    this.modalController.dismiss({
+      'result': 'ok',
+      'image': this.form.get('image').value
+    });
   }
 
   onCancel() {

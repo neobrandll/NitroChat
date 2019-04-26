@@ -47,7 +47,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
     })
     this.msgDel = this.deleteMessage().subscribe(r=>{
       console.log(r);
-      for (let i=0; i<this.messages.length;i++){
+      for (let i = 0; i < this.messages.length; i++ ) {
         if (this.messages[i].message_id === r.messageId){
           this.messages.splice(i,1);
         }
@@ -66,11 +66,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
         console.log(r);
         this.chat = r.body;
         this.messages = r.body.messages;
-      if (this.chat.chat.conversation_name===null) {
+      if (!this.chat.chat.conversation_name) {
         this.target = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_id;
         this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
       }
-      if (this.chat.chat.conversation_picture_url === null) {
+      if (!this.chat.chat.conversation_picture_url) {
         this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
       }
       });
@@ -91,7 +91,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
 
     ionViewDidEnter() {
     // this.socket.connect();
-    this.socket.emit("open-chat", {
+    this.socket.emit('open-chat', {
       room: `${this.chatRoom}${this.chatId}`
     });
   }
