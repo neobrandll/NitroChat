@@ -29,6 +29,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
     chatRoom = "chat ";
     target: number;
     msgConn;
+    msgDel;
 
 
   constructor(private route: ActivatedRoute,
@@ -40,6 +41,14 @@ export class SingleChatPage implements OnInit, OnDestroy {
     this.msgConn = this.getMessages().subscribe(r=>{
       console.log(r);
       this.messages.push(r);
+    })
+    this.msgDel = this.deleteMessage().subscribe(r=>{
+      console.log(r);
+      for (let i=0; i<this.messages.length;i++){
+        if (this.messages[i].message_id === r.messageId){
+          this.messages.splice(i,1);
+        }
+      }
     })
                }
 
@@ -104,6 +113,15 @@ export class SingleChatPage implements OnInit, OnDestroy {
     getMessages() {
     let observable = new Observable(observer => {
       this.socket.on("get-msg", data => {
+        observer.next(data);
+      });
+    });
+    return observable;
+  }
+
+      deleteMessage() {
+    let observable = new Observable(observer => {
+      this.socket.on("message-was-deleted", data => {
         observer.next(data);
       });
     });
