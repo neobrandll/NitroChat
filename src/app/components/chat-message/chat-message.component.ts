@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {ChatMessage} from '../../models/chatMessage.model';
 
@@ -16,7 +16,12 @@ export class ChatMessageComponent implements OnInit {
 
   ngOnInit() {
     this.color = this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
+    console.log(this.message.created_at);
     this.createdDate = new Date(this.message.created_at);
+  }
+
+  deleteMessage (id){
+
   }
 
 }

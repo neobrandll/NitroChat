@@ -22,11 +22,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
    messageValue: string;
    myUser: User;
    userSub: Subscription;
-   targetUser: number;
+   chatId: number;
    messages = [];
    chat: Conversation;
     serverUrl = environment.url;
-    chatRoom = "user ";
+    chatRoom = "chat ";
     target: number;
     msgConn;
 
@@ -39,6 +39,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
               private socket: Socket) {
     this.msgConn = this.getMessages().subscribe(r=>{
       console.log(r);
+      this.messages.push(r);
     })
                }
 
@@ -47,9 +48,9 @@ export class SingleChatPage implements OnInit, OnDestroy {
       this.myUser = user;    
     });
     this.route.params.subscribe(params => {
-      this.targetUser = params.id;
+      this.chatId = params.id;
       });
-      this.http.getChatData(this.targetUser, this.headers.getHeaders()).subscribe(r => {
+      this.http.getChatData(this.chatId, this.headers.getHeaders()).subscribe(r => {
         console.log(r);
         this.chat = r.body;
         this.messages = r.body.messages;
@@ -79,16 +80,25 @@ export class SingleChatPage implements OnInit, OnDestroy {
     ionViewDidEnter() {
     // this.socket.connect();
     this.socket.emit("open-chat", {
-      room: `${this.chatRoom}${this.myUser.id}`
+      room: `${this.chatRoom}${this.chatId}`
     });
   }
+
+    ionViewWillLeave(){
+      this.msgConn.unsubscribe();
+    }
 
 
   sendMsg(){
     this.socket.emit('send-msg', {
-      room: `${this.chatRoom}${this.target}`,
-      message: this.messageValue
-    })
+      room: `${this.chatRoom}${this.chatId}`,
+      message: this.messageValue,
+      user: `user ${this.target}`,
+      id: `${this.myUser.id}`,
+      chatId: `${this.chatId}`,
+      attachment: null
+    });
+    this.messageValue = '';
   }
 
     getMessages() {

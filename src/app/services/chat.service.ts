@@ -17,4 +17,8 @@ export class ChatService {
   	getChatData(id, headers): Observable<any> {
       return this.http.get<any>(`${ENV.url}/chats/${id}/messages`, {headers, observe: 'response'});
   	}
+
+  	  getChatId(id, headers): Observable<any> {
+      return this.http.get<any>(`${ENV.url}/chats/${id}`, {headers, observe: 'response'});
+  	}
 }
