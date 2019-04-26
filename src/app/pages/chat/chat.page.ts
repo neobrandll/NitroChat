@@ -40,7 +40,9 @@ export class ChatPage implements OnInit {
 //       console.log(error1);
 //     });
 //   }
- async ngOnInit() {
+ // async ngOnInit() {
+  ngOnInit(){}
+  ionViewWillEnter(){
  	    this.chats = [];
  	const _headers = this.headers.getHeaders();
  	this.auth.user.subscribe(user => {
