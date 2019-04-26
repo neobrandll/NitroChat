@@ -6,6 +6,8 @@ import {Subscription} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {ChatService} from '../../services/chat.service';
 import {HeadersService} from '../../services/headers.service';
+import {PopoverComponent} from '../popover/popover.component';
+import {PopoverController} from '@ionic/angular';
 
 
 @Component({
@@ -20,9 +22,12 @@ export class PreviewChatComponent implements OnInit {
   myUser: User;
   userSub: Subscription;
   serverUrl = environment.url;
+  selected = false;
 
 
- constructor(private auth: AuthService, private http: ChatService, private headers: HeadersService) { }
+ constructor(private auth: AuthService, private popoverController: PopoverController, private headers: HeadersService,
+             private http: ChatService) { }
+
 
   ngOnInit() {
    this.userSub = this.auth.user.subscribe(user => {
@@ -37,11 +42,29 @@ export class PreviewChatComponent implements OnInit {
    });
   }
 
-  deleteChat(userId, chatId){
-    this.http.deleteChat(chatId, userId, this.headers.getHeaders()).subscribe(r=>{
+  deletePreview(userId, chatId) {
+    this.http.deleteChat(chatId, userId, this.headers.getHeaders()).subscribe(r => {
       console.log(r);
         this.out.emit(r.body);
     });
   }
+
+
+
+
+        async onPressed() {
+            this.selected = true;
+            const popover = await this.popoverController.create({
+                component: PopoverComponent, componentProps: {isMine: true, isPreview: true}
+            });
+            await popover.present();
+            const { data } = await popover.onDidDismiss();
+            if (data) {
+                if (data.result === 'delete') {
+                this.deletePreview(this.myUser.id, this.chat.conversations_id);
+                }
+            }
+            this.selected = false;
+        }
 
 }

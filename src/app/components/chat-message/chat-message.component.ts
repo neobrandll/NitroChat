@@ -46,7 +46,7 @@ export class ChatMessageComponent implements OnInit {
   async onPressed() {
     this.selected = true;
     const popover = await this.popoverController.create({
-      component: PopoverComponent, componentProps: {isMine: this.message.isMine}
+      component: PopoverComponent, componentProps: {isMine: this.message.isMine, isPreview: false}
     });
     await popover.present();
     const { data } = await popover.onDidDismiss();

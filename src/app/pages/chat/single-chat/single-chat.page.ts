@@ -64,7 +64,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
       }
     });
     this.msgUpd = this.updateMessage().subscribe(results => {
-        for (let a of this.messages){
+        for (let a of this.messages) {
           if (a.message_id === results.message.message_id){
             a.message_body = results.message.message_body;
           }
@@ -142,12 +142,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
   }
 
     getMessages() {
-    const observable = new Observable(observer => {
-      this.socket.on('get-msg', data => {
-        observer.next(data);
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('get-msg', data => {
+              observer.next(data);
+          });
       });
-    });
-    return observable;
   }
 
   updateMessage(){
@@ -168,12 +167,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
   //   return observable;
   // }
   deleteMessage() {
-  	const observable = Observable.create((observer: Observer<any>) =>{
+  	return Observable.create((observer: Observer<any>) => {
   		this.socket.on('message-was-deleted', data => {
         observer.next(data);
       });
-  	})
-  	return observable;
+  	});
   }
   //
   // ionViewWillLeave() {
