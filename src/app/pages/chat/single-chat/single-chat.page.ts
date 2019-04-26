@@ -10,7 +10,7 @@ import {environment} from '../../../../environments/environment';
 import {HeadersService} from './../../../services/headers.service';
 import {ChatService} from './../../../services/chat.service';
 import { Socket } from "ngx-socket-io";
-import { Observable } from "rxjs";
+import { Observable, Observer } from "rxjs";
 import {ModalController} from '@ionic/angular';
 import {UpdatePicturePage} from '../../edit-profile/update-picture/update-picture.page';
 import {UpPicturePage} from '../../up-picture/up-picture.page';
@@ -78,6 +78,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
+    this.msgDel.unsubscribe();
   }
 
   ionViewWillEnter() {
@@ -122,13 +123,21 @@ export class SingleChatPage implements OnInit, OnDestroy {
     return observable;
   }
 
-      deleteMessage() {
-    let observable = new Observable(observer => {
-      this.socket.on("message-was-deleted", data => {
+  //     deleteMessage() {
+  //   let observable = new Observable<any>(observer => {
+  //     this.socket.on("message-was-deleted", data => {
+  //       observer.next(data);
+  //     });
+  //   });
+  //   return observable;
+  // }
+  deleteMessage(){
+  	const observable = Observable.create((observer: Observer<any>) =>{
+  		this.socket.on("message-was-deleted", data => {
         observer.next(data);
       });
-    });
-    return observable;
+  	})
+  	return observable;
   }
   //
   // ionViewWillLeave() {
