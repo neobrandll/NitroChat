@@ -20,7 +20,6 @@ export class ImagePickerComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-
   }
 
   onPickImage() {
@@ -41,7 +40,7 @@ export class ImagePickerComponent implements OnInit {
           this.imagePick.emit(image.base64Data);
         })
         .catch(error => {
-          console.log(error);
+          console.log(error, 'canceled');
           return false;
         });
   }

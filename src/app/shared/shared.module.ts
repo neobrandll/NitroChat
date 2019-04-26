@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {IonicModule} from '@ionic/angular';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {ChatMessageComponent} from '../components/chat-message/chat-message.component';
 import {PreviewChatComponent} from '../components/preview-chat/preview-chat.component';
@@ -14,17 +14,20 @@ import { Sim } from '@ionic-native/sim/ngx';
 import {NoUserComponent} from '../components/no-user/no-user.component';
 import { SMS } from '@ionic-native/sms/ngx';
 
+import {UpPicturePage} from '../pages/up-picture/up-picture.page';
+
+
 @NgModule({
     declarations: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
         , CustomDatePipe, PreviewChatComponent, UserMenuInfoComponent,
-        ChatSearchUserComponent, NoUserComponent
+        ChatSearchUserComponent, NoUserComponent, UpPicturePage,
     ],
-    imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule],
+    imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule, FormsModule],
     exports: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
         , CustomDatePipe, UserMenuInfoComponent, PreviewChatComponent
-        , ChatSearchUserComponent, NoUserComponent
+        , ChatSearchUserComponent, NoUserComponent,
     ],
-    entryComponents: [],
+    entryComponents: [UpPicturePage],
     providers: [Contacts, Sim, SMS]
 })
 export class SharedModule {}

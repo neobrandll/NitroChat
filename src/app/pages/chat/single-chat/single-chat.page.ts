@@ -11,6 +11,9 @@ import {HeadersService} from './../../../services/headers.service';
 import {ChatService} from './../../../services/chat.service';
 import { Socket } from "ngx-socket-io";
 import { Observable } from "rxjs";
+import {ModalController} from '@ionic/angular';
+import {UpdatePicturePage} from '../../edit-profile/update-picture/update-picture.page';
+import {UpPicturePage} from '../../up-picture/up-picture.page';
 
 @Component({
   selector: 'app-single-chat',
@@ -19,6 +22,12 @@ import { Observable } from "rxjs";
 })
 export class SingleChatPage implements OnInit, OnDestroy {
 
+  constructor(private route: ActivatedRoute,
+              private auth: AuthService,
+              private router: Router,
+              private headers: HeadersService,
+              private http: ChatService,
+              private modalController: ModalController) { }
    messageValue: string;
    myUser: User;
    userSub: Subscription;
@@ -54,7 +63,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userSub = this.auth.user.subscribe(user => {
-      this.myUser = user;    
+      this.myUser = user;
     });
     this.route.params.subscribe(params => {
       this.chatId = params.id;
@@ -152,4 +161,15 @@ export class SingleChatPage implements OnInit, OnDestroy {
   //   });
   //   }
 
+  async addPicture() {
+    const modal = await this.modalController.create({
+      component: UpPicturePage,
+      componentProps: {
+        'messageValue': this.messageValue,
+      }
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    console.log(data);
+  }
 }
