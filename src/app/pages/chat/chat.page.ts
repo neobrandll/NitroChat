@@ -5,8 +5,8 @@ import {HeadersService} from './../../services/headers.service';
 import {ChatService} from './../../services/chat.service';
 import {AuthService} from './../../services/auth.service';
 import {User} from './../../models/user.model';
-import { Socket } from "ngx-socket-io";
-import { Observable } from "rxjs";
+import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -16,16 +16,16 @@ import { Observable } from "rxjs";
 })
 export class ChatPage implements OnInit {
 	chats: ChatPreview[];
-	chatRoom = "user ";
+	chatRoom = 'user ';
 	myUser: User;
 	msgConn;
 	constructor(private chatService: ChatService,
 		private headers: HeadersService,
 		private socket: Socket,
 		private auth: AuthService) {
-    this.msgConn = this.getMessages().subscribe(r=>{
+    this.msgConn = this.getMessages().subscribe(r => {
       console.log(r);
-    })
+    });
 		 }
 //
 //   ionViewWillEnter() {
@@ -36,10 +36,10 @@ export class ChatPage implements OnInit {
 //     });
 //   }
  async ngOnInit() {
- 	this.chats = [];
+ 	    this.chats = [];
  	const _headers = this.headers.getHeaders();
  	this.auth.user.subscribe(user => {
-      this.myUser = user;    
+      this.myUser = user;
     });
   	this.chatService.getPreviewChats(this.headers.getHeaders()).subscribe(r => {
   		console.log(r.body.chats);
@@ -55,8 +55,8 @@ export class ChatPage implements OnInit {
   }
 
   getMessages() {
-    let observable = new Observable(observer => {
-      this.socket.on("dash-msg", data => {
+    const observable = new Observable(observer => {
+      this.socket.on('dash-msg', data => {
         observer.next(data);
       });
     });

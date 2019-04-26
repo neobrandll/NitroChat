@@ -1,12 +1,10 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, SecurityContext, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ImageService} from '../../services/image.service';
-import {EditProfileService} from '../../services/edit-profile.service';
 import {Router} from '@angular/router';
-import {take} from 'rxjs/operators';
 import {ModalController} from '@ionic/angular';
-import '@ionic/pwa-elements';
 import {CameraResultType, CameraSource, Capacitor, Plugins} from '@capacitor/core';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-up-picture',
@@ -18,10 +16,11 @@ export class UpPicturePage implements OnInit {
   @ViewChild('slider', {read: ElementRef })slider: ElementRef;
   @Input() messageValue: string;
   showPreview = false;
-  selectedImage: string;
+  selectedImage: any;
   constructor(private imageService: ImageService
       , private router: Router,
-              private modalController: ModalController) { }
+              private modalController: ModalController,
+              private sanitization: DomSanitizer) { }
 
   sliderOpts = {
     zoom: {
@@ -52,9 +51,9 @@ export class UpPicturePage implements OnInit {
       resultType: CameraResultType.Base64
     })
         .then(image => {
-          this.selectedImage = image.base64Data;
+          this.selectedImage = this.sanitization.bypassSecurityTrustResourceUrl(image.base64Data);
           this.showPreview = true;
-          this.onImagePicked(image.base64Data);
+          this.onImagePicked(image.base64Data.replace('unsafe:', '').replace(/(\r\n\t|\n|\r\t)/gm, ''));
         })
         .catch(error => {
           console.log(error, 'canceled');
@@ -72,7 +71,7 @@ export class UpPicturePage implements OnInit {
     this.onPickImage();
   }
 
-  onImagePicked(imageData: string) {
+  onImagePicked(imageData: any) {
         this.form.patchValue({ image: imageData });
   }
 

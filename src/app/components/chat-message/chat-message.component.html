@@ -1,4 +1,6 @@
-<ion-grid *ngIf="message">
+<div style=" padding: 2% 1%">
+<ion-grid style="border-radius: 10px" *ngIf="message" (press)="onPressed()" [ngClass]="{'selected': selected }"
+          [className]="message?.isMine ?  'user' : 'noUser' ">
   <ion-row>
     <ion-col>
       <ion-text [color]="message?.isMine ? color : secondColor">
@@ -14,7 +16,7 @@
   </ion-row>
   <ion-row>
     <ion-col size="9">
-      <div [className]="message?.isMine ?  'primary' : 'medium' " >
+      <div  >
         <ion-text>
           {{message?.message_body}}
         </ion-text>
@@ -29,3 +31,4 @@
     </ion-col>
   </ion-row>
 </ion-grid>
+</div>

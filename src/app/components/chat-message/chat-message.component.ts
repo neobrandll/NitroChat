@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {ChatMessage} from '../../models/chatMessage.model';
 import {Socket} from 'ngx-socket-io';
-import {ModalController} from '@ionic/angular';
+import {ModalController, PopoverController} from '@ionic/angular';
 import {PreviewImagePage} from '../../pages/preview-image/preview-image.page';
+import {PopoverComponent} from '../popover/popover.component';
 
 @Component({
   selector: 'app-chat-message',
@@ -13,14 +14,15 @@ import {PreviewImagePage} from '../../pages/preview-image/preview-image.page';
 export class ChatMessageComponent implements OnInit {
   @Input() message: ChatMessage;
   createdDate: Date;
+  selected = false;
   @Input() secondColor: string;
   @Input() color: string;
-  constructor(private socket: Socket, private modalCtrl: ModalController) { }
+  @Output() updateEmitter = new EventEmitter<{body: string, id: number}>();
+  constructor(private socket: Socket, private modalCtrl: ModalController,
+              private popoverController: PopoverController) { }
   serverUrl = environment.url;
 
   ngOnInit() {
-    this.color = this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
-    console.log(this.message.created_at);
     this.createdDate = new Date(this.message.created_at);
   }
 
@@ -33,6 +35,27 @@ export class ChatMessageComponent implements OnInit {
     component: PreviewImagePage,
     componentProps: { image: this.message.message_attachment}});
     await modal.present();
+  }
+
+  onUpdate() {
+    this.updateEmitter.emit({body: this.message.message_body, id: this.message.message_id});
+  }
+
+  async onPressed() {
+    this.selected = true;
+    const popover = await this.popoverController.create({
+      component: PopoverComponent, componentProps: {isMine: this.message.isMine}
+    });
+    await popover.present();
+    const { data } = await popover.onDidDismiss();
+    if (data) {
+      switch (data.result) {
+        case 'update': this.onUpdate();
+        break;
+        case 'delete': this.deleteMessage(this.message.conversations_id, this.message.message_id);
+      }
+    }
+    this.selected = false;
   }
 
 }

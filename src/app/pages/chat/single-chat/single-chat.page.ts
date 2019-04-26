@@ -34,9 +34,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
     attachment: string = null;
     msgConn;
     msgDel;
+    updateMsgId = null;
    color: string;
    otherColor: string;
    colorArr = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
+    updating = false;
 
   constructor(private route: ActivatedRoute,
               private auth: AuthService,
@@ -62,7 +64,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
   ngOnInit() {
   const index = Math.floor(Math.random() * this.colorArr.length) - 1;
    this.color = this.colorArr[index];
-   this.colorArr.splice(index,1);
+   this.colorArr.splice(index, 1);
    this.otherColor =  this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
     this.userSub = this.auth.user.subscribe(user => {
       this.myUser = user;
@@ -188,4 +190,28 @@ export class SingleChatPage implements OnInit, OnDestroy {
       this.sendMsg();
     }
   }
+
+  startUpdate(message: {body: string, id: number}) {
+      this.messageValue = message.body;
+      this.updating = true;
+      this.updateMsgId = message.id;
+  }
+
+    cancelUpdate() {
+      this.messageValue = '';
+      this.updating = false;
+    }
+
+    updateMsg() {
+        this.socket.emit('send-msg', {
+            room: `${this.chatRoom}${this.chatId}`,
+            message: this.messageValue,
+            user: `user ${this.target}`,
+            id: `${this.myUser.id}`,
+            messageId: this.updateMsgId
+        });
+        this.attachment = null;
+        this.messageValue = '';
+        this.updateMsgId = null;
+    }
 }

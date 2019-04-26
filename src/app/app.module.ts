@@ -13,8 +13,11 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import {IonicGestureConfig} from './gestures/ionicgesture';
+import {environment} from '../environments/environment';
 
-const config: SocketIoConfig = { url: 'localhost:8984', options: {} };
+const serverUrl = environment.socketsUrl;
+
+const config: SocketIoConfig = { url: `${serverUrl}:8984`, options: {} };
 
 
 @NgModule({
