@@ -22,12 +22,6 @@ import {UpPicturePage} from '../../up-picture/up-picture.page';
 })
 export class SingleChatPage implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute,
-              private auth: AuthService,
-              private router: Router,
-              private headers: HeadersService,
-              private http: ChatService,
-              private modalController: ModalController) { }
    messageValue: string;
    myUser: User;
    userSub: Subscription;
@@ -40,13 +34,13 @@ export class SingleChatPage implements OnInit, OnDestroy {
     msgConn;
     msgDel;
 
-
   constructor(private route: ActivatedRoute,
               private auth: AuthService,
               private router: Router,
               private headers: HeadersService,
               private http: ChatService,
-              private socket: Socket) {
+              private socket: Socket,
+              private modalController: ModalController) {
     this.msgConn = this.getMessages().subscribe(r=>{
       console.log(r);
       this.messages.push(r);
