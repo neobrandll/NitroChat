@@ -133,8 +133,8 @@ export class SingleChatPage implements OnInit, OnDestroy {
       room: `${this.chatRoom}${this.chatId}`,
       message: this.messageValue,
       user: `user ${this.target}`,
-      id: `${this.myUser.id}`,
-      chatId: `${this.chatId}`,
+      id: this.myUser.id,
+      chatId: this.chatId,
       attachment: this.attachment,
     });
     this.attachment = null;

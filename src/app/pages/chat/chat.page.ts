@@ -26,9 +26,11 @@ export class ChatPage implements OnInit {
       console.log(r);
       for (let i = 0; i < this.chats.length; i++){
           if (r.conversations_id === this.chats[i].conversations_id) {
-            this.chats[i].last_message = r;
+            this.chats[i].last_message = r.last_message;
+            break;
           }
       }
+      this.chats = [r, ...this.chats];
     });
 		 }
 //
