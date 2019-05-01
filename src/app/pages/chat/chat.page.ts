@@ -27,10 +27,10 @@ export class ChatPage implements OnInit {
       for (let i = 0; i < this.chats.length; i++){
           if (r.conversations_id === this.chats[i].conversations_id) {
             this.chats[i].last_message = r.last_message;
-            break;
+           return;
           }
-      }
-      this.chats = [r, ...this.chats];
+         }
+    this.chats = [r, ...this.chats];
     });
 		 }
 //
@@ -47,7 +47,7 @@ export class ChatPage implements OnInit {
  	    this.chats = [];
  	const _headers = this.headers.getHeaders();
  	this.auth.user.subscribe(user => {
-      this.myUser = user;
+      this.myUser = user; 
     });
   	this.chatService.getPreviewChats(this.headers.getHeaders()).subscribe(r => {
   		console.log(r.body.chats);
