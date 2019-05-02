@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import {HeadersService} from './../../services/headers.service';
-import {environment} from '../../../../environments/environment';
+import {environment} from '../../../environments/environment';
 import {ChatService} from './../../services/chat.service';
 import {Subscription, TimeInterval} from 'rxjs';
 import {User} from './../../models/user.model';

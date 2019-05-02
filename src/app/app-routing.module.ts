@@ -15,7 +15,7 @@ const routes: Routes = [
   {path: 'chat/:id', loadChildren: './pages/chat/single-chat/single-chat.module#SingleChatPageModule', canLoad: [AuthGuard]},
   { path: 'up-picture', loadChildren: './pages/up-picture/up-picture.module#UpPicturePageModule' },
   { path: 'forward', loadChildren: './pages/chat/forward-chat/forward-chat.module#ForwardChatPageModule'},
-  { path: 'details/:chatId', loadChildren: './pages/details/details.module#DetailsPageModule' }
+  { path: 'details/:chatId', loadChildren: './pages/details/details.module#DetailsPageModule' },
   { path: 'preview-image', loadChildren: './pages/preview-image/preview-image.module#PreviewImagePageModule' },
   { path: 'new-group/:typeConversation', loadChildren: './pages/new-group/new-group.module#NewGroupPageModule' },
   { path: 'pre-creation-group/:typeConversation', loadChildren: './pages/pre-creation-group/pre-creation-group.module#PreCreationGroupPageModule' }
