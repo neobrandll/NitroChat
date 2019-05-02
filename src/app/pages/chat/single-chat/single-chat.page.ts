@@ -31,7 +31,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
    chat: Conversation;
     serverUrl = environment.url;
     chatRoom = 'chat ';
-    target: number;
+    target: number[];
     attachment: string = null;
     msgConn;
     msgDel;
@@ -87,8 +87,16 @@ export class SingleChatPage implements OnInit, OnDestroy {
         console.log(r);
         this.chat = r.body;
         this.messages = r.body.messages;
+        //this.target = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_id;
+        this.target = this.chat.participants.map(el => {
+          if (el.users_id === this.myUser.id){
+            return null;
+          }else{
+            return el.users_id;
+          }
+        })
+        this.target = this.target.filter(part => part !== null);
       if (!this.chat.chat.conversation_name) {
-        this.target = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_id;
         this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
       }
       if (!this.chat.chat.conversation_picture_url) {
@@ -131,10 +139,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
 
 
   sendMsg()  {
+    console.log(this.target);
     this.socket.emit('send-msg', {
       room: `${this.chatRoom}${this.chatId}`,
       message: this.messageValue,
-      user: `user ${this.target}`,
+      targets: this.target,
       id: this.myUser.id,
       chatId: this.chatId,
       attachment: this.attachment,
