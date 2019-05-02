@@ -34,4 +34,8 @@ export class ChatService {
       return this.http.delete<any>(`${ENV.url}/group/${chatId}`, {headers, observe: 'response'});
     }
 
+    updateGroupPicture(chatId, body, headers): Observable<any> {
+      return this.http.post<any>(`${ENV.url}/group/${chatId}/updatePicture`, body, {headers, observe: 'response'});
+    }
+
 }
