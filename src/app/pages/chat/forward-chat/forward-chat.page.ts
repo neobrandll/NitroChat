@@ -5,6 +5,7 @@ import {environment} from '../../../../environments/environment';
 import {User} from '../../../models/user.model';
 import {AuthService} from '../../../services/auth.service';
 import {SearchService} from '../../../services/search.service';
+import { Contacts, Contact, ContactField, ContactName, ContactFindOptions } from '@ionic-native/contacts/ngx';
 import {Subscription} from 'rxjs';
 import {LoadingController} from '@ionic/angular';
 import {SimpleAlertService} from '../../../services/simple-alert.service';
@@ -27,6 +28,7 @@ export class ForwardChatPage implements OnInit, OnDestroy {
   filterUsers = { users: [], notUsers: []};
   constructor(private http: HttpClient, private auth: AuthService,
               private search: SearchService,
+              private contacts: Contacts,
               private loadingCtrl: LoadingController,
               private alert: SimpleAlertService) { }
 

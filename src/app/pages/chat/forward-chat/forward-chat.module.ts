@@ -25,4 +25,4 @@ const routes: Routes = [
   ],
   declarations: [ForwardChatPage]
 })
-export class NewChatPageModule {}
+export class ForwardChatPageModule {}
