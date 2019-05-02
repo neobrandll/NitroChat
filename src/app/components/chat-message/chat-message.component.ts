@@ -51,7 +51,7 @@ export class ChatMessageComponent implements OnInit {
 
   onForward(chatId, body, attachment) {
     this.fwd.forwardMessage({oldChatId: chatId, message: body, attachment});
-    this.ForwardThisMessage(chatId, body, attachment);
+    //this.ForwardThisMessage(chatId, body, attachment);
     // this.router.navigate(['/forward']);
   }
 
@@ -74,7 +74,6 @@ export class ChatMessageComponent implements OnInit {
     }
     this.selected = false;
   }
-
 
   // ForwardThisMessage(oldChatId, message, attachment){
   //   let targets = [{chatId:22, user: [18], room: `chat 22`}, 

@@ -26,4 +26,12 @@ export class ChatService {
       return this.http.delete<any>(`${ENV.url}/chats/${chatId}/${userId}`, {headers, observe: 'response'});
     }
 
+    getOutOfGroup(chatId, userId, headers): Observable<any> {
+      return this.http.delete<any>(`${ENV.url}/group/${chatId}/${userId}`, {headers, observe: 'response'});
+    }
+
+    deleteGroup (chatId, userId, headers): Observable<any> {
+      return this.http.delete<any>(`${ENV.url}/group/${chatId}`, {headers, observe: 'response'});
+    }
+
 }

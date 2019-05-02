@@ -49,8 +49,12 @@ export class PreviewChatComponent implements OnInit {
     });
   }
 
-
-
+  leaveGroup(chatId, userId){
+    console.log('nos destruiran a todos');
+    this.http.getOutOfGroup(chatId, userId, this.headers.getHeaders()).subscribe(results => {
+      this.out.emit({chatId});
+    })
+  }
 
         async onPressed() {
             this.selected = true;
@@ -61,7 +65,11 @@ export class PreviewChatComponent implements OnInit {
             const { data } = await popover.onDidDismiss();
             if (data) {
                 if (data.result === 'delete') {
-                this.deletePreview(this.myUser.id, this.chat.conversations_id);
+                if (this.chat.type_conversation_id === 1){
+                  this.deletePreview(this.myUser.id, this.chat.conversations_id);
+                }else{
+                  this.leaveGroup(this.chat.conversations_id, this.myUser.id);
+                }
                 }
             }
             this.selected = false;
