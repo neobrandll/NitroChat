@@ -1,6 +1,6 @@
 <ion-list>
   <ion-list-header>Options</ion-list-header>
-  <ion-item button detail="true" *ngIf="!isPreview">
+  <ion-item button detail="true" *ngIf="!isPreview" (click)="onForward()">
     Forward
   </ion-item>
   <ion-item  *ngIf="isMine && !isPreview" button detail="true" (click)="onUpdate()">

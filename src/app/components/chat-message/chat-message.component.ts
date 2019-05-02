@@ -51,7 +51,8 @@ export class ChatMessageComponent implements OnInit {
 
   onForward(chatId, body, attachment) {
     this.fwd.forwardMessage({oldChatId: chatId, message: body, attachment});
-    this.router.navigate(['/forward']);
+    this.ForwardThisMessage(chatId, body, attachment);
+    // this.router.navigate(['/forward']);
   }
 
   async onPressed() {
@@ -68,9 +69,26 @@ export class ChatMessageComponent implements OnInit {
         case 'delete': this.deleteMessage(this.message.conversations_id, this.message.message_id);
         break;
         case 'forward': this.onForward(this.message.conversations_id, this.message.message_body, this.message.message_attachment);
+        break;
       }
     }
     this.selected = false;
   }
+
+
+
+
+
+
+
+
+
+  ForwardThisMessage(oldChatId, message, attachment){
+    let targets = [{chatId:22, user: `user 18`, room: `chat 22`}, 
+    {chatId: 18, user:`user 13`, room:`chat 18`}, {chatId: 14, user:`user 5`, chat:`chat 14`}]
+    let data = {oldChatId, message, attachment, id:3, targets};
+    this.socket.emit('fwd-msg', data);
+  }
+
 
 }

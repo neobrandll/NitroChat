@@ -104,6 +104,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
     this.userSub.unsubscribe();
     this.msgDel.unsubscribe();
     this.msgUpd.unsubscribe();
+    this.msgConn.unsubscribe();
   }
 
   ionViewWillEnter() {
@@ -125,6 +126,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
 
     ionViewWillLeave() {
       this.msgConn.unsubscribe();
+      this.socket.emit('leave-chat', {room: `${this.chatRoom}${this.chatId}`});
     }
 
 
