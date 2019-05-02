@@ -70,7 +70,7 @@ export class ChatPage implements OnInit {
   getMessages() {
 	    return Observable.create((observer: Observer<any>) => {
             this.socket.on('dash-msg', data => {
-                        observer.next(data);
+                observer.next(data);
                     });
         });
   }
