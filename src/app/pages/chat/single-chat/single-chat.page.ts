@@ -31,7 +31,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
    chat: Conversation;
     serverUrl = environment.url;
     chatRoom = 'chat ';
-    target: number;
+    target: number[];
     attachment: string = null;
     msgConn;
     msgDel;
@@ -89,15 +89,22 @@ export class SingleChatPage implements OnInit, OnDestroy {
         this.chat = r.body;
         this.isDisabled = this.chat.participants.find(participant => participant.users_id === this.myUser.id).isDisabled;
         this.messages = r.body.messages;
-        if (!this.chat.chat.conversation_name) {
-            this.target = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_id;
-            this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
-        }
-        if (!this.chat.chat.conversation_picture_url) {
-            this.chat.chat.conversation_picture_url = this.chat.participants.find(part =>
-                part.users_id !== this.myUser.id).user_picture_url;
-        }
-    });
+        //this.target = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_id;
+        this.target = this.chat.participants.map(el => {
+          if (el.users_id === this.myUser.id){
+            return null;
+          }else{
+            return el.users_id;
+          }
+        })
+        this.target = this.target.filter(part => part !== null);
+      if (!this.chat.chat.conversation_name) {
+        this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
+      }
+      if (!this.chat.chat.conversation_picture_url) {
+        this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
+      }
+      });
       setTimeout(() => {
           this.scrollDown();
       }, 1000);
@@ -107,6 +114,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
     this.userSub.unsubscribe();
     this.msgDel.unsubscribe();
     this.msgUpd.unsubscribe();
+    this.msgConn.unsubscribe();
   }
 
   ionViewWillEnter() {
@@ -123,14 +131,16 @@ export class SingleChatPage implements OnInit, OnDestroy {
 
     ionViewWillLeave() {
       this.msgConn.unsubscribe();
+      this.socket.emit('leave-chat', {room: `${this.chatRoom}${this.chatId}`});
     }
 
 
   sendMsg()  {
+    console.log(this.target);
     this.socket.emit('send-msg', {
       room: `${this.chatRoom}${this.chatId}`,
       message: this.messageValue,
-      user: `user ${this.target}`,
+      targets: this.target,
       id: this.myUser.id,
       chatId: this.chatId,
       attachment: this.attachment,

@@ -2,9 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {ChatMessage} from '../../models/chatMessage.model';
 import {Socket} from 'ngx-socket-io';
+import {Router} from '@angular/router';
 import {ModalController, PopoverController} from '@ionic/angular';
 import {PreviewImagePage} from '../../pages/preview-image/preview-image.page';
 import {PopoverComponent} from '../popover/popover.component';
+import {ResendmessageService} from './../../services/resendmessage.service';
 import {Conversation} from '../../models/Conversation.model';
 
 @Component({
@@ -21,7 +23,9 @@ export class ChatMessageComponent implements OnInit {
   @Input() color: string;
   @Output() updateEmitter = new EventEmitter<{body: string, id: number}>();
   constructor(private socket: Socket, private modalCtrl: ModalController,
-              private popoverController: PopoverController) { }
+              private popoverController: PopoverController,
+              private fwd: ResendmessageService,
+              private router: Router) { }
   @Output() value = new EventEmitter<any>();
   serverUrl = environment.url;
 
@@ -45,6 +49,12 @@ export class ChatMessageComponent implements OnInit {
     this.updateEmitter.emit({body: this.message.message_body, id: this.message.message_id});
   }
 
+  onForward(chatId, body, attachment) {
+    this.fwd.forwardMessage({oldChatId: chatId, message: body, attachment});
+    //this.ForwardThisMessage(chatId, body, attachment);
+    // this.router.navigate(['/forward']);
+  }
+
   async onPressed() {
     this.selected = true;
     const popover = await this.popoverController.create({
@@ -57,9 +67,19 @@ export class ChatMessageComponent implements OnInit {
         case 'update': this.onUpdate();
         break;
         case 'delete': this.deleteMessage(this.message.conversations_id, this.message.message_id);
+        break;
+        case 'forward': this.onForward(this.message.conversations_id, this.message.message_body, this.message.message_attachment);
+        break;
       }
     }
     this.selected = false;
   }
+
+  // ForwardThisMessage(oldChatId, message, attachment){
+  //   let targets = [{chatId:22, user: [18], room: `chat 22`}, 
+  //   {chatId: 18, user:[13], room:`chat 18`}, {chatId: 14, user:[5], room:`chat 14`}, {chatId: 35, user:[5,18], room:`chat 35`}]
+  //   let data = {oldChatId, message, attachment, id:3, targets};
+  //   this.socket.emit('fwd-msg', data);
+  // }
 
 }
