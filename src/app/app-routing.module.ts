@@ -14,7 +14,8 @@ const routes: Routes = [
   {path: 'new-chat', loadChildren: './pages/chat/new-chat/new-chat.module#NewChatPageModule', canLoad: [AuthGuard]},
   {path: 'chat/:id', loadChildren: './pages/chat/single-chat/single-chat.module#SingleChatPageModule', canLoad: [AuthGuard]},
   { path: 'up-picture', loadChildren: './pages/up-picture/up-picture.module#UpPicturePageModule' },
-  { path: 'preview-image', loadChildren: './pages/preview-image/preview-image.module#PreviewImagePageModule' }
+  { path: 'preview-image', loadChildren: './pages/preview-image/preview-image.module#PreviewImagePageModule' },
+  { path: 'forward', loadChildren: './pages/chat/forward-chat/forward-chat.module#ForwardChatPageModule'}
 ];
 
 @NgModule({

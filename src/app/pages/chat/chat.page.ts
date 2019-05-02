@@ -43,6 +43,11 @@ export class ChatPage implements OnInit {
 //   }
  // async ngOnInit() {
   ngOnInit(){}
+
+  ionViewWillLeave(){
+    this.msgConn.unsubscribe();
+  }
+
   ionViewWillEnter(){
  	    this.chats = [];
  	const _headers = this.headers.getHeaders();

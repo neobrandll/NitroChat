@@ -19,6 +19,10 @@ export class PopoverComponent implements OnInit {
     this.popOver.dismiss({result: 'update'});
   }
 
+  onForward(){
+    this.popOver.dismiss({result: 'forward'});
+  }
+
   onDelete() {
     this.popOver.dismiss({result: 'delete'});
   }
