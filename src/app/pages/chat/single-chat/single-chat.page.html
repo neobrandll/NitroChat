@@ -35,7 +35,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar no-padding>
-    <ion-grid no-padding>
+    <ion-grid no-padding *ngIf="!isDisabled">
       <ion-row no-padding>
         <ion-col offset="1" size="7" no-padding>
           <ion-input [(ngModel)]="messageValue" placeholder="Start a message" (ionFocus)="scrollDown()"></ion-input>
@@ -62,5 +62,10 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+    <ion-item lines="none" style="background-color: rgba(255, 255, 255, 0.1); text-align: center">
+
+         <ion-label>only Admins can send messages</ion-label>
+
+    </ion-item>
   </ion-toolbar>
 </ion-footer>

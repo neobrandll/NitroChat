@@ -22,6 +22,7 @@ export interface Participant {
     users_email: string;
     user_picture_url: string;
     users_creation_time: string;
+    isDisabled: boolean;
 }
 
 export interface LastMessage {

@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" style="padding-right: 0; margin-right: 0">
+      <ion-back-button style="padding-right: 0; margin-right: 0" [defaultHref]="['/home']"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="padding-left: 0">
+      <ion-grid no-padding>
+        <ion-row>
+          <ion-col>
+            <ion-searchbar [(ngModel)]="inputValue"
+                           (ionChange)="searchHandler()"
+                           type="search"
+                           placeholder="Find an user">
+            </ion-searchbar>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <div style="height: 100%; width: 100%" *ngIf="myUser &&  userArray?.users?.length>0">
+    <div *ngIf="showAll">
+
+      <div *ngIf="userArray?.users?.length>0">
+        <div *ngFor="let user of userArray.users">
+          <app-group-search-user (selectEvent)="onSelected($event)" (unSelectEvent)="onUnselected($event)" *ngIf="user.id !== myUser.id" [user]="user"></app-group-search-user>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="!showAll">
+      <div *ngIf="filterUsers?.users?.length>0">
+        <div *ngFor="let user of filterUsers.users">
+          <app-group-search-user (selectEvent)="onSelected($event)" (unSelectEvent)="onUnselected($event)" *ngIf="user.id !== myUser.id" [user]="user"></app-group-search-user>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <ion-text *ngIf="userArray?.users?.length<=0 && alreadySearched && userArray?.notUsers?.length<=0 && filterUsers?.users?.length<=0 && userArray?.notUsers?.length<=0" id="noResults">No match found!</ion-text>
+
+</ion-content>
+<ion-footer *ngIf="selectedUsers.length > 0">
+  <ion-fab vertical="center" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="createGroup()">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-footer>

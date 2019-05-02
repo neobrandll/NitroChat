@@ -1,0 +1,22 @@
+.groupPicture ion-avatar {
+  min-width: 4rem;
+  min-height: 4rem;
+  width: 25%;
+  height: 25%;
+  img {
+    max-width: 4rem;
+    min-width: 4rem;
+    width: 25%;
+    height: 25%;
+
+  }
+}
+
+#searchInput{
+  border-style: solid;
+  border-bottom-color: var(--ion-color-primary);
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  margin-left:3%
+}

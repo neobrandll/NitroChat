@@ -27,7 +27,7 @@ export class ChatSearchUserComponent implements OnInit {
   	this.http.getChatId(this.user.id, this.headers.getHeaders()).subscribe(r => {
   		console.log(r);
   		this.router.navigate(['/chat', r.body.chat.conversations_id]);
-  	})
+  	});
   }
 
 }

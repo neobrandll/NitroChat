@@ -17,17 +17,18 @@ import { SMS } from '@ionic-native/sms/ngx';
 import {UpPicturePage} from '../pages/up-picture/up-picture.page';
 import {PreviewImagePage} from '../pages/preview-image/preview-image.page';
 import {PopoverComponent} from '../components/popover/popover.component';
+import {GroupSearchUserComponent} from '../components/group-search-user/group-search-user.component';
 
 
 @NgModule({
     declarations: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
         , CustomDatePipe, PreviewChatComponent, UserMenuInfoComponent,
-        ChatSearchUserComponent, NoUserComponent, UpPicturePage, PreviewImagePage, PopoverComponent
+        ChatSearchUserComponent, NoUserComponent, UpPicturePage, PreviewImagePage, PopoverComponent, GroupSearchUserComponent
     ],
     imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule, FormsModule],
     exports: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
         , CustomDatePipe, UserMenuInfoComponent, PreviewChatComponent
-        , ChatSearchUserComponent, NoUserComponent
+        , ChatSearchUserComponent, NoUserComponent, GroupSearchUserComponent
     ],
     entryComponents: [UpPicturePage, PreviewImagePage, PopoverComponent],
     providers: [Contacts, Sim, SMS]

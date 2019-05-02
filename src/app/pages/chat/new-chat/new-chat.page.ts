@@ -10,6 +10,7 @@ import {Subscription} from 'rxjs';
 import {LoadingController} from '@ionic/angular';
 import {SimpleAlertService} from '../../../services/simple-alert.service';
 import {SearchResponse} from '../../../models/searchUser.model';
+import {ContactsService} from '../../../services/contacts.service';
 
 
 @Component({
@@ -28,9 +29,10 @@ export class NewChatPage implements OnInit, OnDestroy {
   filterUsers = { users: [], notUsers: []};
   constructor(private http: HttpClient, private auth: AuthService,
               private search: SearchService,
-              private contacts: Contacts,
               private loadingCtrl: LoadingController,
-              private alert: SimpleAlertService) { }
+              private alert: SimpleAlertService,
+              private contactsService: ContactsService
+  ) { }
 
 
   searchHandler() {
@@ -45,29 +47,12 @@ export class NewChatPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadingCtrl
-        .create({ keyboardClose: true, message: 'Loading contacts...' })
-        .then(loadingEl => {
-          loadingEl.present();
-    const options = new ContactFindOptions();
-    options.multiple = true;
-    options.hasPhoneNumber = true;
-    this.contacts.find(['*'], options)
-        .then(res => {
-          this.search.searchAllUsers(res).subscribe( searchResponse => {
-            this.userArray = searchResponse;
-            this.showAll = true;
-            this.alreadySearched = true;
-            loadingEl.dismiss();
-          }, error1 => {
-            loadingEl.dismiss();
-            this.alert.showAlert('Error!', error1);
-          });
-    }).catch(() => {
-      loadingEl.dismiss();
-      this.alert.showAlert('Error!', 'An error has ocurred loading the contacts');
-    });
+        this.contactsService.loadContacts().subscribe(searchResponse => {
+          this.userArray = searchResponse;
+          this.showAll = true;
+          this.alreadySearched = true;
         });
+
     this.userSub = this.auth.user.subscribe(user => {
       this.myUser = user;
     });

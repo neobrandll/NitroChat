@@ -38,9 +38,10 @@ export class SingleChatPage implements OnInit, OnDestroy {
     updateMsgId = null;
    color: string;
    otherColor: string;
-   colorArr = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger', 'dark'];
+   colorArr = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger'];
     updating = false;
     msgUpd;
+    isDisabled: boolean;
 
   constructor(private route: ActivatedRoute,
               private auth: AuthService,
@@ -50,7 +51,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
               private socket: Socket,
               private modalController: ModalController) {
     this.msgConn = this.getMessages().subscribe(r => {
-    r.isMine = ((r.users_id === this.myUser.id) ? true : false);
+    r.isMine = ((r.users_id === this.myUser.id));
     console.log(r);
       this.messages.push(r);
       this.scrollDown();
@@ -69,7 +70,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
             a.message_body = results.message.message_body;
           }
         }
-    })
+    });
                }
 
   ngOnInit() {
@@ -77,24 +78,26 @@ export class SingleChatPage implements OnInit, OnDestroy {
    this.color = this.colorArr[index];
    this.colorArr.splice(index, 1);
    this.otherColor =  this.colorArr[Math.floor(Math.random() * this.colorArr.length) - 1];
-    this.userSub = this.auth.user.subscribe(user => {
-      this.myUser = user;
-    });
-    this.route.params.subscribe(params => {
-      this.chatId = params.id;
-      });
-      this.http.getChatData(this.chatId, this.headers.getHeaders()).subscribe(r => {
-        console.log(r);
+    this.userSub = this.auth.user.pipe(switchMap(user => {
+        this.myUser = user;
+        return this.route.params;
+    }), switchMap(params => {
+        this.chatId = params.id;
+        return this.http.getChatData(this.chatId, this.headers.getHeaders());
+    })).subscribe(r => {
+      //  console.log(r);
         this.chat = r.body;
+        this.isDisabled = this.chat.participants.find(participant => participant.users_id === this.myUser.id).isDisabled;
         this.messages = r.body.messages;
-      if (!this.chat.chat.conversation_name) {
-        this.target = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_id;
-        this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
-      }
-      if (!this.chat.chat.conversation_picture_url) {
-        this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
-      }
-      });
+        if (!this.chat.chat.conversation_name) {
+            this.target = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_id;
+            this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
+        }
+        if (!this.chat.chat.conversation_picture_url) {
+            this.chat.chat.conversation_picture_url = this.chat.participants.find(part =>
+                part.users_id !== this.myUser.id).user_picture_url;
+        }
+    });
       setTimeout(() => {
           this.scrollDown();
       }, 1000);
@@ -107,12 +110,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
   }
 
   ionViewWillEnter() {
-    this.auth.user.pipe(take(1), switchMap(user => {
-      this.myUser = user;
-      return this.route.paramMap;
-    }))
-        .subscribe(paramMap => {
-        });
+
   }
 
     ionViewDidEnter() {
@@ -149,7 +147,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
       });
   }
 
-  updateMessage(){
+  updateMessage() {
     const observable = Observable.create((observer: Observer<any>) => {
       this.socket.on('receive-update', data => {
         observer.next(data);
