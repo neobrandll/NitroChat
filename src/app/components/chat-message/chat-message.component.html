@@ -1,33 +1,37 @@
-<div style=" padding: 2% 1%">
-<ion-grid style="border-radius: 10px" *ngIf="message" (press)="onPressed()" [ngClass]="{'selected': selected }"
-          [className]="message?.isMine ?  'user' : 'noUser' ">
-  <ion-row>
-    <ion-col>
-      <ion-text [color]="message?.isMine ? color : secondColor">
-        {{message?.users_name}}
-      </ion-text>
-    </ion-col>
-  </ion-row>
-  <ion-row *ngIf="message?.message_attachment">
-    <ion-col size="12">
-      <ion-img [src]="serverUrl + '/' + message.message_attachment" tappable (click)="previewImg()">
-      </ion-img>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col size="9">
-      <div  >
-        <ion-text>
-          {{message?.message_body}}
-        </ion-text>
-      </div>
-    </ion-col>
-  </ion-row>
-  <ion-row no-padding>
-    <ion-col offset="6" no-padding>
-      <ion-text color="medium" style="font-size: small">
-        {{createdDate | customDate}}
-      </ion-text>
+<div style=" padding: 1% 1%">
+<ion-grid  *ngIf="message" (press)="onPressed()"  style="padding-top: 0; padding-bottom: 0" >
+  <ion-row [ngClass]="{'selected': selected}">
+    <ion-col size="10" [offset]="message?.isMine ? 2 : 0"
+             [className]="message?.isMine ?  'user' : 'noUser' ">
+        <ion-row no-padding *ngIf=" chat?.chat.type_conversation_id !== 1 && !message.isMine">
+          <ion-col>
+            <ion-text  [color]="message?.isMine ? color : secondColor">
+              {{message?.users_name}}
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row  *ngIf="message?.message_attachment" no-padding>
+          <ion-col size="12" >
+            <ion-img [src]="serverUrl + '/' + message.message_attachment" tappable (click)="previewImg()">
+            </ion-img>
+          </ion-col>
+        </ion-row>
+        <ion-row no-padding>
+          <ion-col size="9" no-padding>
+            <div>
+              <ion-text style="padding-left: 2%">
+                {{message?.message_body}}
+              </ion-text>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row no-padding style="display: flex" >
+          <ion-col no-padding  style="display: flex ;justify-content: flex-end" >
+            <ion-text color="medium" style="font-size: 70%">
+              {{createdDate | customDate}}
+            </ion-text>
+          </ion-col>
+        </ion-row>
     </ion-col>
   </ion-row>
 </ion-grid>

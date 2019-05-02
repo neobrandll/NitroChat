@@ -10,7 +10,7 @@ export class CustomDatePipe extends DatePipe implements PipeTransform {
     const inputDate = value.getMonth()  + value.getDate() + value.getFullYear();
     const newDate = new Date();
     const currentDate =  newDate.getMonth()  + newDate.getDate() + newDate.getFullYear();
-    if (currentDate == inputDate) {
+    if (currentDate === inputDate) {
       return super.transform(value, 'shortTime');
         } else {
           return super.transform(value, 'medium');

@@ -5,6 +5,7 @@ import {Socket} from 'ngx-socket-io';
 import {ModalController, PopoverController} from '@ionic/angular';
 import {PreviewImagePage} from '../../pages/preview-image/preview-image.page';
 import {PopoverComponent} from '../popover/popover.component';
+import {Conversation} from '../../models/Conversation.model';
 
 @Component({
   selector: 'app-chat-message',
@@ -15,6 +16,7 @@ export class ChatMessageComponent implements OnInit {
   @Input() message: ChatMessage;
   createdDate: Date;
   selected = false;
+  @Input() chat: Conversation;
   @Input() secondColor: string;
   @Input() color: string;
   @Output() updateEmitter = new EventEmitter<{body: string, id: number}>();
