@@ -8,12 +8,12 @@
     <ion-grid no-padding>
       <ion-row no-padding>
         <ion-col size="3" class="item" no-padding>
-          <ion-avatar  >
+          <ion-avatar  (click)="previewImg()">
             <ion-img [src]=" chat?.chat?.conversation_picture_url ? serverUrl+ '/' + chat?.chat?.conversation_picture_url : '../../../assets/imgs/nopic.png' " ></ion-img>
           </ion-avatar>
         </ion-col>
-        <ion-col size="9" style="align-self: center" no-padding>
-          <ion-title no-padding *ngIf="chat?.chat?.conversation_name">{{chat.chat.conversation_name}}</ion-title>
+        <ion-col size="9" style="align-self: center" no-padding [routerLink]="['/details', chat.chat.conversations_id]" *ngIf="chat?.chat?.conversation_name">
+          <ion-title no-padding >{{chat.chat.conversation_name}}</ion-title>
         </ion-col>
       </ion-row>
     </ion-grid>

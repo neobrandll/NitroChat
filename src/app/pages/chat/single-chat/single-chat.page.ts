@@ -14,6 +14,7 @@ import { Observable, Observer } from 'rxjs';
 import {ModalController, IonContent} from '@ionic/angular';
 import {UpdatePicturePage} from '../../edit-profile/update-picture/update-picture.page';
 import {UpPicturePage} from '../../up-picture/up-picture.page';
+import {PreviewImagePage} from '../../preview-image/preview-image.page';
 
 @Component({
   selector: 'app-single-chat',
@@ -98,10 +99,10 @@ export class SingleChatPage implements OnInit, OnDestroy {
           }
         })
         this.target = this.target.filter(part => part !== null);
-      if (!this.chat.chat.conversation_name) {
+      if (!this.chat.chat.conversation_name && this.chat.chat.type_conversation_id === 1) {
         this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
       }
-      if (!this.chat.chat.conversation_picture_url) {
+      if (!this.chat.chat.conversation_picture_url && this.chat.chat.type_conversation_id === 1) {
         this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
       }
       });
@@ -250,5 +251,17 @@ export class SingleChatPage implements OnInit, OnDestroy {
         this.messageValue = '';
         this.updateMsgId = null;
         this.updating = false;
+    }
+
+    async previewImg() {
+        if (this.chat.chat.conversation_picture_url ) {
+            const modal = await this.modalController.create({
+                component: PreviewImagePage,
+                componentProps: {image: this.chat.chat.conversation_picture_url}
+            });
+            await modal.present();
+        } else {
+            return;
+        }
     }
 }

@@ -11,6 +11,8 @@ import {User} from './../../models/user.model';
 import {Participant} from './../../models/chatPreview.model';
 import {Conversation} from './../../models/Conversation.model';
 import { Observable, Observer } from 'rxjs';
+import {PreviewImagePage} from '../preview-image/preview-image.page';
+import {ModalController} from '@ionic/angular';
 
 
 @Component({
@@ -35,11 +37,15 @@ export class DetailsPage implements OnInit {
   target: number[];
   isDisabled: boolean;
 
+
   constructor(private route: ActivatedRoute,
   				private socket: Socket,
   				private headers: HeadersService,
   				private chatService: ChatService,
-              private auth: AuthService) {
+              private auth: AuthService,
+              private modalCtrl: ModalController,
+              private router: Router
+              ) {
   			this.newAdmin = this.getNewAdmins().subscribe(results => {});
   			this.newMember = this.getNewMembers().subscribe(results => {});
   			this.dltMember = this.getDeletedMembers().subscribe(results => {});
@@ -48,28 +54,34 @@ export class DetailsPage implements OnInit {
   				 }
 
   ngOnInit() {
-   // this.userSub = this.auth.user.pipe(switchMap(user => {
-   //     this.myUser = user;
-   //     return this.route.params;
-   // }),switchMap(params => {
-   //     this.chatId = params.id;
-   // })).subscribe();
-   //
-   //
-   //    if (!this.chat.chat.conversation_name) {
-   //        this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
-   //    }
-   //    if (!this.chat.chat.conversation_picture_url) {
-   //        this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
-   //    }
+   /*this.userSub = this.auth.user.pipe(switchMap(user => {
+       this.myUser = user;
+       return this.route.params;
+   }), switchMap(params => {
+       this.chatId = params.chatId;
+       const header = this.headers.getHeaders();
+       return this.chatService.getChatData(this.chatId, header);
+   })).subscribe(chatData => {
+       this.chat = chatData;
+       if (!this.chat.chat.conversation_name && this.chat.chat.type_conversation_id === 1) {
+           this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
+       }
+       if (!this.chat.chat.conversation_picture_url && this.chat.chat.type_conversation_id === 1 ) {
+           this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
+       }
+   });
+*/
+
+
   }
 
-	  ionViewWillEnter(){
+	  ionViewWillEnter() {
     this.userSub = this.auth.user.pipe(switchMap(user => {
         this.myUser = user;
-        return this.route.params;
+        return this.route.paramMap;
     }), switchMap(params => {
-        this.chatId = params.id;
+        this.chatId = +params.get('chatId');
+
         return this.chatService.getChatData(this.chatId, this.headers.getHeaders());
     })).subscribe(r => {
         this.chat = r.body;
@@ -86,10 +98,10 @@ export class DetailsPage implements OnInit {
         console.log(this.chat);
         console.log(this.isDisabled);
         console.log(this.target);
-      if (!this.chat.chat.conversation_name) {
+      if (!this.chat.chat.conversation_name && this.chat.chat.type_conversation_id === 1) {
         this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
       }
-      if (!this.chat.chat.conversation_picture_url) {
+      if (!this.chat.chat.conversation_picture_url && this.chat.chat.type_conversation_id === 1) {
         this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
       }
       });
@@ -127,7 +139,7 @@ export class DetailsPage implements OnInit {
       });
 	  }
 
-	  getUpdatedName(){
+	  getUpdatedName() {
       return Observable.create((observer: Observer<any>) => {
           this.socket.on('name-changed', data => {
               observer.next(data);
@@ -135,6 +147,22 @@ export class DetailsPage implements OnInit {
       });
 	  }
 
+    async previewImg() {
+      if(this.chat.chat.conversation_picture_url ) {
+          const modal = await this.modalCtrl.create({
+              component: PreviewImagePage,
+              componentProps: {image: this.chat.chat.conversation_picture_url}
+          });
+          await modal.present();
+      } else {
+            this.changePicture();
+      }
+    }
+    changePicture() {
+        if (this.chat.chat.type_conversation_id !== 1) {
+            this.router.navigateByUrl(`update-chat-picture/${this.chatId}`);
+        }
+    }
 
 
 
