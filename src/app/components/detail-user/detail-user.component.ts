@@ -12,6 +12,7 @@ import {ModalController, PopoverController} from '@ionic/angular';
 export class DetailUserComponent implements OnInit {
     @Input() user: Participant;
     serverUrl = environment.url;
+    selected: boolean = false;
   constructor(private popoverController: PopoverController) { }
 
   ngOnInit() {}

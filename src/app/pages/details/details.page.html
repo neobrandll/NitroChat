@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button>
-        <ion-icon slot="icon-only" name="create"></ion-icon>
+        <ion-icon slot="icon-only" name="create" (click)='presentModal()'></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>{{chat?.chat.conversation_name}}</ion-title>
