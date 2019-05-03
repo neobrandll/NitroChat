@@ -13,7 +13,7 @@ import {Conversation} from './../../models/Conversation.model';
 import { Observable, Observer } from 'rxjs';
 import {DetailsModalPage} from '../details-modal/details-modal.page';
 import {PreviewImagePage} from '../preview-image/preview-image.page';
-import {ModalController} from '@ionic/angular';
+import {ModalController, NavController} from '@ionic/angular';
 
 
 @Component({
@@ -41,7 +41,8 @@ export class DetailsPage implements OnInit {
   				private chatService: ChatService,
               private auth: AuthService,
     private modalCtrl: ModalController,
-    private router: Router) {}
+    private router: Router,
+              private navCtrl: NavController) {}
 
 
   ngOnInit() {
@@ -106,6 +107,7 @@ export class DetailsPage implements OnInit {
         targetId: target,
         userId: this.myUser.id
       });
+        this.navCtrl.pop();
     }
 
 //  NEW NAME MUST BE CORRECTED
@@ -142,6 +144,7 @@ export class DetailsPage implements OnInit {
         targetId: target,
         userId: this.myUser.id
       });
+        this.navCtrl.pop();
     }
 
   async presentModal() {

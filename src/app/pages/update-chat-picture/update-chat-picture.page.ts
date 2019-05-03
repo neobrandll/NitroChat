@@ -42,8 +42,7 @@ export class UpdateChatPicturePage implements OnInit {
     if (!this.form.get('image').value) {
       return;
     }
-    this.editGroupService.updateChatPic(this.form.get('image').value, this.chatId).pipe(take(1)).subscribe((data) => {
+    this.editGroupService.updateChatPic(this.form.get('image').value, this.chatId).pipe(take(1)).subscribe();
       this.navCtrl.pop();
-    });
   }
 }

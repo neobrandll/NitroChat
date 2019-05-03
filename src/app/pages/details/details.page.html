@@ -21,7 +21,7 @@
       <ion-text style="color: #3880ff">{{chat.participants.length}} participants</ion-text>
     </ion-item>
     <ion-item>
-      <ion-grid *ngIf="chatId" tappable [routerLink]="['add-user', chatId]">
+      <ion-grid *ngIf="chatId" tappable [routerLink]="['/add-user', chatId]">
         <ion-row>
           <ion-col size="2">
             <ion-icon color="primary" size="large" style="height: 100%; width: 100%" name="person-add"></ion-icon>
