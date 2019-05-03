@@ -93,7 +93,7 @@ export class SingleChatPage implements OnInit, OnDestroy {
         this.target = this.chat.participants.map(el => {
           if (el.users_id === this.myUser.id){
             return null;
-          }else{
+          } else {
             return el.users_id;
           }
         })

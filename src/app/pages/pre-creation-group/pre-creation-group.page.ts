@@ -7,6 +7,7 @@ import {
   CameraResultType
 } from '@capacitor/core';
 import {NewGroupService} from '../../services/new-group.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-pre-creation-group',
@@ -15,12 +16,13 @@ import {NewGroupService} from '../../services/new-group.service';
 })
 export class PreCreationGroupPage implements OnInit {
   groupName = '';
-  groupPictureUrl = '../../../assets/imgs/nopic.png';
+  groupPictureUrl: any;
   typeConversationId: number;
   typeConversation: string;
-  constructor(private route: ActivatedRoute, private newGroupService: NewGroupService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private newGroupService: NewGroupService, private router: Router, private sanitization: DomSanitizer) { }
 
   ngOnInit() {
+    this.groupPictureUrl = '../../../assets/imgs/nopic.png';
     this.route.paramMap.subscribe(paramMap => {
       this.typeConversationId = +paramMap.get('typeConversation');
       this.typeConversation = +paramMap.get('typeConversation') === 2 ? 'Group' : 'Channel';
@@ -41,7 +43,7 @@ export class PreCreationGroupPage implements OnInit {
       resultType: CameraResultType.Base64
     })
         .then(image => {
-          this.groupPictureUrl = image.base64Data;
+          this.groupPictureUrl = this.sanitization.bypassSecurityTrustResourceUrl(image.base64Data);
         })
         .catch(error => {
           console.log(error, 'canceled');

@@ -20,31 +20,21 @@
 </ion-header>
 
 <ion-content >
-  <div style="height: 100%; width: 100%" *ngIf="myUser && (userArray?.notUsers?.length>0 || userArray?.users?.length>0)">
+  <div style="height: 100%; width: 100%" *ngIf="myUser &&  userArray?.users?.length>0">
     <div *ngIf="showAll">
 
-    <div *ngIf="userArray?.users?.length>0">
-      <div *ngFor="let user of userArray.users">
-        <app-chat-search-user *ngIf="user.id !== myUser.id" [user]="user"></app-chat-search-user>
+      <div *ngIf="userArray?.users?.length>0">
+        <div *ngFor="let user of userArray.users">
+          <app-group-search-user (selectEvent)="onSelected($event)" (unSelectEvent)="onUnselected($event)" *ngIf="user.id !== myUser.id" [user]="user"></app-group-search-user>
+        </div>
       </div>
-    </div>
 
-    <div *ngIf="userArray?.notUsers?.length>0">
-      <div *ngFor="let notUser of userArray.notUsers">
-        <app-no-user  [user]="notUser"></app-no-user>
-      </div>
-    </div>
     </div>
 
     <div *ngIf="!showAll">
       <div *ngIf="filterUsers?.users?.length>0">
         <div *ngFor="let user of filterUsers.users">
-          <app-chat-search-user *ngIf="user.id !== myUser.id" [user]="user"></app-chat-search-user>
-        </div>
-      </div>
-      <div *ngIf="filterUsers?.notUsers?.length>0">
-        <div *ngFor="let notUser of filterUsers.notUsers">
-          <app-no-user  [user]="notUser"></app-no-user>
+          <app-group-search-user (selectEvent)="onSelected($event)" (unSelectEvent)="onUnselected($event)" *ngIf="user.id !== myUser.id" [user]="user"></app-group-search-user>
         </div>
       </div>
     </div>
@@ -55,3 +45,10 @@
   <ion-text *ngIf="userArray?.users?.length<=0 && alreadySearched && userArray?.notUsers?.length<=0 && filterUsers?.users?.length<=0 && userArray?.notUsers?.length<=0" id="noResults">No match found!</ion-text>
 
 </ion-content>
+<ion-footer *ngIf="selectedUsers.length > 0">
+  <ion-fab vertical="center" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="createGroup()">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-footer>

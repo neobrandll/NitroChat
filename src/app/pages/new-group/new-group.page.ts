@@ -56,10 +56,16 @@ export class NewGroupPage implements OnInit, OnDestroy {
   }
   createGroup() {
   this.newGroupService.group.subscribe(preGroup => {
+      let safeAttachment: string;
+      if (preGroup.attachment) {
+          safeAttachment = preGroup.attachment.replace('unsafe:', '').replace(/(\r\n\t|\n|\r\t)/gm, '');
+      } else {
+          safeAttachment = preGroup.attachment;
+      }
     const newGroup = {
       type: this.typeConversation,
       users: this.selectedUsers,
-      attachment: preGroup.attachment,
+      attachment: safeAttachment,
       converName: preGroup.name
     };
   });
