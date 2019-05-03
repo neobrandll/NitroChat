@@ -9,8 +9,8 @@ import {SearchedUser} from '../../models/searchUser.model';
 })
 export class GroupSearchUserComponent implements OnInit {
   @Input() user: SearchedUser;
-  @Output() selectEvent: EventEmitter<number> = new EventEmitter();
-  @Output() unSelectEvent: EventEmitter<number> = new EventEmitter();
+  @Output() selectEvent: EventEmitter<any> = new EventEmitter();
+  @Output() unSelectEvent: EventEmitter<any> = new EventEmitter();
   serverUrl = environment.url;
   selected = false;
   constructor() { }
@@ -20,10 +20,10 @@ export class GroupSearchUserComponent implements OnInit {
   onClick() {
     if (this.selected) {
       this.selected = !this.selected;
-      this.unSelectEvent.emit(this.user.id);
+      this.unSelectEvent.emit({id: this.user.id, chat: this.user.chatId});
     } else {
       this.selected = !this.selected;
-      this.selectEvent.emit(this.user.id);
+      this.selectEvent.emit({id: this.user.id, chat: this.user.chatId});
     }
   }
 }

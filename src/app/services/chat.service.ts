@@ -14,6 +14,10 @@ export class ChatService {
     	return this.http.get<any>(`${ENV.url}/chats`, {headers, observe: 'response'});
   	}
 
+    getGroupChats(headers): Observable<any> {
+      return this.http.get<any>(`${ENV.url}/group`, {headers, observe: 'response'});
+    }
+
   	getChatData(id, headers): Observable<any> {
       return this.http.get<any>(`${ENV.url}/chats/${id}/messages`, {headers, observe: 'response'});
   	}
@@ -37,5 +41,4 @@ export class ChatService {
     updateGroupPicture(chatId, body, headers): Observable<any> {
       return this.http.post<any>(`${ENV.url}/group/${chatId}/updatePicture`, body, {headers, observe: 'response'});
     }
-
 }
