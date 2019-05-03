@@ -23,7 +23,7 @@ const config: SocketIoConfig = { url: `${serverUrl}:8984`, options: {} };
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), FormsModule , AppRoutingModule, HttpClientModule, SharedModule, ReactiveFormsModule, SocketIoModule.forRoot(config)],
+  imports: [BrowserModule, IonicModule.forRoot({hardwareBackButton: false}), FormsModule , AppRoutingModule, HttpClientModule, SharedModule, ReactiveFormsModule, SocketIoModule.forRoot(config)],
   providers: [
     StatusBar,
     SplashScreen,
