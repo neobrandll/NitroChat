@@ -55,6 +55,7 @@ export class ChatPage implements OnInit {
       this.myUser = user; 
     });
   	this.chatService.getPreviewChats(this.headers.getHeaders()).subscribe(r => {
+      console.log(r.body);
   		console.log(r.body.chats);
   		this.chats = r.body.chats.filter(result => result !== null);
   	});

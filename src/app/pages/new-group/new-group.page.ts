@@ -59,12 +59,12 @@ export class NewGroupPage implements OnInit, OnDestroy {
     this.userSub.unsubscribe();
   }
 
-  onSelected(userId: number) {
-    this.selectedUsers.push(userId);
+  onSelected(data: any) {
+    this.selectedUsers.push(data.id);
   }
 
-  onUnselected(userId: number) {
-    this.selectedUsers = this.selectedUsers.filter(id => userId !== id );
+  onUnselected(data: any) {
+    this.selectedUsers = this.selectedUsers.filter(id => data.id !== id );
   }
   createGroup() {
   this.newGroupService.group.subscribe(preGroup => {

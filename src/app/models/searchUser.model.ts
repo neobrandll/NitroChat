@@ -3,6 +3,7 @@ export interface SearchedUser {
     displayName: string;
     picture_url: string;
     phoneNumber: string;
+    chatId: number;
 }
 
 export interface NotUser {
