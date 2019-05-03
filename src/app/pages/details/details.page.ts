@@ -103,32 +103,26 @@ export class DetailsPage implements OnInit {
         chatId: this.chatId,
         targetId: target,
         userId: this.myUser.id
-      })
+      });
     }
 
 //  NEW NAME MUST BE CORRECTED
-    updateGroupName () {
+    updateGroupName (newName: string) {
       this.socket.emit('change-group-name',{
-        chatId:this.chatId,
-        userId:this.myUser.id,
-        newName: this.chatRoom
-      })
+        chatId: this.chatId,
+        userId: this.myUser.id,
+        newName: newName
+      });
 
     }
 
-	  getUpdatedName() {
-      return Observable.create((observer: Observer<any>) => {
-          this.socket.on('name-changed', data => {
-              observer.next(data);
-          });
-      });
-	  }
+
     addNewMember(target) {
         this.socket.emit('add-group-member', {
             chatId: this.chatId,
             targetId: target,
             userId: this.myUser.id
-        })
+        });
     }
 
     async previewImg() {
@@ -164,6 +158,10 @@ export class DetailsPage implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
+    if (data.result === 'ok') {
+        this.chat.chat.conversation_name = data.Name;
+        this.updateGroupName(data.Name);
+    }
   }
 
   leaveGroup(chatId, userId) {

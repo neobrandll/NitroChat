@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavParams } from '@ionic/angular';
+import {NavController, NavParams} from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -15,6 +15,14 @@ export class DetailsModalPage implements OnInit {
    }
 
   ngOnInit() {
+  }
+
+  updateName() {
+    if (this.title.trim().length < 0) {
+      return;
+    } else {
+      this.modalController.dismiss({result: 'ok', Name: this.title.trim()});
+    }
   }
 
     modalCancel() {

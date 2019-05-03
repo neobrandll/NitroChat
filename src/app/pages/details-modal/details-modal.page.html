@@ -6,7 +6,7 @@
           </ion-button>
       </ion-buttons>
       <ion-buttons slot="end">
-          <ion-button [disabled]="title.trim().length<0">
+          <ion-button [disabled]="title.trim().length===0" (click)="updateName()">
               <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
           </ion-button>
       </ion-buttons>
@@ -16,6 +16,6 @@
 
 <ion-content>
 	<ion-item style="margin-top: 5%">
-		<ion-input minlength='5' maxlength='25' [(ngModel)]='title'></ion-input>
+		<ion-input minLength='5' maxLength='25' [(ngModel)]='title'></ion-input>
 	</ion-item>
 </ion-content>
