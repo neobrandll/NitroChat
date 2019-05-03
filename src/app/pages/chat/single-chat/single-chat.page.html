@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="['/home']"></ion-back-button>
+    <ion-buttons routerLink="/home" slot="start">
+      <ion-button >
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-grid no-padding>
       <ion-row no-padding>

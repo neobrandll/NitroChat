@@ -8,7 +8,7 @@ import {ChatService} from './../../services/chat.service';
 import {Subscription, TimeInterval} from 'rxjs';
 import {User} from './../../models/user.model';
 import { Observable, Observer } from 'rxjs';
-import {AuthService} from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-details',

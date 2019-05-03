@@ -6,7 +6,7 @@ import {environment} from '../../environments/environment';
 
 
 interface NewGroup {
-  type: number;
+  typeConversation: number;
   users: number[];
   attachment: string;
   converName: string;
@@ -31,6 +31,6 @@ export class NewGroupService {
 
   createGroup(group: NewGroup) {
     const header = this.headerService.getHeaders();
-    return this.http.post<any>(`${this.serverUrl}/newChat`, JSON.stringify(group), {headers: header});
+    return this.http.post<any>(`${this.serverUrl}/newChat`, group, {headers: header});
   }
 }

@@ -5,6 +5,8 @@ import {Subscription} from 'rxjs';
 import {SearchResponse} from '../../../models/searchUser.model';
 import {User} from '../../../models/user.model';
 import {ContactsService} from '../../../services/contacts.service';
+import {switchMap, tap} from 'rxjs/operators';
+import {AuthService} from '../../../services/auth.service';
 
 
 
@@ -21,16 +23,24 @@ export class ForwardChatPage implements OnInit, OnDestroy {
   myUser: User;
   userSub: Subscription;
   showAll = true;
-  selectedUsers: number[];
+  selectedUsers = [];
   filterUsers = { users: []};
-  constructor(private route: ActivatedRoute, private contactsService: ContactsService) { }
+  constructor(private route: ActivatedRoute, private contactsService: ContactsService, private auth: AuthService) { }
 
   ngOnInit() {
-      this.contactsService.loadContacts().subscribe(searchResponse => {
+    this.route.paramMap.subscribe(paramMap => {
+      this.typeConversation = +paramMap.get('typeConversation');
+      this.userSub = this.auth.user.pipe(switchMap(user =>{
+        this.myUser = user;
+        return this.contactsService.loadContacts();
+      }), tap(searchResponse => {
+        // @ts-ignore
         this.userArray = searchResponse;
+        console.log(this.userArray);
         this.showAll = true;
         this.alreadySearched = true;
-      });
+      })).subscribe();
+    });
   }
 
   searchHandler() {
