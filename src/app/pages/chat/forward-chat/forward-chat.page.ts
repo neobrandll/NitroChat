@@ -9,8 +9,10 @@ import {HeadersService} from '../../../services/headers.service';
 import {ContactsService} from '../../../services/contacts.service';
 import {ResendmessageService} from '../../../services/resendmessage.service'
 import {switchMap, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 import {Socket} from 'ngx-socket-io';
 import {AuthService} from '../../../services/auth.service';
+import {Location} from '@angular/common';
 
 
 
@@ -38,7 +40,7 @@ export class ForwardChatPage implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute, private contactsService: ContactsService, 
     private chatService: ChatService, private headers: HeadersService, private auth: AuthService,
-    private forward: ResendmessageService, private socket: Socket) { }
+    private forward: ResendmessageService, private socket: Socket, private location: Location) { }
 
   ngOnInit() {
     this.forward.receiveFwdMsg().subscribe(results=>{
@@ -99,6 +101,7 @@ export class ForwardChatPage implements OnInit, OnDestroy {
       id: this.id,
       targets: this.selectedUsers
     })
+    this.location.back();
   }
 
 }
