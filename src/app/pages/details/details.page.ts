@@ -7,7 +7,6 @@ import {ChatService} from './../../services/chat.service';
 import {Subscription, TimeInterval} from 'rxjs';
 import {User} from './../../models/user.model';
 import { Observable, Observer } from 'rxjs';
-import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-details',
@@ -16,20 +15,18 @@ import {AuthService} from '../../services/auth.service';
 })
 export class DetailsPage implements OnInit {
 
-	newAdmin: Subscription;
-	newMember: Subscription;
-	dltMember: Subscription;
-	newPhoto: Subscription;
-	newName: Subscription;
+	newAdmin;
+	newMember;
+	dltMember;
+	newPhoto;
+	newName;
 	userSub: Subscription;
 	myUser: User;
-    chatId: number;
 
   constructor(private route: ActivatedRoute,
   				private socket: Socket,
   				private headers: HeadersService,
-  				private http: ChatService,
-                private auth: AuthService) {
+  				private http: ChatService) {
   			this.newAdmin = this.getNewAdmins().subscribe(results => {});
   			this.newMember = this.getNewMembers().subscribe(results => {});
   			this.dltMember = this.getDeletedMembers().subscribe(results => {});
@@ -45,29 +42,52 @@ export class DetailsPage implements OnInit {
       this.chatId = params.id;
       });
   }
-// GOTTA GET INITIAL DATA HERE
-  ionViewWillEnter(){
 
-  }
+	  ionViewWillEnter(){
 
-  getNewAdmins() {
+	  }
 
-  }
+	  getNewAdmins(){
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('new-admin', data => {
+              observer.next(data);
+          });
+      });
+	  }
 
-  getNewMembers() {
+	  getNewMembers(){
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('new-member', data => {
+              observer.next(data);
+          });
+      });
+	  }
 
-  }
+	  getDeletedMembers(){
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('member-deleted', data => {
+              observer.next(data);
+          });
+      });
+	  }
 
-  getDeletedMembers() {
+	  getUpdatedPicture(){
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('group-profile-updated', data => {
+              observer.next(data);
+          });
+      });
+	  }
 
-  }
+	  getUpdatedName(){
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('name-changed', data => {
+              observer.next(data);
+          });
+      });
+	  }
 
-  getUpdatedPicture() {
 
-  }
-
-  getUpdatedName(){
-
-  }
+	  
 
 }
