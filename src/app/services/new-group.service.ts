@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
+import {HeadersService} from './headers.service';
 
-
+interface NewGroup {
+  type: number;
+  users: number[];
+  attachment: string;
+  converName: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +15,7 @@ import {BehaviorSubject} from 'rxjs';
 export class NewGroupService {
   private _group = new BehaviorSubject<PreGroup>(null);
 
-  constructor() { }
+  constructor(private headerService: HeadersService) { }
 
   get group() {
     return this._group.asObservable();
@@ -17,5 +23,9 @@ export class NewGroupService {
 
   setGroup(group: PreGroup) {
     this._group.next(group);
+  }
+
+  createGroup(group: NewGroup) {
+    const header = this.headerService.getHeaders();
   }
 }
