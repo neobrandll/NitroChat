@@ -50,10 +50,9 @@ export class PreviewChatComponent implements OnInit {
   }
 
   leaveGroup(chatId, userId){
-    console.log('nos destruiran a todos');
     this.http.getOutOfGroup(chatId, userId, this.headers.getHeaders()).subscribe(results => {
       this.out.emit({chatId});
-    })
+    });
   }
 
         async onPressed() {
