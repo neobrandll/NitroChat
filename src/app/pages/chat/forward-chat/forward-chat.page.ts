@@ -10,8 +10,8 @@ import {ContactsService} from '../../../services/contacts.service';
 
 @Component({
   selector: 'app-forward-chat',
-  templateUrl: './app-forward-chat.page.html',
-  styleUrls: ['./app-forward-chat.page.scss'],
+  templateUrl: './forward-chat.page.html',
+  styleUrls: ['./forward-chat.page.scss'],
 })
 export class ForwardChatPage implements OnInit, OnDestroy {
   typeConversation: number;
