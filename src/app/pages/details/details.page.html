@@ -1,9 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{chat?.chat.conversation_name}}</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header >
 
-<ion-content>
+<ion-content  *ngIf="chat">
+  <div style="height: 30%; width: 100%; display: flex; justify-content: center; background-color: rgba(0, 0, 0, 0.8)">
+    <ion-img (press)="changePicture()" style="height: 100%; max-width: 100%; margin: 0; padding: 0" (click)="previewImg()" [src]="chat?.chat?.conversation_picture_url ? serverUrl+ '/' + chat?.chat?.conversation_picture_url : '../../../assets/imgs/nopic.png' "></ion-img>
+  </div>
+  <div *ngIf="chat.chat.type_conversation_id !== 1">
+    <ion-item lines="none">
+      <ion-text style="color: #3880ff">{{chat.participants.length}} participants</ion-text>
+    </ion-item>
+    <div *ngFor="let user of chat.participants">
+      <app-detail-user   [user]="user"></app-detail-user>
+    </div>
+
+  </div>
+
 
 </ion-content>

@@ -1,3 +1,25 @@
-<p>
-  detail-user works!
-</p>
+<ion-item *ngIf="user">
+  <ion-grid >
+    <ion-row>
+      <ion-col  size="3" >
+        <ion-avatar >
+          <ion-img  [src]=" user?.user_picture_url !=='' ? serverUrl+ '/' + user?.user_picture_url : '../../../assets/imgs/nopic.png' "  ></ion-img>
+        </ion-avatar >
+      </ion-col>
+      <ion-col size="9">
+        <ion-grid>
+          <ion-row >
+            <ion-col size="8" style="padding-right: 5px">
+              <ion-label>
+                {{user.users_name}}
+              </ion-label>
+            </ion-col>
+            <ion-col size="4" *ngIf="user.type_users_id === 2" style="display: flex; align-items: center">
+              <div style="font-size: x-small; color:#3880ff; border-color: #3880ff; border-style: solid; border-width: thin; border-radius: 2px;">Group Admin</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>
