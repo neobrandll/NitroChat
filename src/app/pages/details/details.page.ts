@@ -158,7 +158,7 @@ export class DetailsPage implements OnInit {
     }
 
   async presentModal() {
-    const modal = await this.modalController.create({
+    const modal = await this.modalCtrl.create({
       component: DetailsModalPage,
       componentProps: { Name: this.chat.chat.conversation_name }
     });
@@ -169,7 +169,6 @@ export class DetailsPage implements OnInit {
 
   leaveGroup(chatId, userId){
     this.chatService.getOutOfGroup(chatId, userId, this.headers.getHeaders()).subscribe(results => {
-      this.out.emit({chatId});
     });
   }
 

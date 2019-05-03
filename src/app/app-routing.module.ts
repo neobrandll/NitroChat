@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'details/:chatId', loadChildren: './pages/details/details.module#DetailsPageModule' },
   { path: 'preview-image', loadChildren: './pages/preview-image/preview-image.module#PreviewImagePageModule' },
   { path: 'new-group/:typeConversation', loadChildren: './pages/new-group/new-group.module#NewGroupPageModule' },
-  { path: 'details-modal', loadChildren: './pages/details-modal/details-modal.module#DetailsModalPageModule' }
+  { path: 'details-modal', loadChildren: './pages/details-modal/details-modal.module#DetailsModalPageModule' },
   { path: 'update-chat-picture/:chatId', loadChildren: './pages/update-chat-picture/update-chat-picture.module#UpdateChatPicturePageModule' }
 
 
