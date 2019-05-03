@@ -8,7 +8,7 @@ import {ChatService} from '../../../services/chat.service';
 import {HeadersService} from '../../../services/headers.service';
 import {ContactsService} from '../../../services/contacts.service';
 import {ResendmessageService} from '../../../services/resendmessage.service'
-import {switchMap, tap} from 'rxjs/operators';\
+import {switchMap, tap} from 'rxjs/operators';
 import {Socket} from 'ngx-socket-io';
 import {AuthService} from '../../../services/auth.service';
 
