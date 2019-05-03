@@ -9,4 +9,10 @@
   <ion-item *ngIf="isMine && canBeDeleted" button detail="true" (click)="onDelete()">
     Delete
   </ion-item>
+    <ion-item *ngIf="isGroup" button detail="true" (click)="onLeaveGroup()">
+    Leave Group
+  </ion-item>
+    <ion-item *ngIf="isGroup && isGroupAdmin" button detail="true" (click)="onDeleteGroup()">
+    Delete Group
+  </ion-item>
 </ion-list>

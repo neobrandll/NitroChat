@@ -20,11 +20,6 @@ import { Observable, Observer } from 'rxjs';
 })
 export class DetailsPage implements OnInit {
 
-	newAdmin: Subscription;
-	newMember: Subscription;
-	dltMember: Subscription;
-	newPhoto: Subscription;
-	newName: Subscription;
 	userSub: Subscription;
 	myUser: User;
 	chatId: number;
@@ -39,13 +34,7 @@ export class DetailsPage implements OnInit {
   				private socket: Socket,
   				private headers: HeadersService,
   				private chatService: ChatService,
-              private auth: AuthService) {
-  			this.newAdmin = this.getNewAdmins().subscribe(results => {});
-  			this.newMember = this.getNewMembers().subscribe(results => {});
-  			this.dltMember = this.getDeletedMembers().subscribe(results => {});
-  			this.newPhoto = this.getUpdatedPicture().subscribe(results => {});
-  			this.newName = this.getUpdatedName().subscribe(results => {});
-  				 }
+              private auth: AuthService) {}
 
   ngOnInit() {
   //  this.userSub = this.auth.user.pipe(switchMap(user => {
@@ -95,45 +84,41 @@ export class DetailsPage implements OnInit {
       });
 	  }
 
-	  getNewAdmins(){
-      return Observable.create((observer: Observer<any>) => {
-          this.socket.on('new-admin', data => {
-              observer.next(data);
-          });
-      });
-	  }
 
-	  getNewMembers(){
-      return Observable.create((observer: Observer<any>) => {
-          this.socket.on('new-member', data => {
-              observer.next(data);
-          });
-      });
-	  }
+    makeNewAdmin(target) {
+      this.socket.emit('give-admin',{
+        chatId:this.chatId,
+        targetId:target,
+        userId: this.myUser.id
+      })
+    }
 
-	  getDeletedMembers(){
-      return Observable.create((observer: Observer<any>) => {
-          this.socket.on('member-deleted', data => {
-              observer.next(data);
-          });
-      });
-	  }
+//  NEW NAME MUST BE CORRECTED
+    updateGroupName () {
+      this.socket.emit('change-group-name',{
+        chatId:this.chatId,
+        userId:this.myUser.id,
+        newName: this.chatRoom
+      })
 
-	  getUpdatedPicture(){
-      return Observable.create((observer: Observer<any>) => {
-          this.socket.on('group-profile-updated', data => {
-              observer.next(data);
-          });
-      });
-	  }
+    }
 
-	  getUpdatedName(){
-      return Observable.create((observer: Observer<any>) => {
-          this.socket.on('name-changed', data => {
-              observer.next(data);
-          });
-      });
-	  }
+    addNewMember(target) {
+      this.socket.emit('add-group-member',{
+        chatId:this.chatId,
+        targetId:target,
+        userId:this.myUser.id
+      })
+
+    }
+
+    deleteMember(target) {
+      this.socket.emit('delete-group-member',{
+        chatId:this.chatId,
+        targetId:target,
+        userId:this.myUser.id
+      })
+    }
 
 
 
