@@ -97,6 +97,7 @@ export class ForwardChatPage implements OnInit, OnDestroy {
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Forwarding messages...',
+      position: 'middle',
       duration: 2000
     });
     toast.present();
