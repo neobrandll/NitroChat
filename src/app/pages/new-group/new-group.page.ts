@@ -5,6 +5,8 @@ import {User} from '../../models/user.model';
 import {Subscription} from 'rxjs';
 import {ContactsService} from '../../services/contacts.service';
 import {NewGroupService} from '../../services/new-group.service';
+import {AuthService} from '../../services/auth.service';
+import {switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-group',
@@ -19,23 +21,28 @@ export class NewGroupPage implements OnInit, OnDestroy {
   myUser: User;
   userSub: Subscription;
   showAll = true;
-  selectedUsers: number[];
+  selectedUsers = [];
   filterUsers = { users: []};
   constructor(private route: ActivatedRoute,
               private contactsService: ContactsService,
               private newGroupService: NewGroupService,
-              private router: Router
+              private router: Router,
+              private auth: AuthService
               ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       this.typeConversation = +paramMap.get('typeConversation');
-      this.contactsService.loadContacts().subscribe(searchResponse => {
+      this.userSub = this.auth.user.pipe(switchMap(user => {
+        this.myUser = user;
+        return this.contactsService.loadContacts();
+      }), tap(searchResponse => {
+        // @ts-ignore
         this.userArray = searchResponse;
         console.log(this.userArray);
         this.showAll = true;
         this.alreadySearched = true;
-      });
+      })).subscribe();
     });
   }
 
@@ -62,13 +69,15 @@ export class NewGroupPage implements OnInit, OnDestroy {
   createGroup() {
   this.newGroupService.group.subscribe(preGroup => {
       let safeAttachment: string;
+      this.selectedUsers.push(this.myUser.id);
       if (preGroup.attachment) {
           safeAttachment = preGroup.attachment.replace('unsafe:', '').replace(/(\r\n\t|\n|\r\t)/gm, '');
       } else {
           safeAttachment = preGroup.attachment;
       }
+      console.log(this.typeConversation);
     const newGroup = {
-      type: this.typeConversation,
+      typeConversation: this.typeConversation,
       users: this.selectedUsers,
       attachment: safeAttachment,
       converName: preGroup.name
