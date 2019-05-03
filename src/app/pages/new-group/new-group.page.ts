@@ -32,6 +32,7 @@ export class NewGroupPage implements OnInit, OnDestroy {
       this.typeConversation = +paramMap.get('typeConversation');
       this.contactsService.loadContacts().subscribe(searchResponse => {
         this.userArray = searchResponse;
+        console.log(this.userArray);
         this.showAll = true;
         this.alreadySearched = true;
       });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, SecurityContext} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   Plugins,
@@ -43,7 +43,8 @@ export class PreCreationGroupPage implements OnInit {
       resultType: CameraResultType.Base64
     })
         .then(image => {
-          this.groupPictureUrl = this.sanitization.bypassSecurityTrustResourceUrl(image.base64Data);
+          this.groupPictureUrl = this.sanitization.sanitize(SecurityContext.URL, this.sanitization.bypassSecurityTrustResourceUrl(image.base64Data));
+
         })
         .catch(error => {
           console.log(error, 'canceled');

@@ -23,11 +23,11 @@
   <div style="height: 100%; width: 100%" *ngIf="myUser &&  userArray?.users?.length>0">
     <div *ngIf="showAll">
 
-      <div *ngIf="userArray?.users?.length>0">
+      <!--<div *ngIf="userArray?.users?.length>0">-->
         <div *ngFor="let user of userArray.users">
           <app-group-search-user (selectEvent)="onSelected($event)" (unSelectEvent)="onUnselected($event)" *ngIf="user.id !== myUser.id" [user]="user"></app-group-search-user>
         </div>
-      </div>
+      <!--</div>-->
 
     </div>
 
@@ -45,7 +45,7 @@
   <ion-text *ngIf="userArray?.users?.length<=0 && alreadySearched && userArray?.notUsers?.length<=0 && filterUsers?.users?.length<=0 && userArray?.notUsers?.length<=0" id="noResults">No match found!</ion-text>
 
 </ion-content>
-<ion-footer *ngIf="selectedUsers.length > 0">
+<ion-footer *ngIf="selectedUsers?.length > 0">
   <ion-fab vertical="center" horizontal="end" slot="fixed">
     <ion-fab-button (click)="createGroup()">
       <ion-icon name="checkmark"></ion-icon>

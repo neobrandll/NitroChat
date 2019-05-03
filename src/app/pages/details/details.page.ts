@@ -7,6 +7,7 @@ import {ChatService} from './../../services/chat.service';
 import {Subscription, TimeInterval} from 'rxjs';
 import {User} from './../../models/user.model';
 import { Observable, Observer } from 'rxjs';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-details',
@@ -15,18 +16,20 @@ import { Observable, Observer } from 'rxjs';
 })
 export class DetailsPage implements OnInit {
 
-	newAdmin;
-	newMember;
-	dltMember;
-	newPhoto;
-	newName;
+	newAdmin: Subscription;
+	newMember: Subscription;
+	dltMember: Subscription;
+	newPhoto: Subscription;
+	newName: Subscription;
 	userSub: Subscription;
 	myUser: User;
+	chatId: number;
 
   constructor(private route: ActivatedRoute,
   				private socket: Socket,
   				private headers: HeadersService,
-  				private http: ChatService) {
+  				private http: ChatService,
+              private auth: AuthService) {
   			this.newAdmin = this.getNewAdmins().subscribe(results => {});
   			this.newMember = this.getNewMembers().subscribe(results => {});
   			this.dltMember = this.getDeletedMembers().subscribe(results => {});
