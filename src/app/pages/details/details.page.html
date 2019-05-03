@@ -4,8 +4,8 @@
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon slot="icon-only" name="create" (click)='presentModal()'></ion-icon>
+      <ion-button (click)="presentModal()">
+        <ion-icon slot="icon-only" name="create" ></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>{{chat?.chat.conversation_name}}</ion-title>
@@ -21,7 +21,7 @@
       <ion-text style="color: #3880ff">{{chat.participants.length}} participants</ion-text>
     </ion-item>
     <ion-item>
-      <ion-grid tappable (click)="console.log('hi')">
+      <ion-grid *ngIf="chatId" tappable [routerLink]="['add-user', chatId]">
         <ion-row>
           <ion-col size="2">
             <ion-icon color="primary" size="large" style="height: 100%; width: 100%" name="person-add"></ion-icon>
