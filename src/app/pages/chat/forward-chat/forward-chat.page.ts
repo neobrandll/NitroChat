@@ -9,11 +9,11 @@ import {ContactsService} from '../../../services/contacts.service';
 
 
 @Component({
-  selector: 'app-new-group',
-  templateUrl: './new-group.page.html',
-  styleUrls: ['./new-group.page.scss'],
+  selector: 'app-forward-chat',
+  templateUrl: './forward-chat.page.html',
+  styleUrls: ['./forward-chat.page.scss'],
 })
-export class NewGroupPage implements OnInit, OnDestroy {
+export class ForwardChatPage implements OnInit, OnDestroy {
   typeConversation: number;
   inputValue: string;
   userArray: SearchResponse;
