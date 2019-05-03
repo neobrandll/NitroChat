@@ -32,6 +32,7 @@ export class DetailsPage implements OnInit {
   chatRoom = 'chat ';
   target: number[];
   isDisabled: boolean;
+  typeUser: number;
 
 
   constructor(private route: ActivatedRoute,
@@ -79,6 +80,7 @@ export class DetailsPage implements OnInit {
         this.participants = this.chat.participants;
         this.target = this.chat.participants.map(el => {
           if (el.users_id === this.myUser.id){
+            this.typeUser = el.type_users_id;
             return null;
           } else {
             return el.users_id;
@@ -169,6 +171,10 @@ export class DetailsPage implements OnInit {
   leaveGroup(chatId, userId){
     this.chatService.getOutOfGroup(chatId, userId, this.headers.getHeaders()).subscribe(results => {
     });
+  }
+
+  goToProfile(target){
+    this.router.navigateByUrl(`details/${target}`);
   }
 
 

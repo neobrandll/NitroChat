@@ -31,7 +31,7 @@
       </ion-grid>
     </ion-item>
     <div *ngFor="let user of chat.participants">
-      <app-detail-user   [user]="user"></app-detail-user>
+      <app-detail-user [loggeduser]="typeUser"  [user]="user" (adminEmit)="makeNewAdmin($event)" (deleteEmit)="deleteMember($event)" (profileEmit)="goToProfile($event)"></app-detail-user>
     </div>
     <ion-item style="margin-top: 5%" lines="none" >
       <ion-grid tappable (click)="console.log('hi')">
