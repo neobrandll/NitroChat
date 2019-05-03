@@ -37,9 +37,10 @@ export class DetailsPage implements OnInit {
   				private socket: Socket,
   				private headers: HeadersService,
   				private chatService: ChatService,
-              private auth: AuthService) {}
-              private modalCtrl: ModalController,
-              private router: Router
+              private auth: AuthService,
+    private modalCtrl: ModalController,
+    private router: Router) {}
+
 
   ngOnInit() {
    /*this.userSub = this.auth.user.pipe(switchMap(user => {
@@ -98,8 +99,8 @@ export class DetailsPage implements OnInit {
 
     makeNewAdmin(target) {
       this.socket.emit('give-admin',{
-        chatId:this.chatId,
-        targetId:target,
+        chatId: this.chatId,
+        targetId: target,
         userId: this.myUser.id
       })
     }
@@ -122,11 +123,12 @@ export class DetailsPage implements OnInit {
       });
 	  }
     addNewMember(target) {
-      this.socket.emit('add-group-member',{
-        chatId:this.chatId,
-        targetId:target,
-        userId:this.myUser.id
-      })
+        this.socket.emit('add-group-member', {
+            chatId: this.chatId,
+            targetId: target,
+            userId: this.myUser.id
+        })
+    }
 
     async previewImg() {
       if(this.chat.chat.conversation_picture_url ) {
@@ -144,14 +146,14 @@ export class DetailsPage implements OnInit {
             this.router.navigateByUrl(`update-chat-picture/${this.chatId}`);
         }
     }
-    }
+
 
     deleteMember(target) {
       this.socket.emit('delete-group-member',{
-        chatId:this.chatId,
-        targetId:target,
-        userId:this.myUser.id
-      })
+        chatId: this.chatId,
+        targetId: target,
+        userId: this.myUser.id
+      });
     }
 
 
