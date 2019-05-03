@@ -91,14 +91,13 @@ export class ForwardChatPage implements OnInit, OnDestroy {
   }
 
   forwardMsg(){
-    this.targets.push(this.selectedUsers);
     this.id = this.myUser.id;
 
     this.socket.emit('fwd-msg', {
       message: this.message,
       attachment: this.attachment,
       id: this.id,
-      targets: this.targets
+      targets: this.selectedUsers
     })
   }
 

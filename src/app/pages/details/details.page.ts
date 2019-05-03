@@ -48,21 +48,21 @@ export class DetailsPage implements OnInit {
   				 }
 
   ngOnInit() {
-  //  this.userSub = this.auth.user.pipe(switchMap(user => {
-  //      this.myUser = user;
-  //      return this.route.params;
-  //  }),switchMap(params => {
-  //      this.chatId = params.id;
-  //  })).subscribe();
-  //
-  //
-  //     if (!this.chat.chat.conversation_name) {
-  //         this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
-  //     }
-  //     if (!this.chat.chat.conversation_picture_url) {
-  //         this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
-  //     }
-  // }
+   // this.userSub = this.auth.user.pipe(switchMap(user => {
+   //     this.myUser = user;
+   //     return this.route.params;
+   // }),switchMap(params => {
+   //     this.chatId = params.id;
+   // })).subscribe();
+   //
+   //
+   //    if (!this.chat.chat.conversation_name) {
+   //        this.chat.chat.conversation_name = this.chat.participants.find(part => part.users_id !== this.myUser.id).users_name;
+   //    }
+   //    if (!this.chat.chat.conversation_picture_url) {
+   //        this.chat.chat.conversation_picture_url = this.chat.participants.find(part => part.users_id !== this.myUser.id).user_picture_url;
+   //    }
+  }
 
 	  ionViewWillEnter(){
     this.userSub = this.auth.user.pipe(switchMap(user => {

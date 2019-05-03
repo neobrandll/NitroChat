@@ -41,7 +41,7 @@
   </div>
 
   <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="selectedUsers.length > 0">
-    <ion-fab-button >
+    <ion-fab-button (click)="forwardMsg()">
       <ion-icon name="checkmark"></ion-icon>
     </ion-fab-button>
   </ion-fab>
