@@ -59,7 +59,7 @@ export class PreviewChatComponent implements OnInit {
         async onPressed() {
             this.selected = true;
             const popover = await this.popoverController.create({
-                component: PopoverComponent, componentProps: {isMine: true, isPreview: true}
+                component: PopoverComponent, componentProps: {isMine: true, isPreview: true, canBeDeleted: true}
             });
             await popover.present();
             const { data } = await popover.onDidDismiss();
