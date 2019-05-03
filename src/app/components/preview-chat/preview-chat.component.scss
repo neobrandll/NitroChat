@@ -1,6 +1,27 @@
 .selected{
-  background-color: rgba(7, 142, 173, 0.8);
+  background-color: rgba(7, 142, 173, 0.35);
+
   ion-item{
-    --background: rgba(7, 142, 173, 0.8);
+    --background: rgba(7, 142, 173, 0.02);
+    --box-shadow: 'none';
   }
+}
+
+.picture ion-avatar {
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  width: 30%;
+  height: 30%;
+  img {
+    max-width: 3.5rem;
+    min-width: 3.5rem;
+    width: 30%;
+    height: 30%;
+
+  }
+}
+
+.small{
+  font-size: small;
+    color: gray;
 }
