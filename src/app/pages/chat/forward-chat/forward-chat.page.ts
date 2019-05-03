@@ -9,8 +9,11 @@ import {HeadersService} from '../../../services/headers.service';
 import {ContactsService} from '../../../services/contacts.service';
 import {ResendmessageService} from '../../../services/resendmessage.service'
 import {switchMap, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 import {Socket} from 'ngx-socket-io';
 import {AuthService} from '../../../services/auth.service';
+import {Location} from '@angular/common';
+import { ToastController } from '@ionic/angular';
 
 
 
@@ -38,7 +41,8 @@ export class ForwardChatPage implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute, private contactsService: ContactsService, 
     private chatService: ChatService, private headers: HeadersService, private auth: AuthService,
-    private forward: ResendmessageService, private socket: Socket) { }
+    private forward: ResendmessageService, private socket: Socket, private location: Location,
+    public toastController: ToastController) { }
 
   ngOnInit() {
     this.forward.receiveFwdMsg().subscribe(results=>{
@@ -90,7 +94,15 @@ export class ForwardChatPage implements OnInit, OnDestroy {
     this.selectedUsers = this.selectedUsers.filter(id => id.chatId !== data.chatId);
   }
 
-  forwardMsg(){
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Forwarding messages...',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async forwardMsg(){
     this.id = this.myUser.id;
 
     this.socket.emit('fwd-msg', {
@@ -99,6 +111,8 @@ export class ForwardChatPage implements OnInit, OnDestroy {
       id: this.id,
       targets: this.selectedUsers
     })
+    await this.presentToast();
+    this.location.back();
   }
 
 }

@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription, TimeInterval} from 'rxjs';
-
 import {switchMap, take} from 'rxjs/operators';
 import {AuthService} from '../../../services/auth.service';
 import {User} from '../../../models/user.model';
@@ -39,6 +38,11 @@ export class SingleChatPage implements OnInit, OnDestroy {
     updateMsgId = null;
    color: string;
    otherColor: string;
+    newAdmin: Subscription;
+  newMember: Subscription;
+  dltMember: Subscription;
+  newPhoto: Subscription;
+  newName: Subscription;
    colorArr = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger'];
     updating = false;
     msgUpd;
@@ -72,7 +76,34 @@ export class SingleChatPage implements OnInit, OnDestroy {
           }
         }
     });
-               }
+
+        this.newAdmin = this.getNewAdmins().subscribe(results => {
+          results.message.isMine = ((results.message.users_id === this.myUser.id));
+          this.messages.push(results.message);
+          this.scrollDown();
+        });
+
+        this.newMember = this.getNewMembers().subscribe(results => {
+          results.message.isMine = ((results.message.users_id === this.myUser.id));
+          this.messages.push(results.message);
+          this.scrollDown();
+        });
+        this.dltMember = this.getDeletedMembers().subscribe(results => {
+          results.message.isMine = ((results.message.users_id === this.myUser.id))
+          this.messages.push(results.message);
+          this.scrollDown();
+        });
+
+        this.newPhoto = this.getUpdatedPicture().subscribe(results => {
+          this.chat.chat.conversation_picture_url = results.picture;
+        });
+        
+        this.newName = this.getUpdatedName().subscribe(results => {
+          results.message.isMine = ((results.message.users_id === this.myUser.id))
+          this.messages.push(results.message);
+          this.scrollDown();
+        });
+    }
 
   ngOnInit() {
   const index = Math.floor(Math.random() * this.colorArr.length) - 1;
@@ -251,6 +282,47 @@ export class SingleChatPage implements OnInit, OnDestroy {
         this.messageValue = '';
         this.updateMsgId = null;
         this.updating = false;
+    }
+
+
+        getNewAdmins(){
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('new-admin', data => {
+              observer.next(data);
+          });
+      });
+    }
+
+    getNewMembers(){
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('new-member', data => {
+              observer.next(data);
+          });
+      });
+    }
+
+    getDeletedMembers(){
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('member-deleted', data => {
+              observer.next(data);
+          });
+      });
+    }
+
+    getUpdatedPicture(){
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('group-profile-updated', data => {
+              observer.next(data);
+          });
+      });
+    }
+
+    getUpdatedName(){
+      return Observable.create((observer: Observer<any>) => {
+          this.socket.on('name-changed', data => {
+              observer.next(data);
+          });
+      });
     }
 
     async previewImg() {

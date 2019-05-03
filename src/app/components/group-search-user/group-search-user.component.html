@@ -3,7 +3,7 @@
     <ion-row>
       <ion-col  size="3" >
         <ion-avatar >
-          <ion-img  [src]=" user.picture_url !=='' ? serverUrl+ '/' + user.picture_url : '../../../assets/imgs/nopic.png' "  ></ion-img>
+          <ion-img  [src]=" user.picture_url ==='' || user.picture_url === null ? '../../../assets/imgs/nopic.png' : serverUrl+ '/' + user.picture_url "  ></ion-img>
         </ion-avatar >
       </ion-col>
       <ion-col size="7" style="padding-right: 5px">

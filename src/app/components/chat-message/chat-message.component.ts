@@ -58,7 +58,7 @@ export class ChatMessageComponent implements OnInit {
   async onPressed() {
     this.selected = true;
     const popover = await this.popoverController.create({
-      component: PopoverComponent, componentProps: {isMine: this.message.isMine, isPreview: false, canBeDeleted: (((new Date().getTime() - this.createdDate.getTime())/60000) < 5)}
+      component: PopoverComponent, componentProps: {isMine: this.message.isMine, isGroup:false, isPreview: false, isGroupAdmin: false, canBeDeleted: (((new Date().getTime() - this.createdDate.getTime())/60000) < 5)}
     });
     await popover.present();
     const { data } = await popover.onDidDismiss();
@@ -74,12 +74,4 @@ export class ChatMessageComponent implements OnInit {
     }
     this.selected = false;
   }
-
-  // ForwardThisMessage(oldChatId, message, attachment){
-  //   let targets = [{chatId:22, user: [18], room: `chat 22`}, 
-  //   {chatId: 18, user:[13], room:`chat 18`}, {chatId: 14, user:[5], room:`chat 14`}, {chatId: 35, user:[5,18], room:`chat 35`}]
-  //   let data = {oldChatId, message, attachment, id:3, targets};
-  //   this.socket.emit('fwd-msg', data);
-  // }
-
 }

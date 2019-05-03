@@ -58,17 +58,16 @@ export class PreviewChatComponent implements OnInit {
         async onPressed() {
             this.selected = true;
             const popover = await this.popoverController.create({
-                component: PopoverComponent, componentProps: {isMine: true, isPreview: true, canBeDeleted: true}
+                component: PopoverComponent, componentProps: {isMine: true, isPreview: true, canBeDeleted: true, isGroup: (this.chat.type_conversation_id !== 1), isGroupAdmin: (this.chat.participants.find(part => part.users_id === this.myUser.id).type_users_id === 2)}
             });
             await popover.present();
             const { data } = await popover.onDidDismiss();
             if (data) {
-                if (data.result === 'delete') {
-                if (this.chat.type_conversation_id === 1){
-                  this.deletePreview(this.myUser.id, this.chat.conversations_id);
-                }else{
-                  this.leaveGroup(this.chat.conversations_id, this.myUser.id);
-                }
+                switch (data.result) {
+                  case 'delete': this.deletePreview(this.myUser.id, this.chat.conversations_id);
+                  break;
+                  case 'leave group': this.leaveGroup(this.chat.conversations_id,this.myUser.id);
+                  break;
                 }
             }
             this.selected = false;
