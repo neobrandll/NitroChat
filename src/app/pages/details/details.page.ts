@@ -164,7 +164,6 @@ export class DetailsPage implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-
   }
 
   leaveGroup(chatId, userId){

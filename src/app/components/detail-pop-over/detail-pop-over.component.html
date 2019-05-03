@@ -1,3 +1,9 @@
-<p>
-  detail-pop-over works!
-</p>
+<ion-list>
+  <ion-list-header>Options</ion-list-header>
+  <ion-item *ngIf="" button detail="true" (click)="onMakeAdmin()">
+    Make this user an admin
+  </ion-item>
+    <ion-item *ngIf="" button detail="true" (click)="onDeleteMember()">
+    Erase Member
+  </ion-item>
+</ion-list>
