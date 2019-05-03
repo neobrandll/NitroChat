@@ -1,9 +1,12 @@
 <ion-list>
   <ion-list-header>Options</ion-list-header>
-  <ion-item *ngIf="" button detail="true" (click)="onMakeAdmin()">
+  <ion-item *ngIf="isAdmin && !targetIsAdmin" button detail="true" (click)="onMakeAdmin()">
     Make this user an admin
   </ion-item>
-    <ion-item *ngIf="" button detail="true" (click)="onDeleteMember()">
+    <ion-item *ngIf="isAdmin" button detail="true" (click)="onDeleteMember()">
     Erase Member
   </ion-item>
+<!--     <ion-item button detail="true" (click)="onGoToProfile()">
+    Go To Profile
+  </ion-item> -->
 </ion-list>
