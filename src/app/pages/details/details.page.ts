@@ -168,7 +168,7 @@ export class DetailsPage implements OnInit {
     const { data } = await modal.onDidDismiss();
   }
 
-  leaveGroup(chatId, userId){
+  leaveGroup(chatId, userId) {
     this.chatService.getOutOfGroup(chatId, userId, this.headers.getHeaders()).subscribe(results => {
     });
   }

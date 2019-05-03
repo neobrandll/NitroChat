@@ -17,7 +17,9 @@ export class DetailsModalPage implements OnInit {
   ngOnInit() {
   }
 
-
+    modalCancel() {
+      this.modalController.dismiss({result: 'cancel'});
+    }
 
 
 }
