@@ -11,6 +11,7 @@ import {User} from './../../models/user.model';
 import {Participant} from './../../models/chatPreview.model';
 import {Conversation} from './../../models/Conversation.model';
 import { Observable, Observer } from 'rxjs';
+import {DetailsModalPage} from '../details-modal/details-modal.page';
 import {PreviewImagePage} from '../preview-image/preview-image.page';
 import {ModalController} from '@ionic/angular';
 
@@ -156,7 +157,21 @@ export class DetailsPage implements OnInit {
       });
     }
 
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: DetailsModalPage,
+      componentProps: { Name: this.chat.chat.conversation_name }
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
 
+  }
+
+  leaveGroup(chatId, userId){
+    this.chatService.getOutOfGroup(chatId, userId, this.headers.getHeaders()).subscribe(results => {
+      this.out.emit({chatId});
+    });
+  }
 
 
 }

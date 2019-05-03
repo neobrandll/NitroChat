@@ -17,6 +17,7 @@ import { SMS } from '@ionic-native/sms/ngx';
 import {UpPicturePage} from '../pages/up-picture/up-picture.page';
 import {PreviewImagePage} from '../pages/preview-image/preview-image.page';
 import {PopoverComponent} from '../components/popover/popover.component';
+import {DetailsModalPage } from './../pages/details-modal/details-modal.page';
 import {GroupSearchUserComponent} from '../components/group-search-user/group-search-user.component';
 import {DetailUserComponent} from '../components/detail-user/detail-user.component';
 import {DetailPopOverComponent} from '../components/detail-pop-over/detail-pop-over.component';
@@ -25,14 +26,14 @@ import {DetailPopOverComponent} from '../components/detail-pop-over/detail-pop-o
 @NgModule({
     declarations: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
         , CustomDatePipe, PreviewChatComponent, UserMenuInfoComponent,
-        ChatSearchUserComponent, NoUserComponent, UpPicturePage, PreviewImagePage, PopoverComponent, GroupSearchUserComponent, DetailUserComponent, DetailPopOverComponent
+        ChatSearchUserComponent, NoUserComponent, UpPicturePage, PreviewImagePage, PopoverComponent, GroupSearchUserComponent, DetailUserComponent, DetailPopOverComponent, DetailsModalPage
     ],
     imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule, FormsModule],
     exports: [ChatMessageComponent, PreviewChatComponent, ImagePickerComponent
         , CustomDatePipe, UserMenuInfoComponent, PreviewChatComponent
         , ChatSearchUserComponent, NoUserComponent, GroupSearchUserComponent, DetailUserComponent
     ],
-    entryComponents: [UpPicturePage, PreviewImagePage, PopoverComponent, DetailPopOverComponent],
+    entryComponents: [UpPicturePage, PreviewImagePage, PopoverComponent, DetailPopOverComponent, DetailsModalPage],
     providers: [Contacts, Sim, SMS]
 })
 export class SharedModule {}
