@@ -11,6 +11,8 @@ import {User} from './../../models/user.model';
 import {Participant} from './../../models/chatPreview.model';
 import {Conversation} from './../../models/Conversation.model';
 import { Observable, Observer } from 'rxjs';
+import { ModalController } from '@ionic/angular';
+import {DetailsModalPage} from '../details-modal/details-modal.page';
 
 
 @Component({
@@ -34,7 +36,8 @@ export class DetailsPage implements OnInit {
   				private socket: Socket,
   				private headers: HeadersService,
   				private chatService: ChatService,
-              private auth: AuthService) {}
+              private auth: AuthService,
+              public modalController: ModalController) {}
 
   ngOnInit() {
   //  this.userSub = this.auth.user.pipe(switchMap(user => {
@@ -120,7 +123,21 @@ export class DetailsPage implements OnInit {
       })
     }
 
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: DetailsModalPage,
+      componentProps: { Name: this.chat.chat.conversation_name }
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
 
+  }
+
+  leaveGroup(chatId, userId){
+    this.chatService.getOutOfGroup(chatId, userId, this.headers.getHeaders()).subscribe(results => {
+      this.out.emit({chatId});
+    });
+  }
 
 
 }
