@@ -52,7 +52,7 @@ export class ChatMessageComponent implements OnInit {
   onForward(chatId, body, attachment) {
     this.fwd.forwardMessage({oldChatId: chatId, message: body, attachment});
     //this.ForwardThisMessage(chatId, body, attachment);
-    // this.router.navigate(['/forward']);
+     this.router.navigate(['/forward']);
   }
 
   async onPressed() {
