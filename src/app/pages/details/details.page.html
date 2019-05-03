@@ -34,7 +34,7 @@
       <app-detail-user [loggeduser]="typeUser"  [user]="user" (adminEmit)="makeNewAdmin($event)" (deleteEmit)="deleteMember($event)" (profileEmit)="goToProfile($event)"></app-detail-user>
     </div>
     <ion-item style="margin-top: 5%" lines="none" >
-      <ion-grid tappable (click)="console.log('hi')">
+      <ion-grid tappable (click)="leaveGroup(chatId, myUser.id)">
         <ion-row>
           <ion-col size="2">
             <ion-icon color="danger" size="large" style="height: 100%; width: 100%" name="exit"></ion-icon>

@@ -118,21 +118,6 @@ export class DetailsPage implements OnInit {
 
     }
 
-	  getUpdatedName() {
-      return Observable.create((observer: Observer<any>) => {
-          this.socket.on('name-changed', data => {
-              observer.next(data);
-          });
-      });
-	  }
-    addNewMember(target) {
-        this.socket.emit('add-group-member', {
-            chatId: this.chatId,
-            targetId: target,
-            userId: this.myUser.id
-        })
-    }
-
     async previewImg() {
       if(this.chat.chat.conversation_picture_url ) {
           const modal = await this.modalCtrl.create({
@@ -170,6 +155,7 @@ export class DetailsPage implements OnInit {
 
   leaveGroup(chatId, userId) {
     this.chatService.getOutOfGroup(chatId, userId, this.headers.getHeaders()).subscribe(results => {
+      this.router.navigateByUrl(`home`);
     });
   }
 

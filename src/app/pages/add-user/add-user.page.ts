@@ -7,6 +7,8 @@ import {ContactsService} from '../../services/contacts.service';
 import {NewGroupService} from '../../services/new-group.service';
 import {AuthService} from '../../services/auth.service';
 import {switchMap, tap} from 'rxjs/operators';
+import {NavController} from '@ionic/angular';
+import {Socket} from 'ngx-socket-io';
 
 @Component({
   selector: 'app-add-user',
@@ -28,7 +30,9 @@ export class AddUserPage implements OnInit, OnDestroy {
               private contactsService: ContactsService,
               private newGroupService: NewGroupService,
               private router: Router,
-              private auth: AuthService
+              private auth: AuthService,
+              private socket: Socket,
+              private navCtlr: NavController
   ) { }
 
   ngOnInit() {
@@ -66,6 +70,15 @@ export class AddUserPage implements OnInit, OnDestroy {
 
   onUnselected(data: any) {
     this.selectedUsers = this.selectedUsers.filter(id => data.id !== id );
+  }
+
+    addNewMember() {
+      this.socket.emit('add-group-member', {
+          chatId: this.chatId,
+          targets: this.selectedUsers,
+          userId: this.myUser.id
+      });
+      this.navCtlr.pop();
   }
 
 
