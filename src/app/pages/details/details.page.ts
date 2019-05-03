@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import {HeadersService} from './../../services/headers.service';
+import {AuthService} from './../../services/auth.service';
 import {environment} from '../../../environments/environment';
 import {ChatService} from './../../services/chat.service';
 import {Subscription, TimeInterval} from 'rxjs';
@@ -22,11 +23,13 @@ export class DetailsPage implements OnInit {
 	newName;
 	userSub: Subscription;
 	myUser: User;
+	chatId: number;
 
   constructor(private route: ActivatedRoute,
   				private socket: Socket,
   				private headers: HeadersService,
-  				private http: ChatService) {
+  				private http: ChatService,
+  				private auth: AuthService) {
   			this.newAdmin = this.getNewAdmins().subscribe(results => {});
   			this.newMember = this.getNewMembers().subscribe(results => {});
   			this.dltMember = this.getDeletedMembers().subscribe(results => {});
@@ -88,6 +91,6 @@ export class DetailsPage implements OnInit {
 	  }
 
 
-	  
+
 
 }

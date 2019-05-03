@@ -6,7 +6,7 @@
   <ion-item  *ngIf="isMine && !isPreview" button detail="true" (click)="onUpdate()">
     Update
   </ion-item>
-  <ion-item *ngIf="isMine" button detail="true" (click)="onDelete()">
+  <ion-item *ngIf="isMine && canBeDeleted" button detail="true" (click)="onDelete()">
     Delete
   </ion-item>
 </ion-list>
