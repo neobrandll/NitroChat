@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SearchResponse} from '../../models/searchUser.model';
 import {User} from '../../models/user.model';
 import {Subscription} from 'rxjs';
@@ -21,7 +21,11 @@ export class NewGroupPage implements OnInit, OnDestroy {
   showAll = true;
   selectedUsers: number[];
   filterUsers = { users: []};
-  constructor(private route: ActivatedRoute, private contactsService: ContactsService, private newGroupService: NewGroupService) { }
+  constructor(private route: ActivatedRoute,
+              private contactsService: ContactsService,
+              private newGroupService: NewGroupService,
+              private router: Router
+              ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
@@ -68,6 +72,11 @@ export class NewGroupPage implements OnInit, OnDestroy {
       attachment: safeAttachment,
       converName: preGroup.name
     };
+      this.newGroupService.createGroup(newGroup).subscribe(response => {
+          const chatId = response.conversations_id;
+          this.router.navigate(['/chat', chatId]);
+      });
+
   });
   }
 
