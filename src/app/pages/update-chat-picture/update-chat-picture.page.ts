@@ -31,7 +31,6 @@ export class UpdateChatPicturePage implements OnInit {
   }
 
   onImagePicked(imageData: string) {
-    console.log(imageData);
     this.imageService.handleImage(imageData).pipe(take(1)).subscribe(imageFile => {
       if (imageFile) {
         this.form.patchValue({ image: imageFile });

@@ -20,10 +20,29 @@
     <ion-item lines="none">
       <ion-text style="color: #3880ff">{{chat.participants.length}} participants</ion-text>
     </ion-item>
+    <ion-item>
+      <ion-grid tappable (click)="console.log('hi')">
+        <ion-row>
+          <ion-col size="2">
+            <ion-icon color="primary" size="large" style="height: 100%; width: 100%" name="person-add"></ion-icon>
+          </ion-col>
+          <ion-col size="10"> Add participants</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
     <div *ngFor="let user of chat.participants">
       <app-detail-user   [user]="user"></app-detail-user>
     </div>
-
+    <ion-item style="margin-top: 5%" lines="none" >
+      <ion-grid tappable (click)="console.log('hi')">
+        <ion-row>
+          <ion-col size="2">
+            <ion-icon color="danger" size="large" style="height: 100%; width: 100%" name="exit"></ion-icon>
+          </ion-col>
+          <ion-col size="10"><ion-text color="danger">Exit group</ion-text>   </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
   </div>
   <div *ngIf="chat.chat.type_conversation_id === 1">
     <ion-item lines="none">
