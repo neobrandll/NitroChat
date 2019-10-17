@@ -103,7 +103,7 @@ export class ForwardChatPage implements OnInit, OnDestroy {
     toast.present();
   }
 
-  async forwardMsg(){
+  async forwardMsg() {
     this.id = this.myUser.id;
 
     this.socket.emit('fwd-msg', {
